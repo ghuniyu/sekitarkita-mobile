@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Sekitar</string>
+    <string name="action_about">About</string>
+    <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
+    <string name="app_version">Version: 1.0.1</string>
+    <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar anda</string>
+    <string name="apps_desc">Aplikasi Lacak Covid-19 membantu Anda melacak apakah Anda tergolong Orang Dalam Pengawasan (ODP) berdasarkan history data interaksi anda dengan orang lain.\n\nAplikasi ini akan menyalakan Bluetooth Anda setiap saat dan menyimpan data perangkat lain disekitar Anda.\n\nKetika terdapat Pasien Dalam Pengawasan (PDP) yang melaporkan terinfeksi virus Covid-19 dan memiliki riwayat bersinggungan dengan Anda, maka sistem akan memberikan informasi tersebut kepada Anda.\n\nBegitu pula jika Anda terinfeksi Covid-19, Anda dapat membagikan informasi ke seluruh potensial ODP berdasarkan riwayat perangkat sekitar yang telah tersimpan.\n\nData pribadi Anda tidak akan ditampilkan. Karena aplikasi ini tidak meminta Anda mengisi data pribadi apapun.\n\nMari jadi bagian untuk Solusi Pencegahan Covid-19!</string>
+    <string name="interaction">Lihat Riwayat Interaksi Anda</string>
+    <string name="self_check">Pemeriksaan Mandiri COVID-19</string>
+    <string name="report">Lapor Infeksi COVID-19</string>
+</resources>
