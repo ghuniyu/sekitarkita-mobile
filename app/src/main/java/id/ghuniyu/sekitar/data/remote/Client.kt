@@ -1,4 +1,5 @@
 import com.google.gson.Gson
+import id.ghuniyu.sekitar.BuildConfig
 import id.ghuniyu.sekitar.data.remote.Service
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,7 +30,7 @@ object Client {
 
         val retrofit = Retrofit.Builder()
             .addConverterFactory(gsonConverter)
-            .baseUrl("")
+            .baseUrl(BuildConfig.APP_BASE_URL)
             .client(client)
             .build()
 

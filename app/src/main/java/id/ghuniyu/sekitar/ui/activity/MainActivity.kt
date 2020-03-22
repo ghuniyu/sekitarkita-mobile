@@ -20,7 +20,6 @@ import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
     private var btAdapter: BluetoothAdapter? = null
-    private val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
 
     companion object {
         private const val EXTRA_ADDRESS = "Device_Address"
@@ -28,7 +27,6 @@ class MainActivity : BaseActivity() {
         private const val REQUEST_COARSE = 1
         private const val REQUEST_BLUETOOTH = 2
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -61,39 +59,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun getLayout() = R.layout.activity_main
-
-    /**
-     * Use this function to get bluetooth mac address from reflection */
-    private fun getBluetoothAddress(): String {
-        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        var address = bluetoothAdapter.address
-        if (address == FAKE_MAC_ADDRESS && Build.VERSION.SDK_INT < 26 /* Oreo */) {
-            Log.w(
-                TAG,
-                "bluetoothAdapter.getAddress() did not return the physical address"
-            )
-
-            val bluetoothManagerService: Any =
-                Mirror().on(bluetoothAdapter).get().field("mService")
-            val internalAddress: Any =
-                Mirror().on(bluetoothManagerService).invoke().method("getAddress").withoutArgs()
-            if (internalAddress !is String) {
-                Log.w(
-                    TAG,
-                    "Couldn't call bluetoothAdapter.mService.getAddress() using reflection"
-                )
-                return ""
-            }
-            address = internalAddress
-        }
-
-        if (address == FAKE_MAC_ADDRESS) {
-            Log.w(TAG, "Android is actively blocking requests to get the MAC address")
-            return ""
-        }
-
-        return address
-    }
 
     private fun bluetoothOn() {
         if (btAdapter!!.isEnabled) {

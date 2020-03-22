@@ -7,6 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class StoreDeviceRequest(
     val device_id: String,
     val nearby_device: String,
-    val latitude: Double,
-    val longitude: Double
+    val latitude: Double?,
+    val longitude: Double?
 ) : Parcelable

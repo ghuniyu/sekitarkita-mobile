@@ -4,12 +4,11 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.widget.EditText
-
+import androidx.appcompat.widget.AppCompatEditText
 
 class MacInput @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : EditText(context, attrs, defStyleAttr) {
+) : AppCompatEditText(context, attrs, defStyleAttr) {
 
     var mPreviousMac: String? = null
 
