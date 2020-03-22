@@ -8,4 +8,8 @@
     <string name="interaction">Lihat Riwayat Interaksi Anda</string>
     <string name="self_check">Pemeriksaan Mandiri COVID-19</string>
     <string name="report">Lapor Infeksi COVID-19</string>
+    <string name="share_content">Mari bergabung untuk mencegah penyebaran Covid-19. Install aplikasi sekitarkita untuk mencatat riwayat singgung dan peringatan dini Covid-19. \nKunjungi link berikut https://sekitarkita.id/ untuk info lebih lanjut\n\natau download Aplikasinya di https://sekitarkita.id/download</string>
+    <string name="share">Bagikan SekitarKita</string>
+    <string name="bluetooth_unavailable">Perangkat Anda tidak memiliki Bluetooth</string>
+    <string name="bluetooth_active">Bluetooth Aktif</string>
 </resources>

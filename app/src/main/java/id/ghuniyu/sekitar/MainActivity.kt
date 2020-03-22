@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         btAdapter = BluetoothAdapter.getDefaultAdapter()
         if (btAdapter == null) {
-            toast("Perangkat Anda tidak memiliki Bluetooth")
+            toast(getString(R.string.bluetooth_unavailable))
             finish()
             return
         }
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun bluetoothOn() {
         if (btAdapter!!.isEnabled) {
-            toast("Bluetooth Aktif")
+            toast(getString(R.string.bluetooth_active))
             startService(Intent(this, ScanService::class.java))
         } else {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -69,6 +70,17 @@ class MainActivity : AppCompatActivity() {
                 this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_COARSE
             )
         }
+    }
+
+    fun share(view: View) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_content))
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
+        startActivity(shareIntent)
     }
 
 
