@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Sekitar</string>
+    <string name="action_about">About</string>
+    <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
+    <string name="app_version">Version: 1.0.1</string>
+    <string name="app_describ">This app is used for Tracking Bluetooth devices around you</string>
+    <string name="apps_desc">The Covid-19 Trace Application helps you track whether you are a Supervisory Person (ODP) based on the history data of your interactions with others.\n\nThis application will turn on your Bluetooth at any time and save data on other devices around you.\n\nWhen there is Patients under surveillance (PDP) who report being infected with the Covid-19 virus and have a history of contact with you, the system will provide that information to you.\n\nLikewise if you are infected with Covid-19, you can share information to all potential ODP based on a history of nearby saved devices.\n\nYour personal data will not be displayed. Because this application does not require you to fill in any personal data.\n\nLet\'s be part of the Covid-19 Prevention Solution!</string>
+    <string name="interaction">View your Interaction History</string>
+    <string name="self_check">Self-examination COVID-19</string>
+    <string name="report">Report COVID-19 infection</string>
+</resources>

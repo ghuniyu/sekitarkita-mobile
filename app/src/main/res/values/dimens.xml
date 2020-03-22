@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 MIT License
 
 Copyright (c) 2017 Donato Rimenti
@@ -29,4 +28,5 @@ SOFTWARE.
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="text_margin_nested">26dp</dimen>
+    <dimen name="action_bar_text_font_size">18sp</dimen>
 </resources>

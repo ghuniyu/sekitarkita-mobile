@@ -27,7 +27,6 @@ class ScanService : Service() {
     private var btAdapter: BluetoothAdapter? = null
     var scheduleTaskExecutor: ScheduledExecutorService = Executors.newScheduledThreadPool(5)
 
-
     companion object {
         private const val EXTRA_ADDRESS = "Device_Address"
         private const val TAG = "BluetoothReceiver"
