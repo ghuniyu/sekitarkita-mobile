@@ -24,30 +24,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Khsusu untuk Pengguna Android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth Anda pada field berikut."
+        android:text="Khusus untuk Pengguna Android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth Anda Secara Manual."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/illustration" />
 
-    <id.ghuniyu.sekitar.ui.component.MacInput
+    <com.phearme.macaddressedittext.MacAddressEditText
         android:id="@+id/mac_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="aa:bb:cc:dd:ee:ff"
+        android:gravity="center"
+        android:hint="AA:11:BB:22:CC:33"
+        android:padding="8dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mac_info" />
 
     <Button
-        android:onClick="openDeviceInfo"
         android:id="@+id/show_device_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:backgroundTint="@color/colorPrimary"
+        android:onClick="openDeviceInfo"
         android:padding="4dp"
-        android:text="Tampilkan MAC"
+        android:text="Lihat MAC"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@id/submit_mac"
         app:layout_constraintStart_toStartOf="parent"

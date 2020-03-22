@@ -11,11 +11,11 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.orhanobut.hawk.Hawk
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.service.ScanService
 import net.vidageek.mirror.dsl.Mirror
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startService
 import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
@@ -45,19 +45,19 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startActivity<InputMacActivity>()
             finish()
+        } else {
+            btAdapter = BluetoothAdapter.getDefaultAdapter()
+            if (btAdapter == null) {
+                toast(getString(R.string.bluetooth_unavailable))
+                finish()
+                return
+            }
+            forcePermission()
+            bluetoothOn()
         }
-
-        btAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (btAdapter == null) {
-            toast(getString(R.string.bluetooth_unavailable))
-            finish()
-            return
-        }
-        forcePermission()
-        bluetoothOn()
     }
 
     override fun getLayout() = R.layout.activity_main
@@ -98,7 +98,7 @@ class MainActivity : BaseActivity() {
     private fun bluetoothOn() {
         if (btAdapter!!.isEnabled) {
             toast(getString(R.string.bluetooth_active))
-            startService(Intent(this, ScanService::class.java))
+            startService<ScanService>()
         } else {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)

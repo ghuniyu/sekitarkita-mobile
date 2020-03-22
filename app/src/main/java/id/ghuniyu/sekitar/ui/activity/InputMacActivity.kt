@@ -8,6 +8,6 @@ class InputMacActivity : BaseActivity() {
     override fun getLayout() = R.layout.activity_mac
 
     fun openDeviceInfo(view: View) {
-        startActivityForResult(Intent(android.provider.Settings.ACTION_DEVICE_INFO_SETTINGS), 0)
+        startActivity(Intent(android.provider.Settings.ACTION_DEVICE_INFO_SETTINGS))
     }
 }

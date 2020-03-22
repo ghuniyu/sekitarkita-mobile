@@ -46,4 +46,5 @@ dependencies {
 
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'net.vidageek:mirror:1.6.1'
+    implementation 'com.github.phearme:macaddress-edittext:1.0.1'
 }

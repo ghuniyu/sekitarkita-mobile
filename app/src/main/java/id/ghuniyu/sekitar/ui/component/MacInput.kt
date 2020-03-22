@@ -38,8 +38,7 @@ class MacInput @JvmOverloads constructor(
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                val enteredMac: String =
-                    this@MacInput.text.toString().toUpperCase()
+                val enteredMac: String = this@MacInput.text.toString().toLowerCase()
                 val cleanMac: String = clearNonMacCharacters(enteredMac)
                 var formattedMac: String = formatMacAddress(cleanMac)
                 val selectionStart: Int = this@MacInput.selectionStart
