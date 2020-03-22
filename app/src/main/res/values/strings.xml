@@ -12,4 +12,5 @@
     <string name="share">Bagikan SekitarKita</string>
     <string name="bluetooth_unavailable">Perangkat Anda tidak memiliki Bluetooth</string>
     <string name="bluetooth_active">Bluetooth Aktif</string>
+    <string name="mac_location" translatable="false">Anda Dapat melihat *Alamat Bluetooth* pada Bagian Status</string>
 </resources>

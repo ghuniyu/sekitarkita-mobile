@@ -69,4 +69,13 @@
         app:layout_constraintStart_toEndOf="@id/show_device_info"
         app:layout_constraintTop_toBottomOf="@id/mac_field" />
 
+    <TextView
+        android:id="@+id/mac_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/mac_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_device_info" />
 </androidx.constraintlayout.widget.ConstraintLayout>
