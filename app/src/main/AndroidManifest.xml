@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.InputMacActivity" />
+        <activity android:name=".ui.activity.ReportActivity" />
 
         <service android:name=".service.ScanService" />
     </application>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".ui.activity.InputMacActivity">
+    tools:context=".ui.activity.ReportActivity">
 
     <ImageView
         android:id="@+id/illustration"
@@ -14,68 +14,62 @@
         android:adjustViewBounds="true"
         android:background="@color/colorPrimaryDark"
         android:padding="@dimen/normal_padding"
-        android:src="@drawable/ic_access_account"
+        android:src="@drawable/ic_files"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/mac_info"
+        android:id="@+id/report_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Khusus untuk Pengguna Android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth Anda Secara Manual."
+        android:padding="@dimen/half_padding"
+        android:text="@string/report_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/illustration" />
 
-    <com.phearme.macaddressedittext.MacAddressEditText
-        android:id="@+id/mac_field"
+    <Button
+        android:id="@+id/pdp"
+        style="@style/report_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:hint="AA:11:BB:22:CC:33"
-        android:padding="8dp"
-        android:textSize="16sp"
+        android:onClick="report"
+        android:padding="32dp"
+        android:text="@string/infected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mac_info" />
+        app:layout_constraintTop_toBottomOf="@id/report_title" />
 
     <Button
-        android:id="@+id/show_device_info"
+        android:id="@+id/odp"
+        style="@style/report_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:onClick="openDeviceInfo"
-        android:padding="4dp"
-        android:text="Lihat MAC"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toStartOf="@id/submit_mac"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mac_field" />
-
-    <Button
-        android:id="@+id/submit_mac"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:padding="4dp"
-        android:text="Simpan"
-        android:textColor="@android:color/white"
+        android:onClick="report"
+        android:text="@string/under_observation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/show_device_info"
-        app:layout_constraintTop_toBottomOf="@id/mac_field" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pdp" />
+
+    <Button
+        android:id="@+id/healthy"
+        style="@style/report_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="report"
+        android:text="@string/healthy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/odp" />
 
     <TextView
-        android:id="@+id/mac_location"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/mac_location"
+        android:gravity="center"
+        android:padding="@dimen/half_padding"
+        android:text="@string/report_disclaimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/show_device_info" />
+        app:layout_constraintTop_toBottomOf="@id/healthy" />
 </androidx.constraintlayout.widget.ConstraintLayout>
