@@ -14,7 +14,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import id.ghuniyu.sekitar.MainActivity
+import id.ghuniyu.sekitar.ui.activity.MainActivity
 import id.ghuniyu.sekitar.R
 import org.jetbrains.anko.toast
 import java.util.concurrent.Executors
