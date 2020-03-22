@@ -1,20 +1,19 @@
 package id.ghuniyu.sekitar.service
 
+import Client
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.location.LocationManager
-import android.net.MacAddress
 import android.util.Log
-import retrofit2.Callback
-import androidx.core.location.LocationManagerCompat
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.orhanobut.hawk.Hawk
 import id.ghuniyu.sekitar.data.request.StoreDeviceRequest
 import id.ghuniyu.sekitar.data.response.BaseResponse
+import id.ghuniyu.sekitar.utils.Constant
 import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class BluetoothReceiver : BroadcastReceiver() {
@@ -35,7 +34,7 @@ class BluetoothReceiver : BroadcastReceiver() {
                 Log.d(TAG, "Device discovered! " + deviceToString(device))
                 Client.service.postStoreDevice(
                     StoreDeviceRequest(
-                        MacAddressRetriever.getBluetoothAddress(),
+                        Hawk.get(Constant.STORAGE_MAC_ADDRESS),
                         device.address,
                         null,
                         null

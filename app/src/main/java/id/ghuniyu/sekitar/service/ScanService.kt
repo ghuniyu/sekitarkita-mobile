@@ -89,19 +89,7 @@ class ScanService : Service() {
         scheduleTaskExecutor.scheduleAtFixedRate({ nearbyDevice() }, 0, 30, TimeUnit.SECONDS)
     }
 
-    private fun forcePermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                applicationContext as Activity, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                REQUEST_COARSE
-            )
-        }
-    }
-
     private fun nearbyDevice() {
-        forcePermission()
         if (btAdapter!!.isDiscovering) {
             btAdapter?.cancelDiscovery()
         }

@@ -3,20 +3,19 @@ package id.ghuniyu.sekitar.utils
 import android.bluetooth.BluetoothAdapter
 import android.os.Build
 import android.util.Log
-import id.ghuniyu.sekitar.ui.activity.MainActivity
 import net.vidageek.mirror.dsl.Mirror
 
 class MacAddressRetriever {
     companion object {
-        private val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
-        private val TAG = "MacAddressRetriever"
+        private const val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
+        private const val TAG = "MacAddressRetriever"
 
         /**
          * Use this function to get bluetooth mac address from reflection */
         fun getBluetoothAddress(): String {
             val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             var address = bluetoothAdapter.address
-            if (address == FAKE_MAC_ADDRESS && Build.VERSION.SDK_INT < 26 /* Oreo */) {
+            if (address == FAKE_MAC_ADDRESS && Build.VERSION.SDK_INT < Build.VERSION_CODES.O /* Oreo */) {
                 Log.w(
                     TAG,
                     "bluetoothAdapter.getAddress() did not return the physical address"

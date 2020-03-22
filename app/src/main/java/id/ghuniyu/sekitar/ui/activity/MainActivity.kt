@@ -5,19 +5,18 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.orhanobut.hawk.Hawk
+import es.dmoral.toasty.Toasty
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.service.ScanService
 import id.ghuniyu.sekitar.utils.Constant
+import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startService
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 class MainActivity : BaseActivity() {
     private var btAdapter: BluetoothAdapter? = null
@@ -29,20 +28,6 @@ class MainActivity : BaseActivity() {
         private const val TAG = "MainActivityTag"
         private const val REQUEST_COARSE = 1
         private const val REQUEST_BLUETOOTH = 2
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            REQUEST_COARSE -> {
-                if (resultCode != Activity.RESULT_OK) {
-                    forcePermission()
-                }
-            }
-        }
-
-        setStatus()
     }
 
     private fun setStatus() {
@@ -69,38 +54,107 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startActivity<ReportActivity>()
-            finish()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission Granted
+            bluetoothOn()
         } else {
-            btAdapter = BluetoothAdapter.getDefaultAdapter()
-            if (btAdapter == null) {
-                toast(getString(R.string.bluetooth_unavailable))
-                finish()
-                return
-            }
-            forcePermission()
+            forceLocationPermission()
+        }
+    }
+
+    private fun retrieveMac() {
+        val mac = MacAddressRetriever.getBluetoothAddress()
+        if (mac == "") {
+            startActivity<MacInputActivity>()
+            finish()
+            return
+        } else {
+            Hawk.put(Constant.STORAGE_MAC_ADDRESS, mac)
             bluetoothOn()
         }
     }
 
     private fun bluetoothOn() {
-        if (btAdapter!!.isEnabled) {
-            toast(getString(R.string.bluetooth_active))
-            startService<ScanService>()
+        if (Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
+            btAdapter = BluetoothAdapter.getDefaultAdapter()
+            if (btAdapter == null) {
+                Toasty.error(this, getString(R.string.bluetooth_unavailable)).show()
+                finish()
+                return
+            }
+
+            if (btAdapter!!.isEnabled) {
+                toast(getString(R.string.bluetooth_active))
+                startService<ScanService>()
+            } else {
+                val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
+            }
         } else {
-            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
+            retrieveMac()
         }
     }
 
-    private fun forcePermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_COARSE
+    private fun forceLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this as Activity,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
+        ) {
+            // Should Explain Permission
+            alert {
+                message =
+                    "Aplikasi SekitarKita membutuhkan Izin Lokasi dan Bluetooth untuk dapat digunakan"
+                title = "Izin Lokasi"
+                isCancelable = false
+                positiveButton("Saya Mengerti") {
+                    ActivityCompat.requestPermissions(
+                        this@MainActivity as Activity,
+                        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                        REQUEST_COARSE
+                    )
+                }
+                negativeButton("Keluar") {
+                    finish()
+                }
+            }.show()
+        } else {
+            // No Explanation Needed
+            ActivityCompat.requestPermissions(
+                (this as Activity?)!!,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                REQUEST_COARSE
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQUEST_COARSE -> {
+                when {
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+                        bluetoothOn()
+                    }
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) -> {
+                        forceLocationPermission()
+                    }
+                    else -> {
+                        Toasty.error(this, "Aplikasi tidak dapat dijalankan tanpa izin Lokasi")
+                            .show()
+                        finish()
+                    }
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 

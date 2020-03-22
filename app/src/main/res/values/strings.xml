@@ -19,4 +19,9 @@
     <string name="infected">Saya TerInfeksi COVID-19</string>
     <string name="under_observation">Saya ODP COVID-19</string>
     <string name="healthy">Saya SEHAT</string>
+    <string name="internal_error">Terdapat Kesalahan pada Server</string>
+    <string name="network_failure">Terjadi Kesalahan Pada Jaringan</string>
+    <string name="unknown_failure">Terjadi Kesalahan</string>
+    <string name="are_you_sure">Apakah Anda Yakin?</string>
+    <string name="placeholder_mac">AA:11:BB:22:CC:33</string>
 </resources>
