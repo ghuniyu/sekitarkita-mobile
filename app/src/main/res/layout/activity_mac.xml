@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".ui.activity.InputMacActivity">
+
+    <ImageView
+        android:id="@+id/illustration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="@color/colorPrimary"
+        android:padding="64dp"
+        android:src="@drawable/ic_access_account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mac_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Khsusu untuk Pengguna Android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth Anda pada field berikut."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/illustration" />
+
+    <id.ghuniyu.sekitar.ui.component.MacInput
+        android:id="@+id/mac_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="aa:bb:cc:dd:ee:ff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mac_info" />
+
+    <Button
+        android:onClick="openDeviceInfo"
+        android:id="@+id/show_device_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="4dp"
+        android:text="Tampilkan MAC"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@id/submit_mac"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mac_field" />
+
+    <Button
+        android:id="@+id/submit_mac"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:padding="4dp"
+        android:text="Simpan"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/show_device_info"
+        app:layout_constraintTop_toBottomOf="@id/mac_field" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
