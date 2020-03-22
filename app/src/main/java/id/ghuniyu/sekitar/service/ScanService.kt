@@ -80,7 +80,7 @@ class ScanService : Service() {
                 NOTIFICATION_ID, NotificationCompat.Builder(this, CHANNEL_ID)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_bacteria)
-                    .setContentText("Sekitar - sedang Berjalan")
+                    .setContentText("SekitarKita - sedang Berjalan")
                     .setContentIntent(pendingIntent)
                     .build()
             )
