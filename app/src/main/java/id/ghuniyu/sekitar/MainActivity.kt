@@ -5,17 +5,23 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.orhanobut.hawk.Hawk
 import id.ghuniyu.sekitar.service.ScanService
+import net.vidageek.mirror.dsl.Mirror
 import org.jetbrains.anko.toast
+
 
 class MainActivity : AppCompatActivity() {
     private var btAdapter: BluetoothAdapter? = null
+    private val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
 
     companion object {
         private const val EXTRA_ADDRESS = "Device_Address"
@@ -50,6 +56,39 @@ class MainActivity : AppCompatActivity() {
         }
         forcePermission()
         bluetoothOn()
+    }
+
+    /**
+     * Use this function to get bluetooth mac address from reflection */
+    private fun getBluetoothAddress(): String {
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        var address = bluetoothAdapter.address
+        if (address == FAKE_MAC_ADDRESS && Build.VERSION.SDK_INT < 26 /* Oreo */) {
+            Log.w(
+                TAG,
+                "bluetoothAdapter.getAddress() did not return the physical address"
+            )
+
+            val bluetoothManagerService: Any =
+                Mirror().on(bluetoothAdapter).get().field("mService")
+            val internalAddress: Any =
+                Mirror().on(bluetoothManagerService).invoke().method("getAddress").withoutArgs()
+            if (internalAddress !is String) {
+                Log.w(
+                    TAG,
+                    "Couldn't call bluetoothAdapter.mService.getAddress() using reflection"
+                )
+                return ""
+            }
+            address = internalAddress
+        }
+
+        if (address == FAKE_MAC_ADDRESS) {
+            Log.w(TAG, "Android is actively blocking requests to get the MAC address");
+            return ""
+        }
+
+        return address;
     }
 
     private fun bluetoothOn() {

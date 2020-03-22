@@ -5,7 +5,9 @@ import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.MacAddress
 import android.util.Log
+import id.ghuniyu.sekitar.data.request.StoreDeviceRequest
 
 class BluetoothReceiver : BroadcastReceiver(){
     companion object {
@@ -23,6 +25,7 @@ class BluetoothReceiver : BroadcastReceiver(){
                 val device =
                     intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                 Log.d(TAG, "Device discovered! " + deviceToString(device))
+//                Client.service.postStoreDevice(StoreDeviceRequest())
             }
             BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
                 Log.d(TAG, "Discovery ended.")
