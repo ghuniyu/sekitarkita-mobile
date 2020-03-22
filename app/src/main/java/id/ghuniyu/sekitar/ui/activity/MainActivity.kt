@@ -11,8 +11,11 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.orhanobut.hawk.Hawk
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.service.ScanService
+import id.ghuniyu.sekitar.utils.Constant
+import kotlinx.android.synthetic.main.activity_main.*
 import net.vidageek.mirror.dsl.Mirror
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startService
@@ -21,6 +24,8 @@ import org.jetbrains.anko.toast
 class MainActivity : BaseActivity() {
     private var btAdapter: BluetoothAdapter? = null
     private val FAKE_MAC_ADDRESS = "02:00:00:00:00:00"
+
+    override fun getLayout() = R.layout.activity_main
 
     companion object {
         private const val EXTRA_ADDRESS = "Device_Address"
@@ -40,13 +45,36 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+
+        setStatus()
+    }
+
+    private fun setStatus() {
+        // TODO : Call After Report
+        if (Hawk.contains(Constant.STORAGE_STATUS)) {
+            when (Hawk.get<String>(Constant.STORAGE_STATUS)) {
+                "healthy" -> {
+                    status.text = getString(R.string.status, "Sehat")
+                }
+
+                "pdp" -> {
+                    status.text = getString(R.string.status, "Pasien Dalam Pengawasan")
+                }
+
+                "odp" -> {
+                    status.text = getString(R.string.status, "Orang Dalam Pengawasan")
+                }
+            }
+        } else {
+            //TODO : fetch Status Here
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startActivity<InputMacActivity>()
+            startActivity<ReportActivity>()
             finish()
         } else {
             btAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -59,8 +87,6 @@ class MainActivity : BaseActivity() {
             bluetoothOn()
         }
     }
-
-    override fun getLayout() = R.layout.activity_main
 
     /**
      * Use this function to get bluetooth mac address from reflection */
