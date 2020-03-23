@@ -1,20 +1,16 @@
 package id.ghuniyu.sekitar.ui.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.*
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
 import id.ghuniyu.sekitar.R
@@ -25,10 +21,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startService
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
+
+
+
 
 class MainActivity : BaseActivity() {
-    private var btAdapter: BluetoothAdapter? = null
-
     override fun getLayout() = R.layout.activity_main
 
     companion object {
@@ -36,6 +36,8 @@ class MainActivity : BaseActivity() {
         private const val TAG = "MainActivityTag"
         private const val REQUEST_COARSE = 1
         private const val REQUEST_BLUETOOTH = 2
+        private const val RESPONSE_BLUETOOTH_DENY = 0
+        private const val BLUETOOTH_DENY_MESSAGE = "Aplikasi tidak dapat dijalankan tanpa bluetooth"
     }
 
     private fun setStatus() {
@@ -69,11 +71,14 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        registerReceiver(mReceiver, filter)
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
             // Permission Granted
-            bluetoothOn()
+            enableBluetooth()
         } else {
             forceLocationPermission()
         }
@@ -94,22 +99,47 @@ class MainActivity : BaseActivity() {
 
     private fun bluetoothOn() {
         if (Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
-            btAdapter = BluetoothAdapter.getDefaultAdapter()
-            if (btAdapter == null) {
-                Toasty.error(this, getString(R.string.bluetooth_unavailable)).show()
-                finish()
-                return
-            }
-
-            if (btAdapter!!.isEnabled) {
-                Log.d(TAG, getString(R.string.bluetooth_active))
-                startService<ScanService>()
-            } else {
-                val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
-            }
+            Log.d(TAG, getString(R.string.bluetooth_active))
+            startService<ScanService>()
         } else {
             retrieveMac()
+        }
+    }
+
+    private val mReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+
+            if (action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+                val bluetoothState = intent.getIntExtra(
+                    BluetoothAdapter.EXTRA_STATE,
+                    BluetoothAdapter.ERROR
+                )
+                when (bluetoothState) {
+                    BluetoothAdapter.STATE_ON -> {
+                        bluetoothOn()
+                    }
+                    BluetoothAdapter.STATE_OFF -> {
+                        enableBluetooth()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun enableBluetooth()
+    {
+        val btAdapter = BluetoothAdapter.getDefaultAdapter()
+
+        if (btAdapter === null) {
+            Toasty.error(this, getString(R.string.bluetooth_unavailable)).show()
+            finish()
+            return
+        }
+
+        if(!btAdapter.isEnabled) {
+            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
         }
     }
 
@@ -131,6 +161,7 @@ class MainActivity : BaseActivity() {
                         arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
                         REQUEST_COARSE
                     )
+
                 }
                 negativeButton("Keluar") {
                     finish()
@@ -155,7 +186,7 @@ class MainActivity : BaseActivity() {
             REQUEST_COARSE -> {
                 when {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
-                        bluetoothOn()
+                        enableBluetooth()
                     }
                     ActivityCompat.shouldShowRequestPermissionRationale(
                         this,
@@ -172,6 +203,16 @@ class MainActivity : BaseActivity() {
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_BLUETOOTH && resultCode == RESPONSE_BLUETOOTH_DENY) {
+            Toasty.error(this, BLUETOOTH_DENY_MESSAGE)
+                .show()
+            finish()
+        }
+
     }
 
     fun share(view: View) {
@@ -199,5 +240,10 @@ class MainActivity : BaseActivity() {
             Uri.parse("https://ginanjarfm.github.io/covid19diagnose/")
         )
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mReceiver)
     }
 }
