@@ -32,24 +32,31 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setStatus() {
-        // TODO : Call After Report
         if (Hawk.contains(Constant.STORAGE_STATUS)) {
-            when (Hawk.get<String>(Constant.STORAGE_STATUS)) {
-                "healthy" -> {
-                    status.text = getString(R.string.status, "Sehat")
-                }
-
+            val sts = Hawk.get<String>(Constant.STORAGE_STATUS)
+            Log.d(TAG, sts)
+            when (sts) {
                 "pdp" -> {
                     status.text = getString(R.string.status, "Pasien Dalam Pengawasan")
+                    status.setTextColor(ContextCompat.getColor(this, R.color.colorDanger))
                 }
 
                 "odp" -> {
                     status.text = getString(R.string.status, "Orang Dalam Pengawasan")
+                    status.setTextColor(ContextCompat.getColor(this, R.color.colorWarning))
+                }
+
+                else -> {
+                    status.text = getString(R.string.status, "Sehat")
+                    status.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 }
             }
-        } else {
-            //TODO : fetch Status Here
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setStatus()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +70,7 @@ class MainActivity : BaseActivity() {
         } else {
             forceLocationPermission()
         }
+        setStatus()
     }
 
     private fun retrieveMac() {
@@ -174,7 +182,7 @@ class MainActivity : BaseActivity() {
         startActivity<InteractionHistoryActivity>()
     }
 
-    fun report(view: View){
+    fun report(view: View) {
         startActivity<ReportActivity>()
     }
 }

@@ -14,7 +14,7 @@
     <string name="bluetooth_active">Bluetooth Aktif</string>
     <string name="mac_location" translatable="false">Anda Dapat melihat *Alamat Bluetooth* pada Bagian Status</string>
     <string name="report_disclaimer" translatable="false">Pastikan Anda mensubmit data dengan sebenar-benarnya. Karena aplikasi akan membagikan peringatan dini ke seluruh pengguna yang memiliki riwayat bersingunggan dengan Anda.\nJangan membuat pelaporan palsu yang menyesatkan. </string>
-    <string name="status" translatable="false">Saya $1%s</string>
+    <string name="status" translatable="false">Saya %1$s</string>
     <string name="report_title">Saya Ingin Melaporkan Bahwa</string>
     <string name="infected">Saya TerInfeksi COVID-19</string>
     <string name="under_observation">Saya ODP COVID-19</string>
