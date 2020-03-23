@@ -22,9 +22,9 @@ class ReportActivity : BaseActivity() {
 
     fun report(view: View) {
         when (view.id) {
-            R.id.pdp -> {
+            R.id.healthy -> {
                 alert(
-                    "Saya Menyatakan Bahwa Saya Benar Benar Pasien dalam Pengawasan",
+                    "Saya Menyatakan Bahwa Saya Benar Benar Sehat",
                     getString(R.string.are_you_sure)
                 ) {
                     yesButton {
@@ -44,9 +44,9 @@ class ReportActivity : BaseActivity() {
                     noButton { }
                 }.show()
             }
-            R.id.healthy -> {
+            R.id.pdp -> {
                 alert(
-                    "Saya Menyatakan Bahwa Saya Benar Benar Sehat",
+                    "Saya Menyatakan Bahwa Saya Benar Benar Pasien dalam Pengawasan",
                     getString(R.string.are_you_sure)
                 ) {
                     yesButton {

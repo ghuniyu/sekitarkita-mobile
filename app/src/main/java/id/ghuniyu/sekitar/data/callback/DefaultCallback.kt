@@ -11,8 +11,6 @@ import retrofit2.Response
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 
-private val <T> T?.success: Boolean get() = false
-
 open class DefaultCallback<T>(
     private val context: Context
 ) : Callback<T> {
@@ -45,18 +43,10 @@ open class DefaultCallback<T>(
             response.code() == 500 -> onInternalServerError()
             else -> onError(response.errorBody().toString())
         }
-        if (response.body().success) {
-            onSuccess(response)
-        } else {
-            onFailed(response)
-        }
+        onSuccess(response)
     }
 
     open fun onSuccess(response: Response<T>) {
-        loadingDialog.dismiss()
-    }
-
-    open fun onFailed(response: Response<T>) {
         loadingDialog.dismiss()
     }
 

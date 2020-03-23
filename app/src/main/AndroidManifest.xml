@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".ui.activity.MacInputActivity" />
         <activity android:name=".ui.activity.ReportActivity" />
+        <activity android:name=".ui.activity.InteractionHistoryActivity" />
 
         <service android:name=".service.ScanService" />
     </application>

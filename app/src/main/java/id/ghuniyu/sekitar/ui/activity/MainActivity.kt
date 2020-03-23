@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -86,7 +87,7 @@ class MainActivity : BaseActivity() {
             }
 
             if (btAdapter!!.isEnabled) {
-                toast(getString(R.string.bluetooth_active))
+                Log.d(TAG, getString(R.string.bluetooth_active))
                 startService<ScanService>()
             } else {
                 val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -167,5 +168,13 @@ class MainActivity : BaseActivity() {
 
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
         startActivity(shareIntent)
+    }
+
+    fun showHistory(view: View) {
+        startActivity<InteractionHistoryActivity>()
+    }
+
+    fun report(view: View){
+        startActivity<ReportActivity>()
     }
 }

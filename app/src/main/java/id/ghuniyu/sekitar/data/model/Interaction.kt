@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 data class Interaction(
     val id: Int,
     val device_id: String,
-    val another_device_id: String,
-    val latitude: Double,
-    val longitude: Double,
+    val another_device: String,
+    val latitude: Double?,
+    val longitude: Double?,
     val created_at: String,
     val updated_at: String
 ) : Parcelable

@@ -11,5 +11,5 @@
     <string name="share">Share SekitarKita</string>
     <string name="bluetooth_unavailable">Your Device is Not Supported</string>
     <string name="bluetooth_active">Bluetooth Activated</string>
-    <string name="share_content">Let\'s join forces to prevent Covid-19 spreads. Install SekitarKita Apps to record your nearby contact and early warning of Covid-19 Infection. \\nVisit the following link https://sekitarkita.id/ for furhter information \\nor download SekitarKita at https://sekitarkita.id/download</string>
+    <!--<string name="share_content">Let\'s join forces to prevent Covid-19 spreads. Install SekitarKita Apps to record your nearby contact and early warning of Covid-19 Infection. \\nVisit the following link https://sekitarkita.id/ for furhter information \\nor download SekitarKita at https://sekitarkita.id/download</string>-->
 </resources>

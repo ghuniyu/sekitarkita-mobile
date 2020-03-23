@@ -48,14 +48,39 @@
                 app:layout_constraintTop_toBottomOf="@id/info" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tangent_recycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 tools:itemCount="20"
                 tools:listitem="@layout/list_device_item" />
+
+            <LinearLayout
+                android:id="@+id/empty_device"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_empty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tidak ada Riwayat Singgung" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

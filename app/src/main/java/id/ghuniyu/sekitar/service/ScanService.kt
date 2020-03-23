@@ -1,21 +1,20 @@
 package id.ghuniyu.sekitar.service
 
-import android.Manifest
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
-import id.ghuniyu.sekitar.ui.activity.MainActivity
 import id.ghuniyu.sekitar.R
+import id.ghuniyu.sekitar.ui.activity.MainActivity
 import org.jetbrains.anko.toast
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
