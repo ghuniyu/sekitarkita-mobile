@@ -1,15 +1,19 @@
 package id.ghuniyu.sekitar.ui.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.*
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
 import id.ghuniyu.sekitar.R
@@ -17,7 +21,9 @@ import id.ghuniyu.sekitar.service.ScanService
 import id.ghuniyu.sekitar.utils.Constant
 import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startService
 
 class MainActivity : BaseActivity() {
     private var btAdapter: BluetoothAdapter? = null
@@ -59,6 +65,8 @@ class MainActivity : BaseActivity() {
         setStatus()
     }
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,10 +75,47 @@ class MainActivity : BaseActivity() {
         ) {
             // Permission Granted
             bluetoothOn()
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                var location: Location? = task.result
+                if (location == null) {
+                    requestNewLocationData()
+                } else {
+                    Log.d(TAG, "latitude: ${location.latitude}")
+                    Log.d(TAG, "longitude: ${location.longitude}")
+                    Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
+                    Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
+                }
+            }
         } else {
             forceLocationPermission()
         }
         setStatus()
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            var mLastLocation: Location = locationResult.lastLocation
+            Log.d(TAG, "latitude: ${mLastLocation.latitude}")
+            Log.d(TAG, "longitude: ${mLastLocation.longitude}")
+            Hawk.put(Constant.STORAGE_LATEST_LAT, mLastLocation.latitude)
+            Hawk.put(Constant.STORAGE_LATEST_LNG, mLastLocation.longitude)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
     }
 
     private fun retrieveMac() {

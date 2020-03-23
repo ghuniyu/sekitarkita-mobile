@@ -17,18 +17,18 @@ class MacAddressRetriever {
             var address = bluetoothAdapter.address
             if (address == FAKE_MAC_ADDRESS && Build.VERSION.SDK_INT < Build.VERSION_CODES.O /* Oreo */) {
                 Log.w(
-                    TAG,
-                    "bluetoothAdapter.getAddress() did not return the physical address"
+                        TAG,
+                        "bluetoothAdapter.getAddress() did not return the physical address"
                 )
 
                 val bluetoothManagerService: Any =
-                    Mirror().on(bluetoothAdapter).get().field("mService")
+                        Mirror().on(bluetoothAdapter).get().field("mService")
                 val internalAddress: Any =
-                    Mirror().on(bluetoothManagerService).invoke().method("getAddress").withoutArgs()
+                        Mirror().on(bluetoothManagerService).invoke().method("getAddress").withoutArgs()
                 if (internalAddress !is String) {
                     Log.w(
-                        TAG,
-                        "Couldn't call bluetoothAdapter.mService.getAddress() using reflection"
+                            TAG,
+                            "Couldn't call bluetoothAdapter.mService.getAddress() using reflection"
                     )
                     return ""
                 }
