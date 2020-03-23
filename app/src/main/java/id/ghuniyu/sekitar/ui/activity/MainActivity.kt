@@ -66,8 +66,6 @@ class MainActivity : BaseActivity() {
         setStatus()
     }
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -76,47 +74,10 @@ class MainActivity : BaseActivity() {
         ) {
             // Permission Granted
             bluetoothOn()
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
-                var location: Location? = task.result
-                if (location == null) {
-                    requestNewLocationData()
-                } else {
-                    Log.d(TAG, "latitude: ${location.latitude}")
-                    Log.d(TAG, "longitude: ${location.longitude}")
-                    Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
-                    Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
-                }
-            }
         } else {
             forceLocationPermission()
         }
         setStatus()
-    }
-
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation: Location = locationResult.lastLocation
-            Log.d(TAG, "latitude: ${mLastLocation.latitude}")
-            Log.d(TAG, "longitude: ${mLastLocation.longitude}")
-            Hawk.put(Constant.STORAGE_LATEST_LAT, mLastLocation.latitude)
-            Hawk.put(Constant.STORAGE_LATEST_LNG, mLastLocation.longitude)
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 0
-        mLocationRequest.fastestInterval = 0
-        mLocationRequest.numUpdates = 1
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient!!.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
     }
 
     private fun retrieveMac() {
