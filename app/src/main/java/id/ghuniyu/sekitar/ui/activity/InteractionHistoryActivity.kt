@@ -16,6 +16,7 @@ import id.ghuniyu.sekitar.data.response.InteractionHistoryResponse
 import id.ghuniyu.sekitar.ui.adapter.InteractionAdapter
 import id.ghuniyu.sekitar.utils.Constant
 import kotlinx.android.synthetic.main.activity_history.*
+import org.jetbrains.anko.toast
 import retrofit2.Response
 
 class InteractionHistoryActivity : BaseActivity() {
@@ -49,20 +50,18 @@ class InteractionHistoryActivity : BaseActivity() {
             empty_device.visibility = View.GONE
 
             val mAdapter = InteractionAdapter(R.layout.list_device_item, interactions)
-            tangent_recycler.layoutManager = LinearLayoutManager(this)
-            tangent_recycler.adapter = mAdapter
-
-            mAdapter.setOnItemChildClickListener { _, _, i ->
+            mAdapter.setOnItemClickListener { _, _, i ->
                 val item = interactions[i]
                 if (item.latitude != null && item.longitude != null) {
                     val gmmIntentUri: Uri = Uri.parse("geo:${item.latitude},${item.longitude}")
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                     mapIntent.setPackage("com.google.android.apps.maps")
-                    if (mapIntent.resolveActivity(packageManager) != null) {
-                        startActivity(mapIntent)
-                    }
+                    startActivity(mapIntent)
                 }
             }
+
+            tangent_recycler.layoutManager = LinearLayoutManager(this)
+            tangent_recycler.adapter = mAdapter
         }
     }
 }

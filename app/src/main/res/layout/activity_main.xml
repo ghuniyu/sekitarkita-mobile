@@ -108,6 +108,7 @@
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <Button
+                android:onClick="selfCheck"
                 android:id="@+id/self_check"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

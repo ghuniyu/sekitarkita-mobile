@@ -5,6 +5,7 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,7 +18,9 @@ import id.ghuniyu.sekitar.service.ScanService
 import id.ghuniyu.sekitar.utils.Constant
 import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startService
 
 class MainActivity : BaseActivity() {
     private var btAdapter: BluetoothAdapter? = null
@@ -184,5 +187,13 @@ class MainActivity : BaseActivity() {
 
     fun report(view: View) {
         startActivity<ReportActivity>()
+    }
+
+    fun selfCheck(view: View) {
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://ginanjarfm.github.io/covid19diagnose/")
+        )
+        startActivity(intent)
     }
 }
