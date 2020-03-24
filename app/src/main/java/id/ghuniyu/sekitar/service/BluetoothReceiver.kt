@@ -1,29 +1,23 @@
 package id.ghuniyu.sekitar.service
 
 import Client
-import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
 import android.util.Log
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import com.orhanobut.hawk.Hawk
 import id.ghuniyu.sekitar.data.request.StoreDeviceRequest
 import id.ghuniyu.sekitar.data.response.BaseResponse
-import id.ghuniyu.sekitar.ui.activity.MainActivity
 import id.ghuniyu.sekitar.utils.Constant
-import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.coroutines.coroutineContext
 
 class BluetoothReceiver : BroadcastReceiver() {
     companion object {
@@ -84,6 +78,7 @@ class BluetoothReceiver : BroadcastReceiver() {
                                 Log.i(TAG, response.body()?.message)
                             } else {
                                 Log.w(TAG, response.body()?.message)
+                                //TODO show alert notificaiton for nearby_devices
                             }
                         }
                     }

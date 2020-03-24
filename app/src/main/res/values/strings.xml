@@ -3,7 +3,7 @@
     <string name="action_about">Tentang</string>
     <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
     <string name="app_version">Version: 1.0.1</string>
-    <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar anda</string>
+    <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar Anda</string>
     <string name="apps_desc">Aplikasi Lacak Covid-19 membantu Anda melacak apakah Anda tergolong Orang Dalam Pengawasan (ODP) berdasarkan history data interaksi anda dengan orang lain.\n\nAplikasi ini akan menyalakan Bluetooth Anda setiap saat dan menyimpan data perangkat lain disekitar Anda.\n\nKetika terdapat Pasien Dalam Pengawasan (PDP) yang melaporkan terinfeksi virus Covid-19 dan memiliki riwayat bersinggungan dengan Anda, maka sistem akan memberikan informasi tersebut kepada Anda.\n\nBegitu pula jika Anda terinfeksi Covid-19, Anda dapat membagikan informasi ke seluruh potensial ODP berdasarkan riwayat perangkat sekitar yang telah tersimpan.\n\nData pribadi Anda tidak akan ditampilkan. Karena aplikasi ini tidak meminta Anda mengisi data pribadi apapun.\n\nMari jadi bagian untuk Solusi Pencegahan Covid-19!</string>
     <string name="interaction">Lihat Riwayat Interaksi Anda</string>
     <string name="self_check">Pemeriksaan Mandiri COVID-19</string>
@@ -15,14 +15,15 @@
     <string name="mac_location" translatable="false">Anda Dapat melihat *Alamat Bluetooth* pada Bagian Status</string>
     <string name="report_disclaimer" translatable="false">Pastikan Anda mensubmit data dengan sebenar-benarnya. Karena aplikasi akan membagikan peringatan dini ke seluruh pengguna yang memiliki riwayat bersingunggan dengan Anda.\nJangan membuat pelaporan palsu yang menyesatkan. </string>
     <string name="status" translatable="false">Saya %1$s</string>
-    <string name="report_title">Saya Ingin Melaporkan Bahwa</string>
-    <string name="infected">Saya TerInfeksi COVID-19</string>
+    <string name="report_title">Saya melaporkan bahwa</string>
+    <string name="infected">Saya terinfeksi COVID-19</string>
     <string name="under_observation">Saya ODP COVID-19</string>
     <string name="healthy">Saya SEHAT</string>
-    <string name="internal_error">Terdapat Kesalahan pada Server</string>
-    <string name="network_failure">Terjadi Kesalahan Pada Jaringan</string>
-    <string name="unknown_failure">Terjadi Kesalahan</string>
-    <string name="are_you_sure">Apakah Anda Yakin?</string>
+    <string name="internal_error">Terdapat kesalahan pada Server</string>
+    <string name="network_failure">Terjadi kesalahan pada Jaringan</string>
+    <string name="unknown_failure">Terjadi kesalahan</string>
+    <string name="are_you_sure">Apakah Anda yakin?</string>
     <string name="placeholder_mac">AA:11:BB:22:CC:33</string>
-    <string name="history_fetch_failed">Gagal Mengambil Riwayat Singgung</string>
+    <string name="history_fetch_failed">Gagal mengambil riwayat singgung</string>
+    <string name="confirmed">Saya Confirmed Positif</string>
 </resources>

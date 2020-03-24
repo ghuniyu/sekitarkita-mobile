@@ -63,6 +63,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/odp" />
 
+    <Button
+        android:id="@+id/confirmed"
+        style="@style/report_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="report"
+        android:text="@string/confirmed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/healthy" />
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -71,5 +82,5 @@
         android:text="@string/report_disclaimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/healthy" />
+        app:layout_constraintTop_toBottomOf="@id/confirmed" />
 </androidx.constraintlayout.widget.ConstraintLayout>
