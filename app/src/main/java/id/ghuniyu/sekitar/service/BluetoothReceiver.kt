@@ -28,6 +28,7 @@ import kotlin.coroutines.coroutineContext
 class BluetoothReceiver : BroadcastReceiver() {
     companion object {
         const val TAG = "BluetoothReceiver"
+        const val MINIMUM_SPEED = 4.6
         fun deviceToString(device: BluetoothDevice): String {
             return "[Address: " + device.address + ", Name: " + device.name + "]"
         }
@@ -59,6 +60,8 @@ class BluetoothReceiver : BroadcastReceiver() {
                         }
                     }
                 }
+
+                if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return;
                 Client.service.postStoreDevice(
                     StoreDeviceRequest(
                         Hawk.get(Constant.STORAGE_MAC_ADDRESS),
