@@ -50,8 +50,10 @@ class BluetoothReceiver : BroadcastReceiver() {
                         if (location == null) {
                             requestNewLocationData(context)
                         } else {
+                            Log.d(TAG, "speed: ${location.speed}")
                             Log.d(TAG, "latitude: ${location.latitude}")
                             Log.d(TAG, "longitude: ${location.longitude}")
+                            Hawk.put(Constant.STORAGE_LATEST_SPEED, location.speed)
                             Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
                             Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
                         }
@@ -62,7 +64,8 @@ class BluetoothReceiver : BroadcastReceiver() {
                         Hawk.get(Constant.STORAGE_MAC_ADDRESS),
                         device.address,
                         Hawk.get(Constant.STORAGE_LATEST_LAT),
-                        Hawk.get(Constant.STORAGE_LATEST_LNG)
+                        Hawk.get(Constant.STORAGE_LATEST_LNG),
+                        Hawk.get(Constant.STORAGE_LATEST_SPEED)
                     )
                 ).enqueue(object : Callback<BaseResponse> {
                     override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
