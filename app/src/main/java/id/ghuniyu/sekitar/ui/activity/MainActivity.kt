@@ -140,6 +140,8 @@ class MainActivity : BaseActivity() {
         if(!btAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
+        }else {
+            bluetoothOn()
         }
     }
 
