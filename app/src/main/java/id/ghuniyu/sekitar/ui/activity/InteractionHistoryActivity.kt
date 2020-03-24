@@ -53,7 +53,8 @@ class InteractionHistoryActivity : BaseActivity() {
             mAdapter.setOnItemClickListener { _, _, i ->
                 val item = interactions[i]
                 if (item.latitude != null && item.longitude != null) {
-                    val gmmIntentUri: Uri = Uri.parse("geo:${item.latitude},${item.longitude}")
+                    val gmmIntentUri: Uri = Uri
+                        .parse("geo:${item.latitude},${item.longitude}?q=${item.latitude},${item.longitude}")
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                     mapIntent.setPackage("com.google.android.apps.maps")
                     startActivity(mapIntent)
