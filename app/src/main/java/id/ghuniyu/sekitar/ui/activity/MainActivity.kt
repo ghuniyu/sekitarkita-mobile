@@ -55,6 +55,11 @@ class MainActivity : BaseActivity() {
                     status.setTextColor(ContextCompat.getColor(this, R.color.colorWarning))
                 }
 
+                "confirmed" -> {
+                    status.text = getString(R.string.status, "Confirmed Positif")
+                    status.setTextColor(ContextCompat.getColor(this, R.color.colorWarning))
+                }
+
                 else -> {
                     status.text = getString(R.string.status, "Sehat")
                     status.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))

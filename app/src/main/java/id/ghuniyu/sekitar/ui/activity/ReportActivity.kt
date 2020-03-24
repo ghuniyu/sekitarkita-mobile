@@ -18,13 +18,14 @@ class ReportActivity : BaseActivity() {
         HEALTHY("healthy"),
         PDP("pdp"),
         ODP("odp"),
+        CONFIRMED("confirmed"),
     }
 
     fun report(view: View) {
         when (view.id) {
             R.id.healthy -> {
                 alert(
-                    "Saya Menyatakan Bahwa Saya Benar Benar Sehat",
+                    "Saya menyatakan bahwa saya benar benar sehat",
                     getString(R.string.are_you_sure)
                 ) {
                     yesButton {
@@ -35,7 +36,7 @@ class ReportActivity : BaseActivity() {
             }
             R.id.odp -> {
                 alert(
-                    "Saya Menyatakan Bahwa Saya Benar Benar Orang dalam Pengawasan",
+                    "Saya menyatakan bahwa saya benar benar Orang Dalam Pemantauan",
                     getString(R.string.are_you_sure)
                 ) {
                     yesButton {
@@ -46,11 +47,22 @@ class ReportActivity : BaseActivity() {
             }
             R.id.pdp -> {
                 alert(
-                    "Saya Menyatakan Bahwa Saya Benar Benar Pasien dalam Pengawasan",
+                    "Saya menyatakan bahwa saya benar benar Pasien Dalam Pengawasan",
                     getString(R.string.are_you_sure)
                 ) {
                     yesButton {
                         postReport(Health.PDP)
+                    }
+                    noButton { }
+                }.show()
+            }
+            R.id.confirmed -> {
+                alert(
+                    "Saya menyatakan bahwa saya benar benar Confirmed Positif",
+                    getString(R.string.are_you_sure)
+                ) {
+                    yesButton {
+                        postReport(Health.CONFIRMED)
                     }
                     noButton { }
                 }.show()
