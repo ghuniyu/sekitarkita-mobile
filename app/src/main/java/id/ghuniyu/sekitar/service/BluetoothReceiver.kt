@@ -28,6 +28,7 @@ import kotlin.coroutines.coroutineContext
 class BluetoothReceiver : BroadcastReceiver() {
     companion object {
         const val TAG = "BluetoothReceiver"
+        const val MINIMUM_SPEED = 4.6
         fun deviceToString(device: BluetoothDevice): String {
             return "[Address: " + device.address + ", Name: " + device.name + "]"
         }
@@ -50,13 +51,17 @@ class BluetoothReceiver : BroadcastReceiver() {
                         if (location == null) {
                             requestNewLocationData(context)
                         } else {
+                            Log.d(TAG, "speed: ${location.speed}")
                             Log.d(TAG, "latitude: ${location.latitude}")
                             Log.d(TAG, "longitude: ${location.longitude}")
+                            Hawk.put(Constant.STORAGE_LATEST_SPEED, location.speed)
                             Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
                             Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
                         }
                     }
                 }
+
+                if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return;
                 Client.service.postStoreDevice(
                     StoreDeviceRequest(
                         Hawk.get(Constant.STORAGE_MAC_ADDRESS),
