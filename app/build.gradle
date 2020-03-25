@@ -18,8 +18,8 @@ android {
         applicationId "id.ghuniyu.sekitar"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "aceh"
+        versionCode 4
+        versionName "banyuwangi"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
