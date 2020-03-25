@@ -3,6 +3,8 @@ package id.ghuniyu.sekitar.data.remote
 import id.ghuniyu.sekitar.data.request.InteractionHistoryRequest
 import id.ghuniyu.sekitar.data.request.SetHealthRequest
 import id.ghuniyu.sekitar.data.request.StoreDeviceRequest
+import id.ghuniyu.sekitar.data.request.StoreFirebaseTokenRequest
+import id.ghuniyu.sekitar.data.response.BaseResponse
 import id.ghuniyu.sekitar.data.response.InteractionHistoryResponse
 import id.ghuniyu.sekitar.data.response.SetHealthResponse
 import id.ghuniyu.sekitar.data.response.StoreDeviceResponse
@@ -18,4 +20,7 @@ interface Service {
 
     @POST("store-device")
     fun postStoreDevice(@Body request: StoreDeviceRequest): Call<StoreDeviceResponse>
+
+    @POST("store-firebase-token")
+    fun postFirebaseToken(@Body request: StoreFirebaseTokenRequest): Call<BaseResponse>
 }

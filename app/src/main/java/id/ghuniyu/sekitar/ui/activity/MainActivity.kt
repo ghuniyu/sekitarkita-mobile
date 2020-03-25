@@ -24,8 +24,9 @@ import org.jetbrains.anko.startService
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
-
-
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
+import id.ghuniyu.sekitar.service.MessagingService
 
 
 class MainActivity : BaseActivity() {
@@ -88,6 +89,20 @@ class MainActivity : BaseActivity() {
             forceLocationPermission()
         }
         setStatus()
+
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result?.let {
+                    Hawk.put(Constant.STORAGE_FIREBASE_TOKEN, it.token)
+                    MessagingService.storeFirebaseToken(this@MainActivity)
+                    Log.d(TAG, "getInstanceId success ${it.token}")
+                }
+            })
     }
 
     private fun retrieveMac() {
