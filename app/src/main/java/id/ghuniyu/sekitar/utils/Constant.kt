@@ -6,4 +6,7 @@ object Constant {
     const val STORAGE_LATEST_LAT = "id.ghuniyu.sekitar.utils.storage.latest.lat"
     const val STORAGE_LATEST_LNG = "id.ghuniyu.sekitar.utils.storage.latest.lng"
     const val STORAGE_LATEST_SPEED = "id.ghuniyu.sekitar.utils.storage.latest.speed"
+    const val NOTIFICATION_CHANNEL_ID = "id.ghuniyu.sekitar.utils.notification.channel"
+    const val NOTIFICATION_FOREGROUND_ID = 1
+    const val NOTIFICATION_ALERT_ID = 2
 }
