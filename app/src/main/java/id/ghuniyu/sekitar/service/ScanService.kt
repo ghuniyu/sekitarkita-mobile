@@ -15,6 +15,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.ui.activity.MainActivity
+import id.ghuniyu.sekitar.utils.Constant
 import org.jetbrains.anko.toast
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -32,8 +33,6 @@ class ScanService : Service() {
         const val REQUEST_COARSE = 1
         const val COARSE_GRANTED = "IsCoarseGranted"
         private const val REQUEST_BLUETOOTH = 2
-        private const val NOTIFICATION_ID = 1
-        private const val CHANNEL_ID = "SekitarNotification"
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -69,14 +68,14 @@ class ScanService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notificationChannel =
-                NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
-            notificationChannel.description = CHANNEL_ID
+                NotificationChannel(Constant.NOTIFICATION_CHANNEL_ID, Constant.NOTIFICATION_CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationChannel.description = Constant.NOTIFICATION_CHANNEL_ID
             notificationChannel.setSound(null, null)
 
             notificationManager.createNotificationChannel(notificationChannel)
 
             startForeground(
-                NOTIFICATION_ID, NotificationCompat.Builder(this, CHANNEL_ID)
+                Constant.NOTIFICATION_FOREGROUND_ID, NotificationCompat.Builder(this, Constant.NOTIFICATION_CHANNEL_ID)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_bacteria)
                     .setContentText("SekitarKita - sedang Berjalan")

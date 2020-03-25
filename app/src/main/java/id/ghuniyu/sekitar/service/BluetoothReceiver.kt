@@ -2,6 +2,7 @@ package id.ghuniyu.sekitar.service
 
 import Client
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
@@ -10,10 +11,13 @@ import android.content.Intent
 import android.location.Location
 import android.os.Looper
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
 import com.orhanobut.hawk.Hawk
+import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.data.request.StoreDeviceRequest
-import id.ghuniyu.sekitar.data.response.BaseResponse
+import id.ghuniyu.sekitar.data.response.StoreDeviceResponse
+import id.ghuniyu.sekitar.ui.activity.ReportActivity
 import id.ghuniyu.sekitar.utils.Constant
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,7 +59,7 @@ class BluetoothReceiver : BroadcastReceiver() {
                     }
                 }
 
-                if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return;
+                if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return
                 Client.service.postStoreDevice(
                     StoreDeviceRequest(
                         Hawk.get(Constant.STORAGE_MAC_ADDRESS),
@@ -64,21 +68,25 @@ class BluetoothReceiver : BroadcastReceiver() {
                         Hawk.get(Constant.STORAGE_LATEST_LNG),
                         Hawk.get(Constant.STORAGE_LATEST_SPEED)
                     )
-                ).enqueue(object : Callback<BaseResponse> {
-                    override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
+                ).enqueue(object : Callback<StoreDeviceResponse> {
+                    override fun onFailure(call: Call<StoreDeviceResponse>, t: Throwable) {
                         Log.w(TAG, t.localizedMessage)
                     }
 
                     override fun onResponse(
-                        call: Call<BaseResponse>,
-                        response: Response<BaseResponse>
+                        call: Call<StoreDeviceResponse>,
+                        response: Response<StoreDeviceResponse>
                     ) {
                         if (response.isSuccessful) {
                             if (response.body()?.success!!) {
                                 Log.i(TAG, response.body()?.message)
                             } else {
                                 Log.w(TAG, response.body()?.message)
-                                //TODO show alert notificaiton for nearby_devices
+                                if (context != null && response.body()?.nearby_device != null) {
+                                    val nearbyDevice = response.body()?.nearby_device
+                                    if (nearbyDevice?.health_condition?.equals(ReportActivity.Health.HEALTHY) != true)
+                                        showNotification(context, nearbyDevice?.health_condition?.toUpperCase() ?: "")
+                                }
                             }
                         }
                     }
@@ -117,5 +125,17 @@ class BluetoothReceiver : BroadcastReceiver() {
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
         )
+    }
+
+    private fun showNotification(context: Context, label: String) {
+        val notification = NotificationCompat.Builder(context, Constant.NOTIFICATION_CHANNEL_ID)
+            .setContentTitle("Perhatian...!")
+            .setContentText("Di sekitar Anda ada ${label}")
+            .setSmallIcon(R.drawable.ic_bacteria)
+            .setChannelId(Constant.NOTIFICATION_CHANNEL_ID)
+            .build()
+
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(Constant.NOTIFICATION_ALERT_ID, notification);
     }
 }
