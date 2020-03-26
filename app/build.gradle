@@ -18,8 +18,8 @@ android {
         applicationId "id.ghuniyu.sekitar"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "banyuwangi"
+        versionCode 5
+        versionName "cluring"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -63,4 +63,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.1.3'
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
