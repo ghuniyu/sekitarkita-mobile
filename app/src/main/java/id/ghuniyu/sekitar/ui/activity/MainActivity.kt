@@ -23,6 +23,7 @@ import org.jetbrains.anko.startService
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
+import android.os.Build
 import android.widget.Button
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -32,6 +33,7 @@ import id.ghuniyu.sekitar.service.MessagingService
 import id.ghuniyu.sekitar.ui.dialog.LabelDialog
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.stopService
 
 
 class MainActivity : BaseActivity() {
@@ -84,6 +86,14 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /* Show Terminate on O and Higher */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            destroy.visibility = View.VISIBLE
+            destroy.onClick {
+                stopService<ScanService>()
+            }
+        }
 
         my_label.onClick { showLabelDialog() }
         checkLabel()
