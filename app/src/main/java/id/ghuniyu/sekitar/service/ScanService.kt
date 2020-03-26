@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit
 class ScanService : Service() {
 
     private var btAdapter: BluetoothAdapter? = null
+    private var btReceiver = BluetoothReceiver()
     var scheduleTaskExecutor: ScheduledExecutorService = Executors.newScheduledThreadPool(5)
 
     companion object {
@@ -48,10 +49,15 @@ class ScanService : Service() {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
         filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
-        registerReceiver(BluetoothReceiver(), filter)
+        registerReceiver(btReceiver, filter)
 
         startForeground()
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(btReceiver)
     }
 
     private fun startForeground() {

@@ -12,4 +12,5 @@ object Constant {
     const val NOTIFICATION_CHANNEL_ID = "id.ghuniyu.sekitar.utils.notification.channel"
     const val NOTIFICATION_FOREGROUND_ID = 1
     const val NOTIFICATION_ALERT_ID = 2
+    const val CHECK_AUTOSTART_PERMISSION = "id.ghuniyu.sekitar.utils.checkautostart"
 }

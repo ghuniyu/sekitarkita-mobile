@@ -3,42 +3,44 @@ package id.ghuniyu.sekitar.ui.activity
 import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.orhanobut.hawk.Hawk
-import es.dmoral.toasty.Toasty
-import id.ghuniyu.sekitar.R
-import id.ghuniyu.sekitar.service.ScanService
-import id.ghuniyu.sekitar.utils.Constant
-import id.ghuniyu.sekitar.utils.MacAddressRetriever
-import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startService
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.IntentFilter
-import android.os.Build
-import android.widget.Button
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.iid.FirebaseInstanceId
+import com.orhanobut.hawk.Hawk
+import es.dmoral.toasty.Toasty
+import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.service.MessagingService
+import id.ghuniyu.sekitar.service.ScanService
 import id.ghuniyu.sekitar.ui.dialog.LabelDialog
+import id.ghuniyu.sekitar.utils.CheckAutostartPermission
+import id.ghuniyu.sekitar.utils.Constant
+import id.ghuniyu.sekitar.utils.MacAddressRetriever
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startService
 import org.jetbrains.anko.stopService
+import kotlin.system.exitProcess
 
 
 class MainActivity : BaseActivity() {
 
     private var labelDialog: LabelDialog? = null
+    private val autoStart = CheckAutostartPermission.getInstance()
 
     override fun getLayout() = R.layout.activity_main
 
@@ -87,12 +89,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /* Show Terminate on O and Higher */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            destroy.visibility = View.VISIBLE
-            destroy.onClick {
-                stopService<ScanService>()
-            }
+        destroy.onClick {
+            stopService<ScanService>()
+            finish()
+            exitProcess(0)
         }
 
         my_label.onClick { showLabelDialog() }
@@ -202,6 +202,7 @@ class MainActivity : BaseActivity() {
 
     private fun bluetoothOn() {
         if (Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
+            checkAutostart()
             Log.d(TAG, getString(R.string.bluetooth_active))
             startService<ScanService>()
         } else {
@@ -348,5 +349,41 @@ class MainActivity : BaseActivity() {
         super.onDestroy()
         unregisterReceiver(mReceiver)
         labelDialog?.dismiss()
+    }
+
+    private fun checkAutostart() {
+        if (autoStart.isAutoStartPermissionAvailable(this)) {
+            if (Hawk.get(Constant.CHECK_AUTOSTART_PERMISSION, true)) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.warning))
+                    .setMessage(getString(R.string.autostart_request))
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.understand)) { _, _ ->
+                        val success = autoStart.getAutoStartPermission(this@MainActivity)
+                        if (!success) {
+                            MaterialAlertDialogBuilder(this)
+                                .setTitle(getString(R.string.oops))
+                                .setMessage(getString(R.string.autostart_manual))
+                                .setCancelable(false)
+                                .setPositiveButton(getString(R.string.understand)) { _, _ ->
+                                    startActivity(
+                                        Intent(
+                                            android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                            Uri.parse(
+                                                "package:$packageName"
+                                            )
+                                        )
+                                    )
+                                }
+                                .setNegativeButton(getString(R.string.ignore)) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                    }
+                    .show()
+                Hawk.put(Constant.CHECK_AUTOSTART_PERMISSION, false)
+            }
+        }
     }
 }

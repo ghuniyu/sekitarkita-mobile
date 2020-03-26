@@ -49,5 +49,10 @@
     <string name="confirm">Konfirmasi</string>
     <string name="sekitar_title">SekitarKita - %1$s</string>
     <string name="anonym">Anonim</string>
+    <string name="autostart_manual">Gagal mendapatkan akses, silahkan izinkan manual di pengaturan keamanan</string>
+    <string name="warning">Perhatian</string>
+    <string name="autostart_request">Agar dapat berfungsi optimal, silahkan izinkan aplikasi SekitarKita untuk mulai otomatis (autostart)</string>
+    <string name="oops">Oops!</string>
+    <string name="ignore">Abaikan</string>
     <string name="terminate">Hentikan SekitarKita</string>
 </resources>
