@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Khusus untuk Pengguna Android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth Anda Secara Manual."
+        android:text="@string/android_o_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/illustration" />
@@ -42,29 +42,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mac_info" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/show_device_info"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginEnd="4dp"
         android:onClick="openDeviceInfo"
         android:padding="4dp"
-        android:text="Lihat MAC"
-        android:textColor="@android:color/white"
+        android:text="@string/show_mac"
         app:layout_constraintEnd_toStartOf="@id/submit_mac"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mac_field" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/submit_mac"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:padding="4dp"
-        android:text="Simpan"
         android:onClick="save"
+        android:text="@string/save"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/show_device_info"

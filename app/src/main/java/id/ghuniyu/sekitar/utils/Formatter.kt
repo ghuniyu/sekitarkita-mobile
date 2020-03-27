@@ -15,5 +15,11 @@ class Formatter {
             val format = SimpleDateFormat("E, dd MMM yyyy - HH:mm", Locale.getDefault())
             return format.format(date)
         }
+
+        fun epoch2str(epoch: String): String? {
+            val format = SimpleDateFormat("E, dd MMM yyyy - HH:mm", Locale.getDefault())
+            val date = Date(epoch.toLong())
+            return format.format(date)
+        }
     }
 }

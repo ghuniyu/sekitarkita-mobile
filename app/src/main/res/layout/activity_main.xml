@@ -23,9 +23,21 @@
             android:textColor="#fff"
             android:textSize="@dimen/action_bar_text_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/my_label"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/my_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="Anonim"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -75,47 +87,45 @@
                         android:text="@string/apps_desc"
                         tools:targetApi="o" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:backgroundTint="@color/colorPrimaryDark"
-                        android:drawableStart="@drawable/ic_share"
                         android:drawablePadding="16dp"
                         android:onClick="share"
                         android:text="@string/share"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/white"
+                        app:icon="@drawable/ic_share" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/interaction"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:drawableStart="@drawable/ic_history"
                 android:onClick="showHistory"
                 android:text="@string/interaction"
-                android:textColor="@android:color/white"
+                app:icon="@drawable/ic_history"
                 app:layout_constraintBottom_toTopOf="@id/self_check"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_card"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-            <Button
-                android:onClick="selfCheck"
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/self_check"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:drawableStart="@drawable/ic_healing"
+                android:onClick="selfCheck"
                 android:text="@string/self_check"
-                android:textColor="@android:color/white"
+                app:icon="@drawable/ic_healing"
                 app:layout_constraintBottom_toTopOf="@id/report"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,26 +138,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/report"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/self_check" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/report"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:drawableStart="@drawable/ic_warning"
                 android:onClick="report"
                 android:text="@string/report"
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:icon="@drawable/ic_warning"
+                app:layout_constraintBottom_toTopOf="@id/destroy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/status" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/destroy"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="report"
+                android:text="@string/terminate"
+                android:textColor="@color/warningColor"
+                app:icon="@drawable/ic_terminate"
+                app:iconTint="@color/warningColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/report" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

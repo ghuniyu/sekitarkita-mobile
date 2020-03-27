@@ -12,11 +12,11 @@
     <string name="share">Bagikan SekitarKita</string>
     <string name="bluetooth_unavailable">Perangkat Anda tidak memiliki Bluetooth</string>
     <string name="bluetooth_active">Bluetooth Aktif</string>
-    <string name="mac_location" translatable="false">Anda Dapat melihat *Alamat Bluetooth* pada Bagian Status</string>
+    <string name="mac_location" translatable="false">Anda Dapat melihat *Alamat Bluetooth* pada Bagian Status Handphone</string>
     <string name="report_disclaimer" translatable="false">Pastikan Anda mensubmit data dengan sebenar-benarnya. Karena aplikasi akan membagikan peringatan dini ke seluruh pengguna yang memiliki riwayat bersingunggan dengan Anda.\nJangan membuat pelaporan palsu yang menyesatkan. </string>
     <string name="status" translatable="false">Saya %1$s</string>
     <string name="report_title">Saya melaporkan bahwa</string>
-    <string name="infected">Saya terinfeksi COVID-19</string>
+    <string name="infected">Saya PDP COVID-19</string>
     <string name="under_observation">Saya ODP COVID-19</string>
     <string name="healthy">Saya SEHAT</string>
     <string name="internal_error">Terdapat kesalahan pada Server</string>
@@ -26,4 +26,33 @@
     <string name="placeholder_mac">AA:11:BB:22:CC:33</string>
     <string name="history_fetch_failed">Gagal mengambil riwayat singgung</string>
     <string name="confirmed">Saya Confirmed Positif</string>
+    <string name="never_ask">Saya Ingin Anonim</string>
+    <string name="show_mac">Lihat MAC</string>
+    <string name="save">Simpan</string>
+    <string name="android_o_info">Khusus untuk Pengguna Android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth Anda Secara Manual.</string>
+    <string name="mac_address_confirm">Apakah Bluetooth Address ini Benar?</string>
+    <string name="correct">Benar</string>
+    <string name="bluetooth_saved">Bluetooth Address Tersimpan</string>
+    <string name="incorect_mac_address">Bluetooth Address Tidak Sesuai</string>
+    <string name="request_location_permission">Aplikasi SekitarKita membutuhkan Izin Lokasi dan Bluetooth untuk dapat digunakan</string>
+    <string name="location_permission">Izin Lokasi</string>
+    <string name="understand">Saya Mengerti</string>
+    <string name="exit">Keluar</string>
+    <string name="confirm_healthy">Saya menyatakan bahwa saya benar benar sehat</string>
+    <string name="cancel">Batalkan</string>
+    <string name="confirm_odp">Saya menyatakan bahwa saya benar benar Orang Dalam Pemantauan</string>
+    <string name="confirm_pdp">Saya menyatakan bahwa saya benar benar Pasien Dalam Pengawasan</string>
+    <string name="confirm_positive">Saya menyatakan bahwa saya benar benar Confirmed Positif</string>
+    <string name="min_char">Minimal 5 Karakter</string>
+    <string name="max_char">Maksimal 10 Karakter</string>
+    <string name="thankyou">Terimakasih</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="sekitar_title">SekitarKita - %1$s</string>
+    <string name="anonym">Anonim</string>
+    <string name="autostart_manual">Gagal mendapatkan akses, silahkan izinkan manual di pengaturan keamanan</string>
+    <string name="warning">Perhatian</string>
+    <string name="autostart_request">Agar dapat berfungsi optimal, silahkan izinkan aplikasi SekitarKita untuk mulai otomatis (autostart)</string>
+    <string name="oops">Oops!</string>
+    <string name="ignore">Abaikan</string>
+    <string name="terminate">Hentikan SekitarKita</string>
 </resources>

@@ -25,14 +25,11 @@ import java.util.concurrent.TimeUnit
 class ScanService : Service() {
 
     private var btAdapter: BluetoothAdapter? = null
+    private var btReceiver = BluetoothReceiver()
     var scheduleTaskExecutor: ScheduledExecutorService = Executors.newScheduledThreadPool(5)
 
     companion object {
-        private const val EXTRA_ADDRESS = "Device_Address"
         private const val TAG = "BluetoothReceiver"
-        const val REQUEST_COARSE = 1
-        const val COARSE_GRANTED = "IsCoarseGranted"
-        private const val REQUEST_BLUETOOTH = 2
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -44,7 +41,7 @@ class ScanService : Service() {
         btAdapter = BluetoothAdapter.getDefaultAdapter()
         if (btAdapter == null) {
             toast("Perangkat Anda tidak memiliki Bluetooth")
-            stopService(intent)
+            stopSelf()
         }
 
         val filter = IntentFilter()
@@ -52,10 +49,15 @@ class ScanService : Service() {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
         filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
-        registerReceiver(BluetoothReceiver(), filter)
+        registerReceiver(btReceiver, filter)
 
         startForeground()
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(btReceiver)
     }
 
     private fun startForeground() {

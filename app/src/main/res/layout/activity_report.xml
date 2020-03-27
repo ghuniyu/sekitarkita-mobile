@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/illustration"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:background="@color/colorPrimaryDark"
         android:padding="@dimen/normal_padding"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/illustration" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/pdp"
         style="@style/report_btn"
         android:layout_width="0dp"
@@ -37,11 +37,12 @@
         android:onClick="report"
         android:padding="32dp"
         android:text="@string/infected"
+        app:layout_constraintBottom_toTopOf="@id/odp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/report_title" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/odp"
         style="@style/report_btn"
         android:layout_width="0dp"
@@ -50,20 +51,10 @@
         android:text="@string/under_observation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pdp" />
+        app:layout_constraintTop_toBottomOf="@id/pdp"
+        app:layout_constraintBottom_toTopOf="@id/confirmed"/>
 
-    <Button
-        android:id="@+id/healthy"
-        style="@style/report_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="report"
-        android:text="@string/healthy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/odp" />
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/confirmed"
         style="@style/report_btn"
         android:layout_width="0dp"
@@ -72,7 +63,19 @@
         android:text="@string/confirmed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/healthy" />
+        app:layout_constraintTop_toBottomOf="@id/odp"
+        app:layout_constraintBottom_toTopOf="@id/healthy"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/healthy"
+        style="@style/report_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="report"
+        android:text="@string/healthy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirmed" />
 
     <TextView
         android:layout_width="0dp"
@@ -82,5 +85,5 @@
         android:text="@string/report_disclaimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmed" />
+        app:layout_constraintTop_toBottomOf="@id/healthy" />
 </androidx.constraintlayout.widget.ConstraintLayout>

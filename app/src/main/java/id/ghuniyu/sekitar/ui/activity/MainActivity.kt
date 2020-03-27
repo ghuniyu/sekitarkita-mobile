@@ -3,33 +3,45 @@ package id.ghuniyu.sekitar.ui.activity
 import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.iid.FirebaseInstanceId
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
 import id.ghuniyu.sekitar.R
+import id.ghuniyu.sekitar.service.MessagingService
 import id.ghuniyu.sekitar.service.ScanService
+import id.ghuniyu.sekitar.ui.dialog.LabelDialog
+import id.ghuniyu.sekitar.utils.CheckAutostartPermission
 import id.ghuniyu.sekitar.utils.Constant
 import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.alert
+import org.jetbrains.anko.find
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startService
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.IntentFilter
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
-import id.ghuniyu.sekitar.service.MessagingService
+import org.jetbrains.anko.stopService
+import kotlin.system.exitProcess
 
 
 class MainActivity : BaseActivity() {
+
+    private var labelDialog: LabelDialog? = null
+    private val autoStart = CheckAutostartPermission.getInstance()
+
     override fun getLayout() = R.layout.activity_main
 
     companion object {
@@ -77,6 +89,15 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        destroy.onClick {
+            stopService<ScanService>()
+            finish()
+            exitProcess(0)
+        }
+
+        my_label.onClick { showLabelDialog() }
+        checkLabel()
+
         val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
         registerReceiver(mReceiver, filter)
 
@@ -97,12 +118,74 @@ class MainActivity : BaseActivity() {
                     return@OnCompleteListener
                 }
 
-                val token = task.result?.let {
+                task.result?.let {
                     Hawk.put(Constant.STORAGE_FIREBASE_TOKEN, it.token)
                     MessagingService.storeFirebaseToken(this@MainActivity)
                     Log.d(TAG, "getInstanceId success ${it.token}")
                 }
             })
+    }
+
+    private fun checkLabel() {
+        if (!Hawk.get(Constant.STORAGE_ANONYMOUS, false)) {
+            if (Hawk.contains(Constant.STORAGE_LABEL)) {
+                my_label.text = Hawk.get(Constant.STORAGE_LABEL)
+            } else {
+                showLabelDialog()
+            }
+        } else {
+            my_label.text = getString(R.string.anonym)
+        }
+    }
+
+    private fun showLabelDialog() {
+        labelDialog = LabelDialog(this)
+        labelDialog?.show()
+        val save = labelDialog?.find<Button>(R.id.save_label)
+        val label = labelDialog?.find<TextInputEditText>(R.id.label_input)
+        val neverAsk = labelDialog?.find<Button>(R.id.never_ask)
+
+        save?.onClick {
+            label?.let {
+                when {
+                    it.text.toString().isEmpty() -> {
+                        if (Hawk.contains(Constant.STORAGE_LABEL)) {
+                            Hawk.delete(Constant.STORAGE_LABEL)
+                        }
+
+                        labelDialog?.dismiss()
+                        Hawk.put(Constant.STORAGE_ANONYMOUS, true)
+                        checkLabel()
+                        Log.d(TAG, "StringEmpty Anonymous")
+
+                        Unit
+                    }
+                    it.text.toString().length > 10 -> {
+                        it.error = getString(R.string.max_char)
+                    }
+                    it.text.toString().length >= 5 -> {
+                        Hawk.put(Constant.STORAGE_ANONYMOUS, false)
+                        Hawk.put(Constant.STORAGE_LABEL, it.text.toString())
+                        Toasty.success(this@MainActivity, getString(R.string.thankyou))
+                        labelDialog?.dismiss()
+                        checkLabel()
+                    }
+                    else -> {
+                        it.error = getString(R.string.min_char)
+                    }
+                }
+            }
+        }
+
+        neverAsk?.onClick {
+            Log.d(TAG, "Anonymous")
+            Hawk.put(Constant.STORAGE_ANONYMOUS, true)
+            if (Hawk.contains(Constant.STORAGE_LABEL)) {
+                Hawk.delete(Constant.STORAGE_LABEL)
+            }
+            labelDialog?.dismiss()
+            checkLabel()
+        }
     }
 
     private fun retrieveMac() {
@@ -119,6 +202,7 @@ class MainActivity : BaseActivity() {
 
     private fun bluetoothOn() {
         if (Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
+            checkAutostart()
             Log.d(TAG, getString(R.string.bluetooth_active))
             startService<ScanService>()
         } else {
@@ -147,8 +231,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun enableBluetooth()
-    {
+    private fun enableBluetooth() {
         val btAdapter = BluetoothAdapter.getDefaultAdapter()
 
         if (btAdapter === null) {
@@ -157,10 +240,10 @@ class MainActivity : BaseActivity() {
             return
         }
 
-        if(!btAdapter.isEnabled) {
+        if (!btAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
-        }else {
+        } else {
             bluetoothOn()
         }
     }
@@ -172,23 +255,21 @@ class MainActivity : BaseActivity() {
             )
         ) {
             // Should Explain Permission
-            alert {
-                message =
-                    "Aplikasi SekitarKita membutuhkan Izin Lokasi dan Bluetooth untuk dapat digunakan"
-                title = "Izin Lokasi"
-                isCancelable = false
-                positiveButton("Saya Mengerti") {
+            MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.location_permission))
+                .setMessage(getString(R.string.request_location_permission))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.understand)) { _, _ ->
                     ActivityCompat.requestPermissions(
                         this@MainActivity as Activity,
                         arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
                         REQUEST_COARSE
                     )
-
                 }
-                negativeButton("Keluar") {
+                .setNegativeButton(getString(R.string.exit)) { _, _ ->
                     finish()
                 }
-            }.show()
+                .show()
         } else {
             // No Explanation Needed
             ActivityCompat.requestPermissions(
@@ -267,5 +348,42 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(mReceiver)
+        labelDialog?.dismiss()
+    }
+
+    private fun checkAutostart() {
+        if (autoStart.isAutoStartPermissionAvailable(this)) {
+            if (Hawk.get(Constant.CHECK_AUTOSTART_PERMISSION, true)) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.warning))
+                    .setMessage(getString(R.string.autostart_request))
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.understand)) { _, _ ->
+                        val success = autoStart.getAutoStartPermission(this@MainActivity)
+                        if (!success) {
+                            MaterialAlertDialogBuilder(this)
+                                .setTitle(getString(R.string.oops))
+                                .setMessage(getString(R.string.autostart_manual))
+                                .setCancelable(false)
+                                .setPositiveButton(getString(R.string.understand)) { _, _ ->
+                                    startActivity(
+                                        Intent(
+                                            android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                            Uri.parse(
+                                                "package:$packageName"
+                                            )
+                                        )
+                                    )
+                                }
+                                .setNegativeButton(getString(R.string.ignore)) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                    }
+                    .show()
+                Hawk.put(Constant.CHECK_AUTOSTART_PERMISSION, false)
+            }
+        }
     }
 }
