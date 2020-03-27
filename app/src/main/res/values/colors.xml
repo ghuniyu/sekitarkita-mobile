@@ -6,4 +6,10 @@
 
     <color name="colorWarning">#FF7435</color>
     <color name="colorDanger">#FF3D3D</color>
+
+
+    <color name="success">#43A047</color>
+    <color name="yellow">#FFB300</color>
+    <color name="warning">#F4511E</color>
+    <color name="danger">#E53935</color>
 </resources>

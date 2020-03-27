@@ -21,5 +21,11 @@ class Formatter {
             val date = Date(epoch.toLong())
             return format.format(date)
         }
+
+        fun redacted(content: Array<Int>) {
+            content.joinToString(separator = "", transform = {
+                it.toChar().toString()
+            })
+        }
     }
 }
