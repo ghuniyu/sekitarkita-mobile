@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.iid.FirebaseInstanceId
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
+import id.ghuniyu.sekitar.BuildConfig
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.service.MessagingService
 import id.ghuniyu.sekitar.service.ScanService
@@ -94,6 +95,8 @@ class MainActivity : BaseActivity() {
             finish()
             exitProcess(0)
         }
+
+        version.text = getString(R.string.version, BuildConfig.VERSION_NAME.toUpperCase(), BuildConfig.VERSION_CODE)
 
         my_label.onClick { showLabelDialog() }
         checkLabel()
@@ -360,7 +363,7 @@ class MainActivity : BaseActivity() {
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.understand)) { _, _ ->
                         val success = autoStart.getAutoStartPermission(this@MainActivity)
-                        if (!success) {
+                        /*if (!success) {
                             MaterialAlertDialogBuilder(this)
                                 .setTitle(getString(R.string.oops))
                                 .setMessage(getString(R.string.autostart_manual))
@@ -379,7 +382,7 @@ class MainActivity : BaseActivity() {
                                     dialog.dismiss()
                                 }
                                 .show()
-                        }
+                        }*/
                     }
                     .show()
                 Hawk.put(Constant.CHECK_AUTOSTART_PERMISSION, false)

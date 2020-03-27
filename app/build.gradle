@@ -18,7 +18,7 @@ android {
         applicationId "id.ghuniyu.sekitar"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 5
+        versionCode 6
         versionName "cluring"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

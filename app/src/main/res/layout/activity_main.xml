@@ -105,12 +105,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/interaction"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/normal_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:onClick="showHistory"
                 android:text="@string/interaction"
+                app:backgroundTint="@color/success"
                 app:icon="@drawable/ic_history"
                 app:layout_constraintBottom_toTopOf="@id/self_check"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -120,11 +121,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/self_check"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/normal_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:onClick="selfCheck"
                 android:text="@string/self_check"
+                app:backgroundTint="@color/yellow"
                 app:icon="@drawable/ic_healing"
                 app:layout_constraintBottom_toTopOf="@id/report"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -146,12 +148,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/report"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/normal_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:onClick="report"
                 android:text="@string/report"
                 android:textColor="@android:color/white"
+                app:backgroundTint="@color/danger"
                 app:icon="@drawable/ic_warning"
                 app:layout_constraintBottom_toTopOf="@id/destroy"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -168,10 +171,22 @@
                 android:textColor="@color/warningColor"
                 app:icon="@drawable/ic_terminate"
                 app:iconTint="@color/warningColor"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/version"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/report" />
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/version"
+                android:textColor="#B2DFDB"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/destroy" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
