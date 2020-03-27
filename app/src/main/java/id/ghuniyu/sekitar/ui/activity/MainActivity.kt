@@ -28,6 +28,7 @@ import id.ghuniyu.sekitar.service.ScanService
 import id.ghuniyu.sekitar.ui.dialog.LabelDialog
 import id.ghuniyu.sekitar.utils.CheckAutostartPermission
 import id.ghuniyu.sekitar.utils.Constant
+import id.ghuniyu.sekitar.utils.Formatter
 import id.ghuniyu.sekitar.utils.MacAddressRetriever
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
@@ -42,11 +43,13 @@ class MainActivity : BaseActivity() {
 
     private var labelDialog: LabelDialog? = null
     private val autoStart = CheckAutostartPermission.getInstance()
+    private val redacted = arrayOf(67, 111, 118, 105, 100, 45, 49, 57)
+    private val selfCheck =
+        arrayOf(99, 111, 118, 105, 100, 49, 57, 100, 105, 97, 103, 110, 111, 115, 101)
 
     override fun getLayout() = R.layout.activity_main
 
     companion object {
-        private const val EXTRA_ADDRESS = "Device_Address"
         private const val TAG = "MainActivityTag"
         private const val REQUEST_COARSE = 1
         private const val REQUEST_BLUETOOTH = 2
@@ -61,22 +64,22 @@ class MainActivity : BaseActivity() {
             when (sts) {
                 "pdp" -> {
                     status.text = getString(R.string.status, "Pasien Dalam Pengawasan")
-                    status.setTextColor(ContextCompat.getColor(this, R.color.colorDanger))
+                    status.setTextColor(ContextCompat.getColor(this, R.color.warning))
                 }
 
                 "odp" -> {
                     status.text = getString(R.string.status, "Orang Dalam Pengawasan")
-                    status.setTextColor(ContextCompat.getColor(this, R.color.colorWarning))
+                    status.setTextColor(ContextCompat.getColor(this, R.color.yellow))
                 }
 
                 "confirmed" -> {
                     status.text = getString(R.string.status, "Confirmed Positif")
-                    status.setTextColor(ContextCompat.getColor(this, R.color.colorWarning))
+                    status.setTextColor(ContextCompat.getColor(this, R.color.danger))
                 }
 
                 else -> {
                     status.text = getString(R.string.status, "Sehat")
-                    status.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                    status.setTextColor(ContextCompat.getColor(this, R.color.success))
                 }
             }
         }
@@ -96,7 +99,11 @@ class MainActivity : BaseActivity() {
             exitProcess(0)
         }
 
-        version.text = getString(R.string.version, BuildConfig.VERSION_NAME.toUpperCase(), BuildConfig.VERSION_CODE)
+        version.text = getString(
+            R.string.version,
+            BuildConfig.VERSION_NAME.toUpperCase(),
+            BuildConfig.VERSION_CODE
+        )
 
         my_label.onClick { showLabelDialog() }
         checkLabel()
@@ -324,7 +331,14 @@ class MainActivity : BaseActivity() {
     fun share(view: View) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_content))
+            putExtra(
+                Intent.EXTRA_TEXT,
+                getString(
+                    R.string.share_content,
+                    Formatter.redacted(redacted),
+                    Formatter.redacted(redacted)
+                )
+            )
             type = "text/plain"
         }
 
@@ -343,7 +357,7 @@ class MainActivity : BaseActivity() {
     fun selfCheck(view: View) {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("https://ginanjarfm.github.io/covid19diagnose/")
+            Uri.parse("https://ginanjarfm.github.io/${Formatter.redacted(selfCheck)}")
         )
         startActivity(intent)
     }
