@@ -4,6 +4,7 @@ import Client
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -41,7 +42,8 @@ class BluetoothReceiver : BroadcastReceiver() {
             BluetoothDevice.ACTION_FOUND -> {
                 val device =
                     intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                Log.d(TAG, "Device discovered! " + deviceToString(device))
+                val deviceType = getBluetoothType(device.bluetoothClass.majorDeviceClass)
+                Log.d(TAG, "Device discovered! [${deviceType}] ${deviceToString(device)}")
                 if (context != null) {
                     fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
                     fusedLocationClient.lastLocation.addOnCompleteListener {
@@ -60,6 +62,23 @@ class BluetoothReceiver : BroadcastReceiver() {
                 }
 
                 if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return
+
+                //FIXME: select specifics allowed type
+                val allowedType:IntArray = intArrayOf(
+                    BluetoothClass.Device.Major.AUDIO_VIDEO,
+                    BluetoothClass.Device.Major.COMPUTER,
+                    BluetoothClass.Device.Major.HEALTH,
+                    BluetoothClass.Device.Major.IMAGING,
+                    BluetoothClass.Device.Major.MISC,
+                    BluetoothClass.Device.Major.NETWORKING,
+                    BluetoothClass.Device.Major.PERIPHERAL,
+                    BluetoothClass.Device.Major.PHONE,
+                    BluetoothClass.Device.Major.TOY,
+                    BluetoothClass.Device.Major.UNCATEGORIZED,
+                    BluetoothClass.Device.Major.WEARABLE
+                )
+                if (!allowedType.contains(device.bluetoothClass.majorDeviceClass)) return
+
                 Client.service.postStoreDevice(
                     StoreDeviceRequest(
                         Hawk.get(Constant.STORAGE_MAC_ADDRESS),
@@ -137,5 +156,22 @@ class BluetoothReceiver : BroadcastReceiver() {
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(Constant.NOTIFICATION_ALERT_ID, notification);
+    }
+
+    private fun getBluetoothType(type: Int): String {
+        when(type) {
+            BluetoothClass.Device.Major.AUDIO_VIDEO -> return "AUDIO_VIDEO"
+            BluetoothClass.Device.Major.COMPUTER -> return "COMPUTER"
+            BluetoothClass.Device.Major.HEALTH -> return "HEALTH"
+            BluetoothClass.Device.Major.IMAGING -> return "IMAGING"
+            BluetoothClass.Device.Major.MISC -> return "MISC"
+            BluetoothClass.Device.Major.NETWORKING -> return "NETWORKING"
+            BluetoothClass.Device.Major.PERIPHERAL -> return "PERIPHERAL"
+            BluetoothClass.Device.Major.PHONE -> return "PHONE"
+            BluetoothClass.Device.Major.TOY -> return "TOY"
+            BluetoothClass.Device.Major.UNCATEGORIZED -> return "UNCATEGORIZED"
+            BluetoothClass.Device.Major.WEARABLE -> return "WEARABLE"
+        }
+        return "UNKNOWN"
     }
 }
