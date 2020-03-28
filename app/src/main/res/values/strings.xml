@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sekitar</string>
+    <string name="app_name">SekitarKita</string>
     <string name="action_about">Tentang</string>
     <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
     <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar Anda</string>
@@ -55,4 +55,10 @@
     <string name="ignore">Abaikan</string>
     <string name="terminate">Hentikan SekitarKita</string>
     <string name="version">Versi : %1$s-%2$d</string>
+    <string name="statistic">Statistik Penyebaran Indonesia</string>
+    <string name="positive">Positif</string>
+    <string name="placeholder_zero">0</string>
+    <string name="recover">Sembuh</string>
+    <string name="death">Meninggal</string>
+    <string name="province">Provinsi</string>
 </resources>

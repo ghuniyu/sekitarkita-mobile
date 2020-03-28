@@ -67,7 +67,6 @@ class BluetoothReceiver : BroadcastReceiver() {
                 val allowedType:IntArray = intArrayOf(
                     BluetoothClass.Device.Major.AUDIO_VIDEO,
                     BluetoothClass.Device.Major.COMPUTER,
-                    BluetoothClass.Device.Major.HEALTH,
                     BluetoothClass.Device.Major.MISC,
                     BluetoothClass.Device.Major.PHONE,
                     BluetoothClass.Device.Major.UNCATEGORIZED,

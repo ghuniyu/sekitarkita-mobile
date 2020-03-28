@@ -4,7 +4,6 @@ import Client
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.orhanobut.hawk.Hawk
@@ -16,7 +15,6 @@ import id.ghuniyu.sekitar.data.response.InteractionHistoryResponse
 import id.ghuniyu.sekitar.ui.adapter.InteractionAdapter
 import id.ghuniyu.sekitar.utils.Constant
 import kotlinx.android.synthetic.main.activity_history.*
-import org.jetbrains.anko.toast
 import retrofit2.Response
 
 class InteractionHistoryActivity : BaseActivity() {
@@ -49,7 +47,7 @@ class InteractionHistoryActivity : BaseActivity() {
             tangent_recycler.visibility = View.VISIBLE
             empty_device.visibility = View.GONE
 
-            val mAdapter = InteractionAdapter(R.layout.list_device_item, interactions)
+            val mAdapter = InteractionAdapter(R.layout.item_device, interactions)
             mAdapter.setOnItemClickListener { _, _, i ->
                 val item = interactions[i]
                 if (item.latitude != null && item.longitude != null) {

@@ -403,4 +403,8 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+
+    fun showStats(view: View) {
+        startActivity<StatisticActivity>()
+    }
 }
