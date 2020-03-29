@@ -5,6 +5,7 @@ import android.widget.Toast
 import es.dmoral.toasty.Toasty
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.ui.dialog.LoadingDialog
+import id.ghuniyu.sekitar.utils.Formatter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +23,8 @@ open class DefaultCallback<T>(
     private var unknownFailure: Toast? = null
 
     init {
+        if (::loadingDialog.isInitialized)
+            loadingDialog.dismiss()
         onStart()
     }
 
@@ -40,6 +43,7 @@ open class DefaultCallback<T>(
         loadingDialog.dismiss()
         when {
             response.isSuccessful -> onSuccess(response)
+            response.code() == 429 -> onToManyRequest(response.headers().get("retry-after"))
             response.code() == 500 -> onInternalServerError()
             else -> onError(response.errorBody().toString())
         }
@@ -48,6 +52,13 @@ open class DefaultCallback<T>(
 
     open fun onSuccess(response: Response<T>) {
         loadingDialog.dismiss()
+    }
+
+    open fun onToManyRequest(retry: String?) {
+        retry?.let {
+            generalError = Toasty.error(context, "Terlalu cepat, silahkan coba lagi setelah $it detik")
+            generalError?.show()
+        }
     }
 
     private fun onStart() {
