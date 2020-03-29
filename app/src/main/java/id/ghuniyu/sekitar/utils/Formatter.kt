@@ -22,8 +22,8 @@ class Formatter {
             return format.format(date)
         }
 
-        fun redacted(content: Array<Int>) {
-            content.joinToString(separator = "", transform = {
+        fun redacted(content: Array<Int>): String {
+            return content.joinToString(separator = "", transform = {
                 it.toChar().toString()
             })
         }

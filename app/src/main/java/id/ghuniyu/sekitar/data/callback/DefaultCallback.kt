@@ -23,9 +23,9 @@ open class DefaultCallback<T>(
     private var unknownFailure: Toast? = null
 
     init {
-        onStart()
         if (::loadingDialog.isInitialized)
             loadingDialog.dismiss()
+        onStart()
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {

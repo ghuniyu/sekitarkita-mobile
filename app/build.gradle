@@ -30,6 +30,8 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'APP_BASE_URL', rootProject['app.baseUrl']
+        it.buildConfigField 'Integer[]', 'APP_KAWALCRN_API', rootProject['app.KawalCRNAPI']
+        it.buildConfigField 'Integer[]', 'APP_SELFCHECK_URL', rootProject['app.selfCheckUrl']
     }
 }
 
@@ -65,6 +67,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
     implementation 'com.google.android.material:material:1.1.0'
 
-    implementation 'com.google.android.material:material:1.1.0'
+    api 'com.google.android.material:material:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
