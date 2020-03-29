@@ -65,9 +65,9 @@ class StatisticActivity : BaseActivity() {
         }
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         fetchCountry()
         fetchProvinces()
-    }
+    }*/
 }
