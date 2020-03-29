@@ -357,7 +357,7 @@ class MainActivity : BaseActivity() {
     fun selfCheck(view: View) {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("https://ginanjarfm.github.io/covid19diagnose")
+            Uri.parse(Formatter.redacted(BuildConfig.APP_SELFCHECK_URL))
         )
         startActivity(intent)
     }

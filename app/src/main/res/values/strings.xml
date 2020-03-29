@@ -61,4 +61,7 @@
     <string name="recover">Sembuh</string>
     <string name="death">Meninggal</string>
     <string name="province">Provinsi</string>
+    <string name="provided_by">Data ini disediakan oleh :</string>
+    <string name="indonesia">Indonesia</string>
+    <string name="province_data">Data Sebaran di Tiap Provinsi</string>
 </resources>
