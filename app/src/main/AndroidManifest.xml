@@ -18,6 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.InformationActivity"></activity>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_bacteria" />
@@ -37,11 +39,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="id.ghuniyu.sekitar.ui.activity.MainActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.MacInputActivity" />
         <activity android:name=".ui.activity.ReportActivity" />
         <activity android:name=".ui.activity.InteractionHistoryActivity" />
-        <activity android:name=".ui.activity.StatisticActivity" />
 
         <service android:name=".service.ScanService" />
         <service

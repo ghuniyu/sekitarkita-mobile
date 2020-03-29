@@ -43,6 +43,9 @@ android {
         it.buildConfigField 'Integer[]', 'APP_KAWALCRN_API', rootProject['app.KawalCRNAPI']
         it.buildConfigField 'Integer[]', 'APP_SELFCHECK_URL', rootProject['app.selfCheckUrl']
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {

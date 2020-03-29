@@ -2,6 +2,7 @@ package id.ghuniyu.sekitar.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.orhanobut.hawk.Hawk
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -13,4 +14,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     abstract fun getLayout(): Int
+
+    fun Int.resDrawable() = ContextCompat.getDrawable(applicationContext, this)
 }
