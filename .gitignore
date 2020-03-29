@@ -8,4 +8,6 @@
 .externalNativeBuild
 .cxx
 /app/release/**
+/app/production/**
+/app/google-services.json
 /Sekitar.jks
