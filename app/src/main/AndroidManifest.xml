@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.ghuniyu.sekitar">
+    package="com.linkensky.ornet">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.InformationActivity"></activity>
+        <activity android:name=".ui.activity.InformationActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

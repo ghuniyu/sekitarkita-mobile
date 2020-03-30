@@ -64,4 +64,6 @@
     <string name="provided_by">Data ini disediakan oleh :</string>
     <string name="indonesia">Indonesia</string>
     <string name="province_data">Data Sebaran di Tiap Provinsi</string>
+    <string name="title_update">Ada Update Terbaru</string>
+    <string name="title_update_message">Silahkan update untuk mendapatkan fitur yang terbaru</string>
 </resources>
