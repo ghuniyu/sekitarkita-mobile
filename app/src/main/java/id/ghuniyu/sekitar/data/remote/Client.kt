@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object Client {
     val service: Service
+    var retrofit: Retrofit
     private val gson: Gson = Gson()
 
     init {
@@ -34,7 +35,7 @@ object Client {
             }
             .build()
 
-        val retrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .addConverterFactory(gsonConverter)
             .baseUrl(BuildConfig.APP_BASE_URL)
             .client(client)
