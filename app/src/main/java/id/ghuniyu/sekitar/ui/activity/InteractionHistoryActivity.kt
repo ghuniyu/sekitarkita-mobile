@@ -1,6 +1,6 @@
 package id.ghuniyu.sekitar.ui.activity
 
-import Client
+import id.ghuniyu.sekitar.data.remote.Client
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle

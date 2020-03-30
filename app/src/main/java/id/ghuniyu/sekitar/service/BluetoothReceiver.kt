@@ -1,6 +1,6 @@
 package id.ghuniyu.sekitar.service
 
-import Client
+import id.ghuniyu.sekitar.data.remote.Client
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter

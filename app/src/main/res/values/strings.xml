@@ -39,9 +39,9 @@
     <string name="exit">Keluar</string>
     <string name="confirm_healthy">Saya menyatakan bahwa saya benar benar sehat</string>
     <string name="cancel">Batalkan</string>
-    <string name="confirm_odp">Saya menyatakan bahwa saya benar benar Orang Dalam Pemantauan</string>
-    <string name="confirm_pdp">Saya menyatakan bahwa saya benar benar Pasien Dalam Pengawasan</string>
-    <string name="confirm_positive">Saya menyatakan bahwa saya benar benar Confirmed Positif</string>
+    <string name="confirm_odp">Saya menyatakan bahwa saya benar benar Orang Dalam Pemantauan, berikut contact saya</string>
+    <string name="confirm_pdp">Saya menyatakan bahwa saya benar benar Pasien Dalam Pengawasan, berikut contact saya</string>
+    <string name="confirm_positive">Saya menyatakan bahwa saya benar benar Confirmed Positif, berikut contact saya</string>
     <string name="min_char">Minimal 5 Karakter</string>
     <string name="max_char">Maksimal 10 Karakter</string>
     <string name="thankyou">Terimakasih</string>
@@ -64,4 +64,6 @@
     <string name="provided_by">Data ini disediakan oleh :</string>
     <string name="indonesia">Indonesia</string>
     <string name="province_data">Data Sebaran di Tiap Provinsi</string>
+    <string name="phone">Nomor Telepon</string>
+    <string name="wrong_phone">Format Telepon Salah</string>
 </resources>

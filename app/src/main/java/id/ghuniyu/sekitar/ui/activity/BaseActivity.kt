@@ -16,4 +16,5 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun getLayout(): Int
 
     fun Int.resDrawable() = ContextCompat.getDrawable(applicationContext, this)
+    fun String.isPhone() = this.length in 10..13 && this.matches(Regex("\\+?([ -]?\\d+)+|\\(\\d+\\)([ -]\\d+)\n"))
 }

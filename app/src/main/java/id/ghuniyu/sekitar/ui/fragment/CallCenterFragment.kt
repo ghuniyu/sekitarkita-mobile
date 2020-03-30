@@ -1,20 +1,17 @@
 package id.ghuniyu.sekitar.ui.fragment
 
-import Client
+import id.ghuniyu.sekitar.data.remote.Client
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.ghuniyu.sekitar.BuildConfig
 import id.ghuniyu.sekitar.R
 import id.ghuniyu.sekitar.data.callback.CollectionCallback
 import id.ghuniyu.sekitar.data.model.CallCenter
-import id.ghuniyu.sekitar.data.model.Hospital
 import id.ghuniyu.sekitar.data.response.BaseCollectionResponse
 import id.ghuniyu.sekitar.ui.adapter.CallCenterAdapter
-import id.ghuniyu.sekitar.utils.Formatter
 import kotlinx.android.synthetic.main.fragment_search_recycle_view.*
 import retrofit2.Response
 

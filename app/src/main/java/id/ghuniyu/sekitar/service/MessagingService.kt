@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.orhanobut.hawk.Hawk
 import id.ghuniyu.sekitar.data.callback.DefaultCallback
+import id.ghuniyu.sekitar.data.remote.Client
 import id.ghuniyu.sekitar.data.request.StoreFirebaseTokenRequest
 import id.ghuniyu.sekitar.data.response.BaseResponse
 import id.ghuniyu.sekitar.utils.Constant

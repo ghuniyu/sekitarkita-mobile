@@ -1,6 +1,7 @@
+package id.ghuniyu.sekitar.data.remote
+
 import com.google.gson.Gson
 import id.ghuniyu.sekitar.BuildConfig
-import id.ghuniyu.sekitar.data.remote.Service
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
