@@ -1,13 +1,12 @@
 package id.ghuniyu.sekitar.data.remote
 
+import id.ghuniyu.sekitar.data.model.CallCenter
+import id.ghuniyu.sekitar.data.model.Hospital
 import id.ghuniyu.sekitar.data.request.InteractionHistoryRequest
 import id.ghuniyu.sekitar.data.request.SetHealthRequest
 import id.ghuniyu.sekitar.data.request.StoreDeviceRequest
 import id.ghuniyu.sekitar.data.request.StoreFirebaseTokenRequest
-import id.ghuniyu.sekitar.data.response.BaseResponse
-import id.ghuniyu.sekitar.data.response.InteractionHistoryResponse
-import id.ghuniyu.sekitar.data.response.SetHealthResponse
-import id.ghuniyu.sekitar.data.response.StoreDeviceResponse
+import id.ghuniyu.sekitar.data.response.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,4 +22,10 @@ interface Service {
 
     @POST("store-firebase-token")
     fun postFirebaseToken(@Body request: StoreFirebaseTokenRequest): Call<BaseResponse>
+
+    @GET("call-centers")
+    fun getCallCenter(): Call<BaseCollectionResponse<List<CallCenter>>>
+
+    @GET("hospitals")
+    fun getHospital(): Call<BaseCollectionResponse<List<Hospital>>>
 }

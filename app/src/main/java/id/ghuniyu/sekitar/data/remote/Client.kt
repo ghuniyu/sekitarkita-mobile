@@ -1,6 +1,7 @@
+package id.ghuniyu.sekitar.data.remote
+
 import com.google.gson.Gson
 import id.ghuniyu.sekitar.BuildConfig
-import id.ghuniyu.sekitar.data.remote.Service
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,8 +15,13 @@ object Client {
 
         val gsonConverter = GsonConverterFactory.create(gson)
 
-        val loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY)
+        val loggingInterceptor: HttpLoggingInterceptor = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+        } else {
+            HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
 
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)

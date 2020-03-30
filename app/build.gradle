@@ -12,6 +12,14 @@ apply plugin: 'com.google.firebase.appdistribution'
 
 
 android {
+    signingConfigs {
+        production {
+            storeFile file("")
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+        }
+    }
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -23,15 +31,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        production {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.production
         }
     }
     buildTypes.each {
         it.buildConfigField 'String', 'APP_BASE_URL', rootProject['app.baseUrl']
         it.buildConfigField 'Integer[]', 'APP_KAWALCRN_API', rootProject['app.KawalCRNAPI']
         it.buildConfigField 'Integer[]', 'APP_SELFCHECK_URL', rootProject['app.selfCheckUrl']
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 }
 
