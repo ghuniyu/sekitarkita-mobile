@@ -70,14 +70,14 @@ class ScanService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notificationChannel =
-                NotificationChannel(Constant.NOTIFICATION_CHANNEL_ID, Constant.NOTIFICATION_CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
-            notificationChannel.description = Constant.NOTIFICATION_CHANNEL_ID
+                NotificationChannel(Constant.NOTIFICATION_SEKITAR_CHANNEL_ID, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationChannel.description = Constant.NOTIFICATION_SEKITAR_CHANNEL_ID
             notificationChannel.setSound(null, null)
 
             notificationManager.createNotificationChannel(notificationChannel)
 
             startForeground(
-                Constant.NOTIFICATION_FOREGROUND_ID, NotificationCompat.Builder(this, Constant.NOTIFICATION_CHANNEL_ID)
+                Constant.NOTIFICATION_SEKITAR_FOREGROUND_ID, NotificationCompat.Builder(this, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_bacteria)
                     .setContentText("SekitarKita - sedang Berjalan")

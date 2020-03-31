@@ -3,6 +3,7 @@ package id.ghuniyu.sekitar.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.orhanobut.hawk.Hawk
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -11,6 +12,7 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView(getLayout())
 
         Hawk.init(this).build()
+        AndroidThreeTen.init(this);
     }
 
     abstract fun getLayout(): Int
