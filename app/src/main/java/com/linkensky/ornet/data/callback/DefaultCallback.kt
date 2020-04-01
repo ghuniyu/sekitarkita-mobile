@@ -5,8 +5,14 @@ import android.widget.Toast
 import com.linkensky.ornet.R
 import es.dmoral.toasty.Toasty
 import com.linkensky.ornet.ui.dialog.LoadingDialog
+import com.linkensky.ornet.R
+import com.linkensky.ornet.data.response.BaseErrorResponse
+import com.linkensky.ornet.data.remote.Client
+import com.linkensky.ornet.ui.dialog.LoadingDialog
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Converter
 import retrofit2.Response
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -42,11 +48,36 @@ open class DefaultCallback<T>(
         loadingDialog.dismiss()
         when {
             response.isSuccessful -> onSuccess(response)
+            response.code() == 422 -> onInvalid(response)
             response.code() == 429 -> onToManyRequest(response.headers().get("retry-after"))
             response.code() == 500 -> onInternalServerError()
             else -> onError(response.errorBody().toString())
         }
         onSuccess(response)
+    }
+
+    private fun onInvalid(response: Response<T>) {
+        val converter: Converter<ResponseBody, BaseErrorResponse> =
+            Client.retrofit.responseBodyConverter(
+                BaseErrorResponse::class.java, arrayOf()
+            )
+        response.errorBody()
+
+        response.errorBody()?.let { r ->
+            val parsed = converter.convert(r)
+            /*parsed.message?.let {
+                generalError = Toasty.error(context, it)
+                generalError?.show()
+            }*/
+            parsed.errors?.let {
+                for ((key, list) in it) {
+                    list.forEach { errors ->
+                        generalError = Toasty.error(context, "$key - $errors")
+                        generalError?.show()
+                    }
+                }
+            }
+        }
     }
 
     open fun onSuccess(response: Response<T>) {
@@ -55,7 +86,8 @@ open class DefaultCallback<T>(
 
     open fun onToManyRequest(retry: String?) {
         retry?.let {
-            generalError = Toasty.error(context, "Terlalu cepat, silahkan coba lagi setelah $it detik")
+            generalError =
+                Toasty.error(context, "Terlalu cepat, silahkan coba lagi setelah $it detik")
             generalError?.show()
         }
     }

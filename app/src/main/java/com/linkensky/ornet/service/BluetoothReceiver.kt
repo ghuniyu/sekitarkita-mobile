@@ -1,6 +1,6 @@
 package com.linkensky.ornet.service
 
-import Client
+import id.ghuniyu.sekitar.data.remote.Client
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
@@ -142,15 +142,15 @@ class BluetoothReceiver : BroadcastReceiver() {
     }
 
     private fun showNotification(context: Context, label: String) {
-        val notification = NotificationCompat.Builder(context, Constant.NOTIFICATION_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
             .setContentTitle("Perhatian...!")
             .setContentText("Di sekitar Anda ada ${label}")
             .setSmallIcon(R.drawable.ic_bacteria)
-            .setChannelId(Constant.NOTIFICATION_CHANNEL_ID)
+            .setChannelId(Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
             .build()
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(Constant.NOTIFICATION_ALERT_ID, notification);
+        notificationManager.notify(Constant.NOTIFICATION_SEKITAR_ALERT_ID, notification);
     }
 
     private fun getBluetoothType(type: Int): String {

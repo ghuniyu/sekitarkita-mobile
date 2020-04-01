@@ -2,6 +2,9 @@ package com.linkensky.ornet.ui.activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.Notification
+import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -14,6 +17,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -38,6 +42,13 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startService
 import org.jetbrains.anko.stopService
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.temporal.ChronoUnit
+import java.sql.Date
+import java.util.*
 import kotlin.system.exitProcess
 
 
@@ -139,6 +150,27 @@ class MainActivity : BaseActivity() {
             })
 
         checkRemoteConfig()
+        scheduleScore()
+    }
+
+    private fun scheduleScore() {
+        val notifyIntent = Intent(this, NotificationPublisher::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val date = LocalDateTime.now()
+        val eight = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 48))
+
+        if (date.isAfter(eight)) {
+            eight.plusDays(1)
+        }
+        val epoch = eight.toEpochSecond(ZoneOffset.ofHours(7))
+        Log.d(TAG, "Notification at $epoch")
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.set(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            epoch,
+            pendingIntent
+        )
     }
 
     private fun checkLabel() {

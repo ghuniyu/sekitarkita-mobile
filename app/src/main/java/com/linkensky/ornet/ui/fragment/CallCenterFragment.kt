@@ -1,4 +1,4 @@
-package com.linkensky.ornet.ui.fragment
+package id.ghuniyu.sekitar.ui.fragment
 
 import Client
 import android.content.Intent
