@@ -5,10 +5,8 @@ import android.widget.Toast
 import com.linkensky.ornet.R
 import es.dmoral.toasty.Toasty
 import com.linkensky.ornet.ui.dialog.LoadingDialog
-import com.linkensky.ornet.R
-import com.linkensky.ornet.data.response.BaseErrorResponse
 import com.linkensky.ornet.data.remote.Client
-import com.linkensky.ornet.ui.dialog.LoadingDialog
+import com.linkensky.ornet.data.response.BaseErrorResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,4 +1,4 @@
-package id.ghuniyu.sekitar.data.response
+package com.linkensky.ornet.data.response
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

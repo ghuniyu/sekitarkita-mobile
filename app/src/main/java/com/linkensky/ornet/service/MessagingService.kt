@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.orhanobut.hawk.Hawk
 import com.linkensky.ornet.data.callback.DefaultCallback
+import com.linkensky.ornet.data.remote.Client
 import com.linkensky.ornet.data.request.StoreFirebaseTokenRequest
 import com.linkensky.ornet.data.response.BaseResponse
 import com.linkensky.ornet.utils.Constant

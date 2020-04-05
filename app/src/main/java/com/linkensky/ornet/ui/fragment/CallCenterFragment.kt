@@ -1,6 +1,6 @@
-package id.ghuniyu.sekitar.ui.fragment
+package com.linkensky.ornet.ui.fragment
 
-import Client
+import com.linkensky.ornet.data.remote.Client
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle

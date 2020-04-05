@@ -3,7 +3,6 @@ package com.linkensky.ornet.ui.activity
 import android.Manifest
 import android.app.Activity
 import android.app.AlarmManager
-import android.app.Notification
 import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
@@ -17,7 +16,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,8 +24,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.linkensky.ornet.BuildConfig
-import com.orhanobut.hawk.Hawk
-import es.dmoral.toasty.Toasty
 import com.linkensky.ornet.R
 import com.linkensky.ornet.service.MessagingService
 import com.linkensky.ornet.service.ScanService
@@ -36,6 +32,9 @@ import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.Constant
 import com.linkensky.ornet.utils.Formatter
 import com.linkensky.ornet.utils.MacAddressRetriever
+import com.orhanobut.hawk.Hawk
+import es.dmoral.toasty.Toasty
+import com.linkensky.ornet.service.NotificationPublisher
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -46,9 +45,6 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneOffset
-import org.threeten.bp.temporal.ChronoUnit
-import java.sql.Date
-import java.util.*
 import kotlin.system.exitProcess
 
 

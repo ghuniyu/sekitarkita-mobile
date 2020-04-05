@@ -1,4 +1,4 @@
-package id.ghuniyu.sekitar.service
+package com.linkensky.ornet.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import id.ghuniyu.sekitar.utils.Constant
+import com.linkensky.ornet.utils.Constant
 
 
 class NotificationPublisher : BroadcastReceiver() {

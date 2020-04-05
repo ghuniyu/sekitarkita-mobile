@@ -1,6 +1,6 @@
 package com.linkensky.ornet.service
 
-import id.ghuniyu.sekitar.data.remote.Client
+import com.linkensky.ornet.data.remote.Client
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter

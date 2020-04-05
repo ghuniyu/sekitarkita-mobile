@@ -1,6 +1,6 @@
 package com.linkensky.ornet.ui.activity
 
-import id.ghuniyu.sekitar.data.remote.Client
+import com.linkensky.ornet.data.remote.Client
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
