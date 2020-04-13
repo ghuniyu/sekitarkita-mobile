@@ -14,10 +14,10 @@ apply plugin: 'com.google.firebase.appdistribution'
 android {
     signingConfigs {
         production {
-            storeFile file("")
-            storePassword ""
-            keyAlias ""
-            keyPassword ""
+            storeFile file("/Users/alifjafar/Documents/coding/linkensky-upload.jks")
+            storePassword "android"
+            keyAlias "upload"
+            keyPassword "android"
         }
     }
     compileSdkVersion 28

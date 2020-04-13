@@ -172,21 +172,21 @@ class MainActivity : BaseActivity() {
     private fun getPartners() {
         Client.service.getPartners()
             .enqueue(object : CollectionCallback<List<Partner>>(this) {
-            override fun onSuccess(response: Response<BaseCollectionResponse<List<Partner>>>) {
-                super.onSuccess(response)
-                response.body()?.data?.let { list ->
-                    list.forEach {
-                        partners_slider.addSlider(
-                            TextSliderView(this@MainActivity)
-                                .description(it.name)
-                                .image("${BuildConfig.APP_IMAGE_URL}${it.logo}")
-                                .setScaleType(BaseSliderView.ScaleType.CenterInside)
-                        )
+                override fun onSuccess(response: Response<BaseCollectionResponse<List<Partner>>>) {
+                    super.onSuccess(response)
+                    response.body()?.data?.let { list ->
+                        list.forEach {
+                            partners_slider.addSlider(
+                                TextSliderView(this@MainActivity)
+                                    .description(it.name)
+                                    .image("${BuildConfig.APP_IMAGE_URL}${it.logo}")
+                                    .setScaleType(BaseSliderView.ScaleType.CenterInside)
+                            )
+                        }
+                        partners_slider.setDuration(5000)
                     }
-                    partners_slider.setDuration(5000)
                 }
-            }
-        })
+            })
     }
 
     private fun scheduleScore() {
@@ -532,39 +532,44 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkArea() {
-        fusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(applicationContext)
-        fusedLocationClient.lastLocation.addOnCompleteListener {
-            val location: Location? = it.result
-            if (location != null) {
-                if (location.isFromMockProvider) {
-                    MaterialAlertDialogBuilder(this)
-                        .setTitle(getString(R.string.oops))
-                        .setMessage(getString(R.string.fake_gps_message))
-                        .setCancelable(false)
-                        .setPositiveButton(getString(R.string.exit)) { _, _ ->
-                            finish()
-                        }
-                        .show()
-                } else {
-                    val geocoder = Geocoder(this)
-                    val addresses =
-                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(applicationContext)
+            fusedLocationClient.lastLocation.addOnCompleteListener {
+                val location: Location? = it.result
+                if (location != null) {
+                    if (location.isFromMockProvider) {
+                        MaterialAlertDialogBuilder(this)
+                            .setTitle(getString(R.string.oops))
+                            .setMessage(getString(R.string.fake_gps_message))
+                            .setCancelable(false)
+                            .setPositiveButton(getString(R.string.exit)) { _, _ ->
+                                finish()
+                            }
+                            .show()
+                    } else {
+                        val geocoder = Geocoder(this)
+                        val addresses =
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
 
-                    val areas = remoteConfig.getString("area")
-                    if (areas.isNotEmpty()) {
-                        val parsed = JsonParser().parse(areas).asJsonObject.getAsJsonArray("partners")
-                        val partners = Gson().fromJson<List<String>>(
-                            parsed,
-                            object : TypeToken<List<String>>() {}.type
-                        )
-                        addresses?.first()?.let {address ->
-                            address.subAdminArea?.toLowerCase()?.split(' ')?.forEach { k ->
-                                if(partners.contains(k)) {
-                                    //Run Service
-                                    Log.d(TAG, "PARTNER AREA")
-                                    startService<LocationService>()
-                                    startService<PingService>()
+                        val areas = remoteConfig.getString("area")
+                        if (areas.isNotEmpty()) {
+                            val parsed =
+                                JsonParser().parse(areas).asJsonObject.getAsJsonArray("partners")
+                            val partners = Gson().fromJson<List<String>>(
+                                parsed,
+                                object : TypeToken<List<String>>() {}.type
+                            )
+                            addresses?.first()?.let { address ->
+                                address.subAdminArea?.toLowerCase()?.split(' ')?.forEach { k ->
+                                    if (partners.contains(k)) {
+                                        //Run Service
+                                        Log.d(TAG, "PARTNER AREA")
+                                        startService<LocationService>()
+                                        startService<PingService>()
+                                    }
                                 }
                             }
                         }
