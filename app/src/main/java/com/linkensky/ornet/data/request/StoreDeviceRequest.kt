@@ -9,5 +9,6 @@ data class StoreDeviceRequest(
     val nearby_device: String,
     val latitude: Double?,
     val longitude: Double?,
-    val speed: Float?
+    val speed: Float?,
+    val device_name: String?
 ) : Parcelable

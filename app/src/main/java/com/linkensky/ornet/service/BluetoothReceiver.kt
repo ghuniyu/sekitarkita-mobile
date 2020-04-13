@@ -80,7 +80,8 @@ class BluetoothReceiver : BroadcastReceiver() {
                         device.address,
                         Hawk.get(Constant.STORAGE_LATEST_LAT),
                         Hawk.get(Constant.STORAGE_LATEST_LNG),
-                        Hawk.get(Constant.STORAGE_LATEST_SPEED)
+                        Hawk.get(Constant.STORAGE_LATEST_SPEED),
+                        device.name
                     )
                 ).enqueue(object : Callback<StoreDeviceResponse> {
                     override fun onFailure(call: Call<StoreDeviceResponse>, t: Throwable) {
