@@ -17,6 +17,8 @@ import android.view.View
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.daimajia.slider.library.SliderTypes.BaseSliderView
+import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -25,6 +27,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.callback.CollectionCallback
+import com.linkensky.ornet.data.model.Partner
+import com.linkensky.ornet.data.remote.Client
+import com.linkensky.ornet.data.response.BaseCollectionResponse
 import com.linkensky.ornet.service.MessagingService
 import com.linkensky.ornet.service.ScanService
 import com.linkensky.ornet.ui.dialog.LabelDialog
@@ -45,6 +51,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneOffset
+import retrofit2.Response
 import kotlin.system.exitProcess
 
 
@@ -149,9 +156,30 @@ class MainActivity : BaseActivity() {
         scheduleScore()
     }
 
+    private fun getPartners() {
+        Client.service.getPartners()
+            .enqueue(object : CollectionCallback<List<Partner>>(this) {
+            override fun onSuccess(response: Response<BaseCollectionResponse<List<Partner>>>) {
+                super.onSuccess(response)
+                response.body()?.data?.let { list ->
+                    list.forEach {
+                        partners_slider.addSlider(
+                            TextSliderView(this@MainActivity)
+                                .description(it.name)
+                                .image("${BuildConfig.APP_IMAGE_URL}${it.logo}")
+                                .setScaleType(BaseSliderView.ScaleType.CenterInside)
+                        )
+                    }
+                    partners_slider.setDuration(5000)
+                }
+            }
+        })
+    }
+
     private fun scheduleScore() {
         val notifyIntent = Intent(this, NotificationPublisher::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val date = LocalDateTime.now()
         val eight = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 48))
@@ -248,6 +276,7 @@ class MainActivity : BaseActivity() {
             checkAutostart()
             Log.d(TAG, getString(R.string.bluetooth_active))
             startService<ScanService>()
+            getPartners()
         } else {
             retrieveMac()
         }
@@ -442,6 +471,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkRemoteConfig() {
+
         remoteConfig = FirebaseRemoteConfig.getInstance()
         val configSettings = FirebaseRemoteConfigSettings.Builder()
             .setMinimumFetchIntervalInSeconds(0)
@@ -456,6 +486,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkForUpdate() {
+        if (!Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) return
         val latestAppVersion = remoteConfig.getDouble(Constant.MIN_VERSION)
         if (latestAppVersion > BuildConfig.VERSION_CODE.toDouble()) {
             MaterialAlertDialogBuilder(this)

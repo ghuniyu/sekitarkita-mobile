@@ -185,10 +185,33 @@
                 android:textColor="@color/warningColor"
                 app:icon="@drawable/ic_terminate"
                 app:iconTint="@color/warningColor"
-                app:layout_constraintBottom_toTopOf="@id/version"
+                app:layout_constraintBottom_toTopOf="@id/partners_slider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/report" />
+
+            <TextView
+                android:id="@+id/partners_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/in_partners"
+                android:textColor="#707070"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/partners_slider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/destroy" />
+
+            <com.daimajia.slider.library.SliderLayout
+                android:scrollbarFadeDuration="3000"
+                android:id="@+id/partners_slider"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toTopOf="@id/version"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/destroy"/>
 
             <TextView
                 android:id="@+id/version"
@@ -200,7 +223,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/destroy" />
+                app:layout_constraintTop_toBottomOf="@id/partners_slider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

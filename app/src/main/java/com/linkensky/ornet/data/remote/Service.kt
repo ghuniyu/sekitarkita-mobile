@@ -2,6 +2,7 @@ package com.linkensky.ornet.data.remote
 
 import com.linkensky.ornet.data.model.CallCenter
 import com.linkensky.ornet.data.model.Hospital
+import com.linkensky.ornet.data.model.Partner
 import com.linkensky.ornet.data.request.InteractionHistoryRequest
 import com.linkensky.ornet.data.request.SetHealthRequest
 import com.linkensky.ornet.data.request.StoreDeviceRequest
@@ -28,4 +29,7 @@ interface Service {
 
     @GET("hospitals")
     fun getHospital(): Call<BaseCollectionResponse<List<Hospital>>>
+
+    @GET("partners")
+    fun getPartners(): Call<BaseCollectionResponse<List<Partner>>>
 }
