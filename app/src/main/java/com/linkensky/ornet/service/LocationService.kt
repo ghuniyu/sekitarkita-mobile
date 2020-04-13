@@ -23,25 +23,28 @@ class LocationService : Service() {
                 override fun onLocationResult(result: LocationResult) {
                     val lastLocation = result.lastLocation
 
-                    Hawk.put(Constant.STORAGE_LATEST_LAT, lastLocation.latitude)
-                    Hawk.put(Constant.STORAGE_LATEST_LNG, lastLocation.longitude)
-                    Hawk.put(Constant.STORAGE_LATEST_SPEED, lastLocation.speed)
+                    if (!result.lastLocation.isFromMockProvider) {
 
-                    val geocoder = Geocoder(this@LocationService)
+                        Hawk.put(Constant.STORAGE_LATEST_LAT, lastLocation.latitude)
+                        Hawk.put(Constant.STORAGE_LATEST_LNG, lastLocation.longitude)
+                        Hawk.put(Constant.STORAGE_LATEST_SPEED, lastLocation.speed)
 
-                    try {
-                        val addresses = geocoder.getFromLocation(
-                            lastLocation.latitude,
-                            lastLocation.longitude,
-                            1
-                        )
+                        val geocoder = Geocoder(this@LocationService)
 
-                        if (addresses.isNotEmpty() && Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
-                            Hawk.put(Constant.STORAGE_LATEST_ADDRESS, addresses.first())
+                        try {
+                            val addresses = geocoder.getFromLocation(
+                                lastLocation.latitude,
+                                lastLocation.longitude,
+                                1
+                            )
 
+                            if (addresses.isNotEmpty() && Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
+                                Hawk.put(Constant.STORAGE_LATEST_ADDRESS, addresses.first())
+
+                            }
+                        } catch (e: IOException) {
+                            //
                         }
-                    } catch (e: IOException) {
-                        //
                     }
                 }
             },

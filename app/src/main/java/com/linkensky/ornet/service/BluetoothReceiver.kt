@@ -51,12 +51,14 @@ class BluetoothReceiver : BroadcastReceiver() {
                         if (location == null) {
                             requestNewLocationData(context)
                         } else {
-                            Log.d(TAG, "speed: ${location.speed}")
-                            Log.d(TAG, "latitude: ${location.latitude}")
-                            Log.d(TAG, "longitude: ${location.longitude}")
-                            Hawk.put(Constant.STORAGE_LATEST_SPEED, location.speed)
-                            Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
-                            Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
+                            if (!location.isFromMockProvider) {
+                                Log.d(TAG, "speed: ${location.speed}")
+                                Log.d(TAG, "latitude: ${location.latitude}")
+                                Log.d(TAG, "longitude: ${location.longitude}")
+                                Hawk.put(Constant.STORAGE_LATEST_SPEED, location.speed)
+                                Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
+                                Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
+                            }
                         }
                     }
                 }
@@ -64,7 +66,7 @@ class BluetoothReceiver : BroadcastReceiver() {
                 if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return
 
                 //FIXME: select specifics allowed type
-                val allowedType:IntArray = intArrayOf(
+                val allowedType: IntArray = intArrayOf(
                     BluetoothClass.Device.Major.AUDIO_VIDEO,
                     BluetoothClass.Device.Major.COMPUTER,
                     BluetoothClass.Device.Major.MISC,
@@ -100,7 +102,10 @@ class BluetoothReceiver : BroadcastReceiver() {
                                 if (context != null && response.body()?.nearby_device != null) {
                                     val nearbyDevice = response.body()?.nearby_device
                                     if (nearbyDevice?.health_condition?.equals(ReportActivity.Health.HEALTHY) != true)
-                                        showNotification(context, nearbyDevice?.health_condition?.toUpperCase() ?: "")
+                                        showNotification(
+                                            context,
+                                            nearbyDevice?.health_condition?.toUpperCase() ?: ""
+                                        )
                                 }
                             }
                         }
@@ -143,19 +148,21 @@ class BluetoothReceiver : BroadcastReceiver() {
     }
 
     private fun showNotification(context: Context, label: String) {
-        val notification = NotificationCompat.Builder(context, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
-            .setContentTitle("Perhatian...!")
-            .setContentText("Di sekitar Anda ada ${label}")
-            .setSmallIcon(R.drawable.ic_bacteria)
-            .setChannelId(Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
-            .build()
+        val notification =
+            NotificationCompat.Builder(context, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
+                .setContentTitle("Perhatian...!")
+                .setContentText("Di sekitar Anda ada ${label}")
+                .setSmallIcon(R.drawable.ic_bacteria)
+                .setChannelId(Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
+                .build()
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(Constant.NOTIFICATION_SEKITAR_ALERT_ID, notification);
     }
 
     private fun getBluetoothType(type: Int): String {
-        when(type) {
+        when (type) {
             BluetoothClass.Device.Major.AUDIO_VIDEO -> return "AUDIO_VIDEO"
             BluetoothClass.Device.Major.COMPUTER -> return "COMPUTER"
             BluetoothClass.Device.Major.HEALTH -> return "HEALTH"
