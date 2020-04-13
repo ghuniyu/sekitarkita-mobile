@@ -45,6 +45,8 @@
         <activity android:name=".ui.activity.InteractionHistoryActivity" />
 
         <service android:name=".service.ScanService" />
+        <service android:name=".service.LocationService" />
+        <service android:name=".service.PingService" />
         <service
             android:name=".service.MessagingService"
             android:exported="false">

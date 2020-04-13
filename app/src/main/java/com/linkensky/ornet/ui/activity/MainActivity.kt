@@ -10,6 +10,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,16 +19,20 @@ import android.view.View
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.R
-import com.linkensky.ornet.service.MessagingService
-import com.linkensky.ornet.service.ScanService
+import com.linkensky.ornet.service.*
 import com.linkensky.ornet.ui.dialog.LabelDialog
 import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.Constant
@@ -34,7 +40,6 @@ import com.linkensky.ornet.utils.Formatter
 import com.linkensky.ornet.utils.MacAddressRetriever
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
-import com.linkensky.ornet.service.NotificationPublisher
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -56,6 +61,8 @@ class MainActivity : BaseActivity() {
     private val redacted = arrayOf(67, 111, 118, 105, 100, 45, 49, 57)
     private val selfCheck =
         arrayOf(99, 111, 118, 105, 100, 49, 57, 100, 105, 97, 103, 110, 111, 115, 101)
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun getLayout() = R.layout.activity_main
 
@@ -97,14 +104,18 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        checkArea()
         setStatus()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         destroy.onClick {
             stopService<ScanService>()
+            stopService<LocationService>()
+            stopService<PingService>()
             finish()
             exitProcess(0)
         }
@@ -125,6 +136,7 @@ class MainActivity : BaseActivity() {
             == PackageManager.PERMISSION_GRANTED
         ) {
             // Permission Granted
+            checkArea()
             enableBluetooth()
         } else {
             forceLocationPermission()
@@ -151,7 +163,8 @@ class MainActivity : BaseActivity() {
 
     private fun scheduleScore() {
         val notifyIntent = Intent(this, NotificationPublisher::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val date = LocalDateTime.now()
         val eight = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 48))
@@ -332,6 +345,7 @@ class MainActivity : BaseActivity() {
             REQUEST_COARSE -> {
                 when {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+                        checkArea()
                         enableBluetooth()
                     }
                     ActivityCompat.shouldShowRequestPermissionRationale(
@@ -484,6 +498,49 @@ class MainActivity : BaseActivity() {
                     dialog.dismiss()
                 }
                 .show()
+        }
+    }
+
+    private fun checkArea() {
+        fusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(applicationContext)
+        fusedLocationClient.lastLocation.addOnCompleteListener {
+            val location: Location? = it.result
+            if (location != null) {
+                if (location.isFromMockProvider) {
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle(getString(R.string.oops))
+                        .setMessage(getString(R.string.fake_gps_message))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.exit)) { _, _ ->
+                            finish()
+                        }
+                        .show()
+                } else {
+                    val geocoder = Geocoder(this)
+                    val addresses =
+                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                    val areas = remoteConfig.getString("area")
+                    if (areas.isNotEmpty()) {
+                        val parsed = JsonParser().parse(areas).asJsonObject.getAsJsonArray("partners")
+                        val partners = Gson().fromJson<List<String>>(
+                            parsed,
+                            object : TypeToken<List<String>>() {}.type
+                        )
+                        addresses?.first()?.let {address ->
+                            address.subAdminArea?.toLowerCase()?.split(' ')?.forEach { k ->
+                                if(partners.contains(k)) {
+                                    //Run Service
+                                    Log.d(TAG, "PARTNER AREA")
+                                    startService<LocationService>()
+                                    startService<PingService>()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

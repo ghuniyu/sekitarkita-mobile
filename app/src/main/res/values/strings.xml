@@ -68,4 +68,5 @@
     <string name="wrong_phone">Format Telepon Salah</string>
     <string name="title_update">Ada Update Terbaru</string>
     <string name="title_update_message">Silahkan update untuk mendapatkan fitur yang terbaru</string>
+    <string name="fake_gps_message">Anda terdeteksi menggunakan Fake GPS</string>
 </resources>
