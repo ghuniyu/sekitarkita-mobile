@@ -10,7 +10,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
@@ -20,10 +19,11 @@ import android.view.View
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -35,15 +35,13 @@ import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.R
-import com.linkensky.ornet.service.*
 import com.linkensky.ornet.data.callback.CollectionCallback
 import com.linkensky.ornet.data.callback.DoNothingCallback
 import com.linkensky.ornet.data.model.Partner
 import com.linkensky.ornet.data.remote.Client
 import com.linkensky.ornet.data.request.StoreLocationRequest
 import com.linkensky.ornet.data.response.BaseCollectionResponse
-import com.linkensky.ornet.service.MessagingService
-import com.linkensky.ornet.service.ScanService
+import com.linkensky.ornet.service.*
 import com.linkensky.ornet.ui.dialog.LabelDialog
 import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.Constant
@@ -74,7 +72,7 @@ class MainActivity : BaseActivity() {
     private val selfCheck =
         arrayOf(99, 111, 118, 105, 100, 49, 57, 100, 105, 97, 103, 110, 111, 115, 101)
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var fusedLocation: FusedLocationProviderClient
 
     override fun getLayout() = R.layout.activity_main
 
@@ -138,7 +136,6 @@ class MainActivity : BaseActivity() {
         )
 
         my_label.onClick { showLabelDialog() }
-        checkLabel()
 
         val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
         registerReceiver(mReceiver, filter)
@@ -214,6 +211,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkLabel() {
+        if (!Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) return
         if (!Hawk.get(Constant.STORAGE_ANONYMOUS, false)) {
             if (Hawk.contains(Constant.STORAGE_LABEL)) {
                 my_label.text = Hawk.get(Constant.STORAGE_LABEL)
@@ -455,27 +453,8 @@ class MainActivity : BaseActivity() {
                     .setMessage(getString(R.string.autostart_request))
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.understand)) { _, _ ->
-                        val success = autoStart.getAutoStartPermission(this@MainActivity)
-                        /*if (!success) {
-                            MaterialAlertDialogBuilder(this)
-                                .setTitle(getString(R.string.oops))
-                                .setMessage(getString(R.string.autostart_manual))
-                                .setCancelable(false)
-                                .setPositiveButton(getString(R.string.understand)) { _, _ ->
-                                    startActivity(
-                                        Intent(
-                                            android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                            Uri.parse(
-                                                "package:$packageName"
-                                            )
-                                        )
-                                    )
-                                }
-                                .setNegativeButton(getString(R.string.ignore)) { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .show()
-                        }*/
+                        autoStart.getAutoStartPermission(this@MainActivity)
+                        checkLabel()
                     }
                     .show()
                 Hawk.put(Constant.CHECK_AUTOSTART_PERMISSION, false)
@@ -535,12 +514,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkArea() {
+        if (!Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) return
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            fusedLocationClient =
-                LocationServices.getFusedLocationProviderClient(applicationContext)
-            fusedLocationClient.lastLocation.addOnCompleteListener {
+            fusedLocation = LocationServices.getFusedLocationProviderClient(applicationContext)
+            fusedLocation.lastLocation.addOnCompleteListener {
                 val location: Location? = it.result
                 if (location != null) {
                     if (location.isFromMockProvider) {
@@ -553,9 +532,9 @@ class MainActivity : BaseActivity() {
                             }
                             .show()
                     } else {
-                        val geocoder = Geocoder(this)
+                        val geoCoder = Geocoder(this)
                         val addresses =
-                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                            geoCoder.getFromLocation(location.latitude, location.longitude, 1)
 
                         val areas = remoteConfig.getString("area")
                         if (areas.isNotEmpty()) {
@@ -568,6 +547,22 @@ class MainActivity : BaseActivity() {
                             addresses?.first()?.let { address ->
                                 address.subAdminArea?.toLowerCase()?.split(' ')?.forEach { k ->
                                     if (partners.contains(k)) {
+                                        if (Hawk.get(Constant.NOTIFY_OBSERVE_AREA, true)) {
+                                            Hawk.put(Constant.NOTIFY_OBSERVE_AREA, false)
+                                            MaterialAlertDialogBuilder(this)
+                                                .setTitle(getString(R.string.observe_area))
+                                                .setMessage(
+                                                    getString(
+                                                        R.string.observe_area_info,
+                                                        address.subAdminArea
+                                                    )
+                                                )
+                                                .setCancelable(false)
+                                                .setPositiveButton(getString(R.string.understand)) { d, _ ->
+                                                    d.dismiss()
+                                                }
+                                                .show()
+                                        }
                                         Hawk.put(Constant.STORAGE_LATEST_ADDRESS, address)
                                         Log.d(TAG, "Area : ${address.subAdminArea}")
                                         ping(address.subAdminArea)
@@ -583,17 +578,27 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun ping(area: String)
-    {
+    private fun ping(area: String) {
         val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LAT)
         val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LNG)
         val speed = Hawk.get<Float>(Constant.STORAGE_LATEST_SPEED)
         val deviceId = Hawk.get<String>(Constant.STORAGE_MAC_ADDRESS)
 
-        Log.d("WhatsNull", "$deviceId != null && $lastKnownLatitude != null && $lastKnownLongitude != null && $area != null")
+        Log.d(
+            "WhatsNull",
+            "$deviceId != null && $lastKnownLatitude != null && $lastKnownLongitude != null && $area != null"
+        )
         if (deviceId != null && lastKnownLatitude != null && lastKnownLongitude != null) {
             Log.d(PingService.PING_SERVICE, PingService.MESSAGE)
-            Client.service.postStoreLocation(StoreLocationRequest(deviceId, lastKnownLatitude, lastKnownLongitude, speed, area)).enqueue(object : DoNothingCallback(){})
+            Client.service.postStoreLocation(
+                StoreLocationRequest(
+                    deviceId,
+                    lastKnownLatitude,
+                    lastKnownLongitude,
+                    speed,
+                    area
+                )
+            ).enqueue(object : DoNothingCallback() {})
         }
     }
 }

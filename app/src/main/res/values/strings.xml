@@ -70,4 +70,6 @@
     <string name="title_update_message">Silahkan update untuk mendapatkan fitur yang terbaru</string>
     <string name="in_partners">SekitarKita bekerjasama dengan :</string>
     <string name="fake_gps_message">Anda terdeteksi menggunakan Fake GPS</string>
+    <string name="observe_area">Wilayah Pantauan</string>
+    <string name="observe_area_info">Anda berada dalam wilayah pantauan. Data anda akan dikelola dan di awasi oleh Pemerintah "%1$s"</string>
 </resources>
