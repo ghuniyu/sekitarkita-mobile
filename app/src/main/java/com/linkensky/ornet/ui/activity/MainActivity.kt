@@ -285,6 +285,7 @@ class MainActivity : BaseActivity() {
             checkAutostart()
             Log.d(TAG, getString(R.string.bluetooth_active))
             startService<ScanService>()
+            getPartners()
         } else {
             retrieveMac()
         }

@@ -27,7 +27,7 @@ class PingService : Service() {
                 Log.d(PING_SERVICE, MESSAGE)
                 ping(lastKnownLatitude, lastKnownLongitude, speed, deviceId, area)
             }
-        }, 0, 1, TimeUnit.MINUTES)
+        }, 0, 30, TimeUnit.MINUTES)
         return super.onStartCommand(intent, flags, startId)
     }
 
