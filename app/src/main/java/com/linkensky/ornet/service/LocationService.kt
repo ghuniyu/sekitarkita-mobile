@@ -1,6 +1,5 @@
 package com.linkensky.ornet.service
 
-import android.app.Service
 import android.content.Intent
 import android.location.Geocoder
 import android.os.IBinder
@@ -8,15 +7,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
-import com.linkensky.ornet.data.remote.Client
-import com.linkensky.ornet.data.request.StoreLocationRequest
 import com.linkensky.ornet.utils.Constant
 import com.orhanobut.hawk.Hawk
 import java.io.IOException
 
-class LocationService : Service() {
+class LocationService : BaseService() {
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand() {
         FusedLocationProviderClient(this).requestLocationUpdates(
             LocationRequest(),
             object : LocationCallback() {
@@ -50,11 +47,6 @@ class LocationService : Service() {
             },
             null
         )
-
-        return START_NOT_STICKY;
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-        return null;
-    }
 }

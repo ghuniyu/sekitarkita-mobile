@@ -1,10 +1,6 @@
 package com.linkensky.ornet.service
 
-import android.app.Service
-import android.content.Intent
 import android.location.Address
-import android.location.Location
-import android.os.IBinder
 import android.util.Log
 import com.linkensky.ornet.data.remote.Client
 import com.linkensky.ornet.data.request.StoreLocationRequest
@@ -13,16 +9,12 @@ import com.orhanobut.hawk.Hawk
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class PingService : Service() {
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+class PingService : BaseService() {
+
+    override fun onStartCommand() {
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay({
             excecute()
         }, 0, 30, TimeUnit.MINUTES)
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    override fun onBind(p0: Intent?): IBinder? {
-        return null;
     }
 
     private fun excecute()
