@@ -3,6 +3,11 @@ package com.linkensky.ornet.data.remote
 import com.linkensky.ornet.data.model.CallCenter
 import com.linkensky.ornet.data.model.Hospital
 import com.linkensky.ornet.data.request.*
+import com.linkensky.ornet.data.model.Partner
+import com.linkensky.ornet.data.request.InteractionHistoryRequest
+import com.linkensky.ornet.data.request.SetHealthRequest
+import com.linkensky.ornet.data.request.StoreDeviceRequest
+import com.linkensky.ornet.data.request.StoreFirebaseTokenRequest
 import com.linkensky.ornet.data.response.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -28,4 +33,7 @@ interface Service {
 
     @POST("partners")
     fun postStoreLocation(@Body request: StoreLocationRequest): Call<BaseResponse>
+
+    @GET("partners")
+    fun getPartners(): Call<BaseCollectionResponse<List<Partner>>>
 }

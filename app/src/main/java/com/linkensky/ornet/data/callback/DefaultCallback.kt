@@ -43,7 +43,11 @@ open class DefaultCallback<T>(
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
-        loadingDialog.dismiss()
+        try {
+            loadingDialog.dismiss()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
         when {
             response.isSuccessful -> onSuccess(response)
             response.code() == 422 -> onInvalid(response)
@@ -67,7 +71,7 @@ open class DefaultCallback<T>(
                 generalError = Toasty.error(context, it)
                 generalError?.show()
             }*/
-            parsed.errors?.let {
+            parsed?.errors?.let {
                 for ((key, list) in it) {
                     list.forEach { errors ->
                         generalError = Toasty.error(context, "$key - $errors")

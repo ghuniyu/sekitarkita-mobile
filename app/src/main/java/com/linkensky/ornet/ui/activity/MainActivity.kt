@@ -21,6 +21,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.daimajia.slider.library.SliderTypes.BaseSliderView
+import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -33,6 +35,12 @@ import com.google.gson.reflect.TypeToken
 import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.R
 import com.linkensky.ornet.service.*
+import com.linkensky.ornet.data.callback.CollectionCallback
+import com.linkensky.ornet.data.model.Partner
+import com.linkensky.ornet.data.remote.Client
+import com.linkensky.ornet.data.response.BaseCollectionResponse
+import com.linkensky.ornet.service.MessagingService
+import com.linkensky.ornet.service.ScanService
 import com.linkensky.ornet.ui.dialog.LabelDialog
 import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.Constant
@@ -50,6 +58,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneOffset
+import retrofit2.Response
 import kotlin.system.exitProcess
 
 
@@ -104,18 +113,14 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        checkArea()
         setStatus()
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         destroy.onClick {
             stopService<ScanService>()
-            stopService<LocationService>()
-            stopService<PingService>()
             finish()
             exitProcess(0)
         }
@@ -136,7 +141,6 @@ class MainActivity : BaseActivity() {
             == PackageManager.PERMISSION_GRANTED
         ) {
             // Permission Granted
-            checkArea()
             enableBluetooth()
         } else {
             forceLocationPermission()
@@ -159,6 +163,26 @@ class MainActivity : BaseActivity() {
 
         checkRemoteConfig()
         scheduleScore()
+    }
+
+    private fun getPartners() {
+        Client.service.getPartners()
+            .enqueue(object : CollectionCallback<List<Partner>>(this) {
+            override fun onSuccess(response: Response<BaseCollectionResponse<List<Partner>>>) {
+                super.onSuccess(response)
+                response.body()?.data?.let { list ->
+                    list.forEach {
+                        partners_slider.addSlider(
+                            TextSliderView(this@MainActivity)
+                                .description(it.name)
+                                .image("${BuildConfig.APP_IMAGE_URL}${it.logo}")
+                                .setScaleType(BaseSliderView.ScaleType.CenterInside)
+                        )
+                    }
+                    partners_slider.setDuration(5000)
+                }
+            }
+        })
     }
 
     private fun scheduleScore() {
@@ -345,7 +369,6 @@ class MainActivity : BaseActivity() {
             REQUEST_COARSE -> {
                 when {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
-                        checkArea()
                         enableBluetooth()
                     }
                     ActivityCompat.shouldShowRequestPermissionRationale(
