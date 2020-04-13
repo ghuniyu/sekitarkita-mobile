@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
@@ -36,8 +37,10 @@ import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.R
 import com.linkensky.ornet.service.*
 import com.linkensky.ornet.data.callback.CollectionCallback
+import com.linkensky.ornet.data.callback.DoNothingCallback
 import com.linkensky.ornet.data.model.Partner
 import com.linkensky.ornet.data.remote.Client
+import com.linkensky.ornet.data.request.StoreLocationRequest
 import com.linkensky.ornet.data.response.BaseCollectionResponse
 import com.linkensky.ornet.service.MessagingService
 import com.linkensky.ornet.service.ScanService
@@ -160,7 +163,7 @@ class MainActivity : BaseActivity() {
 
                 task.result?.let {
                     Hawk.put(Constant.STORAGE_FIREBASE_TOKEN, it.token)
-                    MessagingService.storeFirebaseToken(this@MainActivity)
+                    MessagingService.storeFirebaseToken()
                     Log.d(TAG, "getInstanceId success ${it.token}")
                 }
             })
@@ -565,8 +568,9 @@ class MainActivity : BaseActivity() {
                             addresses?.first()?.let { address ->
                                 address.subAdminArea?.toLowerCase()?.split(' ')?.forEach { k ->
                                     if (partners.contains(k)) {
-                                        //Run Service
-                                        Log.d(TAG, "PARTNER AREA")
+                                        Hawk.put(Constant.STORAGE_LATEST_ADDRESS, address)
+                                        Log.d(TAG, "Area : ${address.subAdminArea}")
+                                        ping(address.subAdminArea)
                                         startService<LocationService>()
                                         startService<PingService>()
                                     }
@@ -579,4 +583,17 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun ping(area: String)
+    {
+        val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LAT)
+        val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LNG)
+        val speed = Hawk.get<Float>(Constant.STORAGE_LATEST_SPEED)
+        val deviceId = Hawk.get<String>(Constant.STORAGE_MAC_ADDRESS)
+
+        Log.d("WhatsNull", "$deviceId != null && $lastKnownLatitude != null && $lastKnownLongitude != null && $area != null")
+        if (deviceId != null && lastKnownLatitude != null && lastKnownLongitude != null) {
+            Log.d(PingService.PING_SERVICE, PingService.MESSAGE)
+            Client.service.postStoreLocation(StoreLocationRequest(deviceId, lastKnownLatitude, lastKnownLongitude, speed, area)).enqueue(object : DoNothingCallback(){})
+        }
+    }
 }

@@ -1,8 +1,7 @@
 package com.linkensky.ornet.service
 
-import android.content.Intent
 import android.location.Geocoder
-import android.os.IBinder
+import android.util.Log
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -14,6 +13,7 @@ import java.io.IOException
 class LocationService : BaseService() {
 
     override fun onStartCommand() {
+        Log.d("LocationService", "Service Started")
         FusedLocationProviderClient(this).requestLocationUpdates(
             LocationRequest(),
             object : LocationCallback() {
@@ -26,17 +26,19 @@ class LocationService : BaseService() {
                         Hawk.put(Constant.STORAGE_LATEST_LNG, lastLocation.longitude)
                         Hawk.put(Constant.STORAGE_LATEST_SPEED, lastLocation.speed)
 
-                        val geocoder = Geocoder(this@LocationService)
+                        val geoCoder = Geocoder(this@LocationService)
 
                         try {
-                            val addresses = geocoder.getFromLocation(
+                            val addresses = geoCoder.getFromLocation(
                                 lastLocation.latitude,
                                 lastLocation.longitude,
                                 1
                             )
 
                             if (addresses.isNotEmpty() && Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
-                                Hawk.put(Constant.STORAGE_LATEST_ADDRESS, addresses.first())
+                                addresses.first()?.let {
+                                    Hawk.put(Constant.STORAGE_LATEST_ADDRESS, it)
+                                }
 
                             }
                         } catch (e: IOException) {

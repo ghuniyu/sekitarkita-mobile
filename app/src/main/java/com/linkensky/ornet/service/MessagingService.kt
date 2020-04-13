@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.orhanobut.hawk.Hawk
 import com.linkensky.ornet.data.callback.DefaultCallback
+import com.linkensky.ornet.data.callback.DoNothingCallback
 import com.linkensky.ornet.data.remote.Client
 import com.linkensky.ornet.data.request.StoreFirebaseTokenRequest
 import com.linkensky.ornet.data.response.BaseResponse
@@ -16,7 +17,7 @@ class MessagingService : FirebaseMessagingService() {
     companion object {
         private const val TAG = "MainActivityTag"
 
-        fun storeFirebaseToken(context: Context) {
+        fun storeFirebaseToken() {
             Log.d(TAG, "storeFirebaseToken ${Hawk.contains(Constant.STORAGE_MAC_ADDRESS)} ${Hawk.contains(Constant.STORAGE_FIREBASE_TOKEN)}")
             if(!(Hawk.contains(Constant.STORAGE_MAC_ADDRESS) && Hawk.contains(Constant.STORAGE_FIREBASE_TOKEN))) return
             Client.service.postFirebaseToken(
@@ -24,21 +25,13 @@ class MessagingService : FirebaseMessagingService() {
                     Hawk.get(Constant.STORAGE_MAC_ADDRESS),
                     Hawk.get(Constant.STORAGE_FIREBASE_TOKEN)
                 )
-            ).enqueue(object : DefaultCallback<BaseResponse>(context){
-                override fun onResponse(
-                    call: Call<BaseResponse>,
-                    response: Response<BaseResponse>
-                ) {
-                    Log.d(TAG, "STORE RESPONSE ${response.message()}")
-                    super.onResponse(call, response)
-                }
-            })
+            ).enqueue(object : DoNothingCallback(){})
         }
     }
 
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
         Hawk.put(Constant.STORAGE_FIREBASE_TOKEN, token)
-        storeFirebaseToken(this@MessagingService)
+        storeFirebaseToken()
     }
 }
