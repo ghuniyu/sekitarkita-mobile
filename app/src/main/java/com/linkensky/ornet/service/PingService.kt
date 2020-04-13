@@ -16,23 +16,27 @@ import java.util.concurrent.TimeUnit
 class PingService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay({
-
-            val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LAT)
-            val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LNG)
-            val speed = Hawk.get<Float>(Constant.STORAGE_LATEST_SPEED)
-            val deviceId = Hawk.get<String>(Constant.STORAGE_MAC_ADDRESS)
-            val area = Hawk.get<Address>(Constant.STORAGE_LATEST_ADDRESS)
-
-            if (deviceId != null && lastKnownLatitude != null && lastKnownLongitude != null && area != null) {
-                Log.d(PING_SERVICE, MESSAGE)
-                ping(lastKnownLatitude, lastKnownLongitude, speed, deviceId, area)
-            }
+            excecute()
         }, 0, 30, TimeUnit.MINUTES)
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onBind(p0: Intent?): IBinder? {
         return null;
+    }
+
+    private fun excecute()
+    {
+        val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LAT)
+        val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LNG)
+        val speed = Hawk.get<Float>(Constant.STORAGE_LATEST_SPEED)
+        val deviceId = Hawk.get<String>(Constant.STORAGE_MAC_ADDRESS)
+        val area = Hawk.get<Address>(Constant.STORAGE_LATEST_ADDRESS)
+
+        if (deviceId != null && lastKnownLatitude != null && lastKnownLongitude != null && area != null) {
+            Log.d(PING_SERVICE, MESSAGE)
+            ping(lastKnownLatitude, lastKnownLongitude, speed, deviceId, area)
+        }
     }
 
     private fun ping(latitude: Double, longitude: Double, speed: Float, device_id: String, area: Address) {

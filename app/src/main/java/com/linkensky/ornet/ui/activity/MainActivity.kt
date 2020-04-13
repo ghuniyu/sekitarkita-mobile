@@ -113,6 +113,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        checkArea()
         setStatus()
     }
 
@@ -121,6 +122,8 @@ class MainActivity : BaseActivity() {
 
         destroy.onClick {
             stopService<ScanService>()
+            stopService<LocationService>()
+            stopService<PingService>()
             finish()
             exitProcess(0)
         }
@@ -141,6 +144,7 @@ class MainActivity : BaseActivity() {
             == PackageManager.PERMISSION_GRANTED
         ) {
             // Permission Granted
+            checkArea()
             enableBluetooth()
         } else {
             forceLocationPermission()
@@ -370,6 +374,7 @@ class MainActivity : BaseActivity() {
             REQUEST_COARSE -> {
                 when {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+                        checkArea()
                         enableBluetooth()
                     }
                     ActivityCompat.shouldShowRequestPermissionRationale(
@@ -494,6 +499,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkForUpdate() {
+        if (!Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) return
         val latestAppVersion = remoteConfig.getDouble(Constant.MIN_VERSION)
         if (latestAppVersion > BuildConfig.VERSION_CODE.toDouble()) {
             MaterialAlertDialogBuilder(this)
