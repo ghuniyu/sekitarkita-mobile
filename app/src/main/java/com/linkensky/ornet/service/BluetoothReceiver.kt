@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.location.Location
+import android.media.RingtoneManager
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -23,6 +24,7 @@ import com.linkensky.ornet.utils.Constant
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class BluetoothReceiver : BroadcastReceiver() {
     companion object {
@@ -95,17 +97,11 @@ class BluetoothReceiver : BroadcastReceiver() {
                         response: Response<StoreDeviceResponse>
                     ) {
                         if (response.isSuccessful) {
-                            if (response.body()?.success!!) {
-                                Log.i(TAG, response.body()?.message)
-                            } else {
-                                Log.w(TAG, response.body()?.message)
-                                if (context != null && response.body()?.nearby_device != null) {
-                                    val nearbyDevice = response.body()?.nearby_device
-                                    if (nearbyDevice?.health_condition?.equals(ReportActivity.Health.HEALTHY) != true)
-                                        showNotification(
-                                            context,
-                                            nearbyDevice?.health_condition?.toUpperCase() ?: ""
-                                        )
+                            response.body()?.nearby_device?.health_condition?.let {
+                                if (it != ReportActivity.Health.HEALTHY.name) {
+                                    context?.let { ctx ->
+                                        showNotification(ctx, it.toUpperCase(Locale.getDefault()))
+                                    }
                                 }
                             }
                         }
@@ -148,12 +144,17 @@ class BluetoothReceiver : BroadcastReceiver() {
     }
 
     private fun showNotification(context: Context, label: String) {
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val vibrate = longArrayOf(0, 100, 200, 300)
         val notification =
             NotificationCompat.Builder(context, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
-                .setContentTitle("Perhatian...!")
-                .setContentText("Di sekitar Anda ada ${label}")
+                .setContentTitle(context.getString(R.string.attention))
+                .setContentText("Anda sedang berada di sekitar $label")
                 .setSmallIcon(R.drawable.ic_bacteria)
                 .setChannelId(Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
+                .setSound(alarmSound)
+                .setVibrate(vibrate)
+                .setOnlyAlertOnce(true)
                 .build()
 
         val notificationManager =
