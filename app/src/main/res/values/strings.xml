@@ -73,4 +73,8 @@
     <string name="observe_area">Wilayah Pantauan</string>
     <string name="observe_area_info">Anda berada dalam wilayah pantauan. Data anda akan dikelola dan di awasi oleh Pemerintah "%1$s"</string>
     <string name="attention">Perhatian...!</string>
+    <string name="observer_report">anda berada dalam area pantau $1%s, Pemerintah Terkait akan melakukan Verifikasi Laporan anda</string>
+    <string name="name">Nama</string>
+    <string name="nik">NIK</string>
+    <string name="unknown">Tidak diketahui</string>
 </resources>

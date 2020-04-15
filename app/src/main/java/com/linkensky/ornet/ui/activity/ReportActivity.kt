@@ -1,7 +1,8 @@
 package com.linkensky.ornet.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
+import android.os.Bundle
+import android.util.Log
 import com.linkensky.ornet.data.remote.Client
 import android.view.View
 import android.widget.EditText
@@ -9,15 +10,28 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.orhanobut.hawk.Hawk
 import com.linkensky.ornet.R
-import com.linkensky.ornet.data.callback.SetHealthCallback
-import com.linkensky.ornet.data.request.SetHealthRequest
+import com.linkensky.ornet.data.callback.ChangeHealthCallback
+import com.linkensky.ornet.data.callback.please
+import com.linkensky.ornet.data.request.RequestStatusChange
+import com.linkensky.ornet.data.response.BaseResponse
 import com.linkensky.ornet.utils.Constant
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import retrofit2.Response
 
 
 class ReportActivity : BaseActivity() {
+
+    var address: String? = null
+    var dialog: AlertDialog? = null
     override fun getLayout() = R.layout.activity_report
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        address = Hawk.get(Constant.STORAGE_LASTKNOWN_ADDRESS)
+        Log.d("Address", "Hawk $address")
+    }
 
     enum class Health(val condition: String) {
         HEALTHY("healthy"),
@@ -30,10 +44,16 @@ class ReportActivity : BaseActivity() {
     fun report(view: View) {
         val phone = layoutInflater.inflate(R.layout.input_phone, null)
         val phoneInput = phone.find<EditText>(R.id.input_phone)
+        val nikInput = phone.find<EditText>(R.id.input_nik)
+        val nameInput = phone.find<EditText>(R.id.input_name)
+        address?.let {
+            nikInput.show()
+            nameInput.show()
+        }
 
         when (view.id) {
             R.id.healthy -> {
-                MaterialAlertDialogBuilder(this)
+                dialog = MaterialAlertDialogBuilder(this)
                     .setTitle(getString(R.string.are_you_sure))
                     .setMessage(getString(R.string.confirm_healthy))
                     .setPositiveButton(getString(R.string.confirm)) { _, _ ->
@@ -43,81 +63,159 @@ class ReportActivity : BaseActivity() {
                     .show()
             }
             R.id.odp -> {
-                val odp = MaterialAlertDialogBuilder(this)
+                dialog = MaterialAlertDialogBuilder(this)
                     .setTitle(getString(R.string.are_you_sure))
                     .setMessage(getString(R.string.confirm_odp))
                     .setPositiveButton(getString(R.string.confirm), null)
                     .setNegativeButton(getString(R.string.cancel), null)
                     .create()
-                odp.setOnShowListener {
-                    val confirm = odp.getButton(AlertDialog.BUTTON_POSITIVE)
-                    confirm.onClick {
-                        val phoneNumber = phoneInput.text.toString()
-                        if (phoneNumber.isPhone()) {
-                            postReport(Health.ODP, phoneInput.text.toString())
-                            odp.dismiss()
+                dialog?.setOnShowListener {
+                    val confirm = dialog?.getButton(AlertDialog.BUTTON_POSITIVE)
+                    confirm?.onClick {
+                        if (address != null) {
+                            nikInput.req("NIK harus diisi") {
+                                nameInput.req("Nama harus diisi") {
+                                    phoneInput.req(
+                                        "Nomor HP harus diisi",
+                                        Type.PHONE,
+                                        "Nomor HP tidak sesuai"
+                                    ) {
+                                        postReport(
+                                            Health.ODP,
+                                            phoneInput.text.toString(),
+                                            nikInput.text.toString(),
+                                            nameInput.text.toString()
+                                        )
+                                    }
+                                }
+                            }
                         } else {
-                            phoneInput.error = getString(R.string.wrong_phone)
+                            phoneInput.req(
+                                "Nomor HP harus diisi",
+                                Type.PHONE,
+                                "Nomor HP tidak sesuai"
+                            ) {
+                                postReport(Health.ODP, phoneInput.text.toString())
+                            }
                         }
                     }
                 }
-                odp.setView(phone)
-                odp.show()
+                dialog?.setView(phone)
+                dialog?.show()
             }
             R.id.pdp -> {
-                val pdp = MaterialAlertDialogBuilder(this)
+                dialog = MaterialAlertDialogBuilder(this)
                     .setTitle(getString(R.string.are_you_sure))
                     .setMessage(getString(R.string.confirm_pdp))
                     .setPositiveButton(getString(R.string.confirm), null)
                     .setNegativeButton(getString(R.string.cancel), null)
                     .create()
-                pdp.setOnShowListener {
-                    val confirm = pdp.getButton(AlertDialog.BUTTON_POSITIVE)
-                    confirm.onClick {
-                        val phoneNumber = phoneInput.text.toString()
-                        if (phoneNumber.isPhone()) {
-                            postReport(Health.PDP, phoneInput.text.toString())
-                            pdp.dismiss()
+                dialog?.setOnShowListener {
+                    val confirm = dialog?.getButton(AlertDialog.BUTTON_POSITIVE)
+                    confirm?.onClick {
+                        if (address != null) {
+                            nikInput.req("NIK harus diisi") {
+                                nameInput.req("Nama harus diisi") {
+                                    phoneInput.req(
+                                        "Nomor HP harus diisi",
+                                        Type.PHONE,
+                                        "Nomor HP tidak sesuai"
+                                    ) {
+                                        postReport(
+                                            Health.PDP,
+                                            phoneInput.text.toString(),
+                                            nikInput.text.toString(),
+                                            nameInput.text.toString()
+                                        )
+                                    }
+                                }
+                            }
                         } else {
-                            phoneInput.error = getString(R.string.wrong_phone)
+                            phoneInput.req(
+                                "Nomor HP harus diisi",
+                                Type.PHONE,
+                                "Nomor HP tidak sesuai"
+                            ) {
+                                postReport(Health.PDP, phoneInput.text.toString())
+                            }
                         }
                     }
                 }
-                pdp.setView(phone)
-                pdp.show()
+                dialog?.setView(phone)
+                dialog?.show()
             }
             R.id.confirmed -> {
-                val confirmed = MaterialAlertDialogBuilder(this)
+                dialog = MaterialAlertDialogBuilder(this)
                     .setTitle(getString(R.string.are_you_sure))
                     .setMessage(getString(R.string.confirm_positive))
                     .setPositiveButton(getString(R.string.confirm), null)
                     .setNegativeButton(getString(R.string.cancel), null)
                     .create()
-                confirmed.setOnShowListener {
-                    val confirm = confirmed.getButton(AlertDialog.BUTTON_POSITIVE)
-                    confirm.onClick {
-                        val phoneNumber = phoneInput.text.toString()
-                        if (phoneNumber.isPhone()) {
-                            postReport(Health.CONFIRMED, phoneInput.text.toString())
-                            confirmed.dismiss()
+                dialog?.setOnShowListener {
+                    val confirm = dialog?.getButton(AlertDialog.BUTTON_POSITIVE)
+                    confirm?.onClick {
+                        if (address != null) {
+                            nikInput.req("NIK harus diisi") {
+                                nameInput.req("Nama harus diisi") {
+                                    phoneInput.req(
+                                        "Nomor HP harus diisi",
+                                        Type.PHONE,
+                                        "Nomor HP tidak sesuai"
+                                    ) {
+                                        postReport(
+                                            Health.CONFIRMED,
+                                            phoneInput.text.toString(),
+                                            nikInput.text.toString(),
+                                            nameInput.text.toString()
+                                        )
+                                    }
+                                }
+                            }
                         } else {
-                            phoneInput.error = getString(R.string.wrong_phone)
+                            phoneInput.req(
+                                "Nomor HP harus diisi",
+                                Type.PHONE,
+                                "Nomor HP tidak sesuai"
+                            ) {
+                                postReport(Health.CONFIRMED, phoneInput.text.toString())
+                            }
                         }
                     }
                 }
-                confirmed.setView(phone)
-                confirmed.show()
+                dialog?.setView(phone)
+                dialog?.show()
             }
         }
     }
 
-    private fun postReport(health: Health, phone: String?) {
-        Client.service.postSetHealth(
-            SetHealthRequest(
+    private fun postReport(
+        health: Health,
+        phone: String?,
+        nik: String? = null,
+        name: String? = null
+    ) {
+        Client.service.requestStatusChange(
+            RequestStatusChange(
                 Hawk.get(Constant.STORAGE_MAC_ADDRESS),
                 health.condition,
-                phone
+                phone,
+                nik,
+                name
             )
-        ).enqueue(object : SetHealthCallback(this@ReportActivity) {})
+        ).enqueue(object : ChangeHealthCallback(this@ReportActivity) {
+            override fun onSuccess(response: Response<BaseResponse>) {
+                super.onSuccess(response)
+                response.body()?.let { data ->
+                    data.success?.let { success ->
+                        if (success) {
+                            Toasty.success(this@ReportActivity, data.message.please()).show()
+                            dialog?.dismiss()
+                        } else {
+                            Toasty.error(this@ReportActivity, data.message.please()).show()
+                        }
+                    }
+                }
+            }
+        })
     }
 }

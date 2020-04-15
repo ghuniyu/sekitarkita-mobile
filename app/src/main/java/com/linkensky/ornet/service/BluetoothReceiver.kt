@@ -2,6 +2,7 @@ package com.linkensky.ornet.service
 
 import com.linkensky.ornet.data.remote.Client
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothClass
@@ -10,7 +11,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.location.Location
+import android.media.AudioAttributes
 import android.media.RingtoneManager
+import android.os.Build
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -57,15 +60,15 @@ class BluetoothReceiver : BroadcastReceiver() {
                                 Log.d(TAG, "speed: ${location.speed}")
                                 Log.d(TAG, "latitude: ${location.latitude}")
                                 Log.d(TAG, "longitude: ${location.longitude}")
-                                Hawk.put(Constant.STORAGE_LATEST_SPEED, location.speed)
-                                Hawk.put(Constant.STORAGE_LATEST_LAT, location.latitude)
-                                Hawk.put(Constant.STORAGE_LATEST_LNG, location.longitude)
+                                Hawk.put(Constant.STORAGE_LASTKNOWN_SPEED, location.speed)
+                                Hawk.put(Constant.STORAGE_LASTKNOWN_LAT, location.latitude)
+                                Hawk.put(Constant.STORAGE_LASTKNOWN_LNG, location.longitude)
                             }
                         }
                     }
                 }
 
-                if (Hawk.get(Constant.STORAGE_LATEST_SPEED, 0) > MINIMUM_SPEED) return
+                if (Hawk.get(Constant.STORAGE_LASTKNOWN_SPEED, 0) > MINIMUM_SPEED) return
 
                 //FIXME: select specifics allowed type
                 val allowedType: IntArray = intArrayOf(
@@ -82,9 +85,9 @@ class BluetoothReceiver : BroadcastReceiver() {
                     StoreDeviceRequest(
                         Hawk.get(Constant.STORAGE_MAC_ADDRESS),
                         device.address,
-                        Hawk.get(Constant.STORAGE_LATEST_LAT),
-                        Hawk.get(Constant.STORAGE_LATEST_LNG),
-                        Hawk.get(Constant.STORAGE_LATEST_SPEED),
+                        Hawk.get(Constant.STORAGE_LASTKNOWN_LAT),
+                        Hawk.get(Constant.STORAGE_LASTKNOWN_LNG),
+                        Hawk.get(Constant.STORAGE_LASTKNOWN_SPEED),
                         device.name
                     )
                 ).enqueue(object : Callback<StoreDeviceResponse> {
@@ -123,8 +126,8 @@ class BluetoothReceiver : BroadcastReceiver() {
             var mLastLocation: Location = locationResult.lastLocation
             Log.d(TAG, "latitude: ${mLastLocation.latitude}")
             Log.d(TAG, "longitude: ${mLastLocation.longitude}")
-            Hawk.put(Constant.STORAGE_LATEST_LAT, mLastLocation.latitude)
-            Hawk.put(Constant.STORAGE_LATEST_LNG, mLastLocation.longitude)
+            Hawk.put(Constant.STORAGE_LASTKNOWN_LAT, mLastLocation.latitude)
+            Hawk.put(Constant.STORAGE_LASTKNOWN_LNG, mLastLocation.longitude)
         }
     }
 
@@ -146,6 +149,26 @@ class BluetoothReceiver : BroadcastReceiver() {
     private fun showNotification(context: Context, label: String) {
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val vibrate = longArrayOf(0, 100, 200, 300)
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val mChannel = NotificationChannel(
+                "YOUR_CHANNEL_ID",
+                "YOUR CHANNEL NAME",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            val attributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build()
+
+            mChannel.description = "Anda sedang berada di sekitar $label"
+            mChannel.enableLights(true)
+            mChannel.enableVibration(true)
+            mChannel.setSound(alarmSound, attributes)
+            notificationManager.createNotificationChannel(mChannel)
+
+        }
+
         val notification =
             NotificationCompat.Builder(context, Constant.NOTIFICATION_SEKITAR_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.attention))
@@ -156,10 +179,7 @@ class BluetoothReceiver : BroadcastReceiver() {
                 .setVibrate(vibrate)
                 .setOnlyAlertOnce(true)
                 .build()
-
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(Constant.NOTIFICATION_SEKITAR_ALERT_ID, notification);
+        notificationManager.notify(Constant.NOTIFICATION_SEKITAR_ALERT_ID, notification)
     }
 
     private fun getBluetoothType(type: Int): String {

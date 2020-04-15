@@ -21,27 +21,27 @@ class PingService : BaseService() {
 
     private fun ping()
     {
-        val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LAT)
-        val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LNG)
-        val speed = Hawk.get<Float>(Constant.STORAGE_LATEST_SPEED)
+        val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LASTKNOWN_LAT)
+        val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LASTKNOWN_LNG)
+        val speed = Hawk.get<Float>(Constant.STORAGE_LASTKNOWN_SPEED)
         val deviceId = Hawk.get<String>(Constant.STORAGE_MAC_ADDRESS)
-        val area = Hawk.get<Address>(Constant.STORAGE_LATEST_ADDRESS)
+        val area = Hawk.get<String?>(Constant.STORAGE_LASTKNOWN_ADDRESS)
 
-        Log.d("WhatsNull", "$deviceId != null && $lastKnownLatitude != null && $lastKnownLongitude != null && ${area.subAdminArea} != null")
+        Log.d("WhatsNull", "$deviceId != null && $lastKnownLatitude != null && $lastKnownLongitude != null && $area != null")
         if (deviceId != null && lastKnownLatitude != null && lastKnownLongitude != null && area != null) {
             Log.d(PING_SERVICE, MESSAGE)
             ping(lastKnownLatitude, lastKnownLongitude, speed, deviceId, area)
         }
     }
 
-    private fun ping(latitude: Double, longitude: Double, speed: Float, device_id: String, area: Address?) {
+    private fun ping(latitude: Double, longitude: Double, speed: Float, device_id: String, area: String?) {
         area?.let {
             val request = StoreLocationRequest(
                 latitude = latitude,
                 longitude = longitude,
                 speed = speed,
                 device_id = device_id,
-                area = it.subAdminArea
+                area = it
             )
             Client.service.postStoreLocation(request).enqueue(object : DoNothingCallback(){})
         }

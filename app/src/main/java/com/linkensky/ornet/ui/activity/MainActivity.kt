@@ -5,11 +5,10 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
@@ -21,7 +20,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
@@ -48,6 +46,8 @@ import com.linkensky.ornet.utils.Constant
 import com.linkensky.ornet.utils.Formatter
 import com.linkensky.ornet.utils.MacAddressRetriever
 import com.orhanobut.hawk.Hawk
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
@@ -60,6 +60,10 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneOffset
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.*
 import kotlin.system.exitProcess
 
 
@@ -175,11 +179,19 @@ class MainActivity : BaseActivity() {
                 override fun onSuccess(response: Response<BaseCollectionResponse<List<Partner>>>) {
                     super.onSuccess(response)
                     response.body()?.data?.let { list ->
+                        val cw = ContextWrapper(applicationContext)
+                        val directory = cw.getDir("images", Context.MODE_PRIVATE)
                         list.forEach {
+                            val image = File(directory, it.logo)
+                            Picasso.with(this@MainActivity)
+                                .load("${BuildConfig.APP_IMAGE_URL}${it.logo}").into(
+                                    picassoImageTarget(image)
+                                )
+
                             partners_slider.addSlider(
                                 TextSliderView(this@MainActivity)
                                     .description(it.name)
-                                    .image("${BuildConfig.APP_IMAGE_URL}${it.logo}")
+                                    .image(image)
                                     .setScaleType(BaseSliderView.ScaleType.CenterInside)
                             )
                         }
@@ -545,29 +557,35 @@ class MainActivity : BaseActivity() {
                                 object : TypeToken<List<String>>() {}.type
                             )
                             addresses?.first()?.let { address ->
-                                address.subAdminArea?.toLowerCase()?.split(' ')?.forEach { k ->
-                                    if (partners.contains(k)) {
-                                        if (Hawk.get(Constant.NOTIFY_OBSERVE_AREA, true)) {
-                                            Hawk.put(Constant.NOTIFY_OBSERVE_AREA, false)
-                                            MaterialAlertDialogBuilder(this)
-                                                .setTitle(getString(R.string.observe_area))
-                                                .setMessage(
-                                                    getString(
-                                                        R.string.observe_area_info,
-                                                        address.subAdminArea
+                                address.subAdminArea?.let { city ->
+                                    lastknown_location.text = city
+                                    city.lower().split(' ').forEach { k ->
+                                        if (partners.contains(k)) {
+                                            if (Hawk.get(Constant.NOTIFY_OBSERVE_AREA, true)) {
+                                                Hawk.put(Constant.NOTIFY_OBSERVE_AREA, false)
+                                                MaterialAlertDialogBuilder(this)
+                                                    .setTitle(getString(R.string.observe_area))
+                                                    .setMessage(
+                                                        getString(
+                                                            R.string.observe_area_info,
+                                                            address.subAdminArea
+                                                        )
                                                     )
-                                                )
-                                                .setCancelable(false)
-                                                .setPositiveButton(getString(R.string.understand)) { d, _ ->
-                                                    d.dismiss()
-                                                }
-                                                .show()
+                                                    .setCancelable(false)
+                                                    .setPositiveButton(getString(R.string.understand)) { d, _ ->
+                                                        d.dismiss()
+                                                    }
+                                                    .show()
+                                            }
+                                            Hawk.put(Constant.STORAGE_LASTKNOWN_ADDRESS, address.subAdminArea)
+                                            Log.d(
+                                                "LASTKNOWN_ADDRESS",
+                                                "Putting ${address.subAdminArea}"
+                                            )
+                                            ping(address.subAdminArea)
+                                            startService<LocationService>()
+                                            startService<PingService>()
                                         }
-                                        Hawk.put(Constant.STORAGE_LATEST_ADDRESS, address)
-                                        Log.d(TAG, "Area : ${address.subAdminArea}")
-                                        ping(address.subAdminArea)
-                                        startService<LocationService>()
-                                        startService<PingService>()
                                     }
                                 }
                             }
@@ -579,9 +597,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun ping(area: String) {
-        val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LAT)
-        val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LATEST_LNG)
-        val speed = Hawk.get<Float>(Constant.STORAGE_LATEST_SPEED)
+        val lastKnownLatitude = Hawk.get<Double>(Constant.STORAGE_LASTKNOWN_LAT)
+        val lastKnownLongitude = Hawk.get<Double>(Constant.STORAGE_LASTKNOWN_LNG)
+        val speed = Hawk.get<Float>(Constant.STORAGE_LASTKNOWN_SPEED)
         val deviceId = Hawk.get<String>(Constant.STORAGE_MAC_ADDRESS)
 
         Log.d(
@@ -599,6 +617,39 @@ class MainActivity : BaseActivity() {
                     area
                 )
             ).enqueue(object : DoNothingCallback() {})
+        }
+    }
+
+    private fun picassoImageTarget(imageFile: File): Target {
+        return object : Target {
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+            override fun onBitmapFailed(errorDrawable: Drawable?) {}
+
+            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                Thread(Runnable {
+                    if (imageFile.exists()) {
+                        Log.i("image", "already exists " + imageFile.absolutePath)
+                        return@Runnable
+                    }
+
+                    var fos: FileOutputStream? = null
+
+                    try {
+                        fos = FileOutputStream(imageFile)
+                        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } finally {
+                        try {
+                            fos?.close()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                    Log.i("image", "image saved to " + imageFile.absolutePath)
+                }).start()
+            }
         }
     }
 }

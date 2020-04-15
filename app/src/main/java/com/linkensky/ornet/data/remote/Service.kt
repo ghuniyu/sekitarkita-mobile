@@ -5,7 +5,7 @@ import com.linkensky.ornet.data.model.Hospital
 import com.linkensky.ornet.data.request.*
 import com.linkensky.ornet.data.model.Partner
 import com.linkensky.ornet.data.request.InteractionHistoryRequest
-import com.linkensky.ornet.data.request.SetHealthRequest
+import com.linkensky.ornet.data.request.RequestStatusChange
 import com.linkensky.ornet.data.request.StoreDeviceRequest
 import com.linkensky.ornet.data.request.StoreFirebaseTokenRequest
 import com.linkensky.ornet.data.response.*
@@ -16,8 +16,8 @@ interface Service {
     @POST("device-history")
     fun postInteractionHistory(@Body request: InteractionHistoryRequest): Call<InteractionHistoryResponse>
 
-    @POST("set-health")
-    fun postSetHealth(@Body request: SetHealthRequest): Call<SetHealthResponse>
+    @POST("change-status")
+    fun requestStatusChange(@Body requestStatusChange: RequestStatusChange): Call<BaseResponse>
 
     @POST("store-device")
     fun postStoreDevice(@Body request: StoreDeviceRequest): Call<StoreDeviceResponse>

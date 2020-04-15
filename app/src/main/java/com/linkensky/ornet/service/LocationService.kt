@@ -22,9 +22,9 @@ class LocationService : BaseService() {
 
                     if (!result.lastLocation.isFromMockProvider) {
 
-                        Hawk.put(Constant.STORAGE_LATEST_LAT, lastLocation.latitude)
-                        Hawk.put(Constant.STORAGE_LATEST_LNG, lastLocation.longitude)
-                        Hawk.put(Constant.STORAGE_LATEST_SPEED, lastLocation.speed)
+                        Hawk.put(Constant.STORAGE_LASTKNOWN_LAT, lastLocation.latitude)
+                        Hawk.put(Constant.STORAGE_LASTKNOWN_LNG, lastLocation.longitude)
+                        Hawk.put(Constant.STORAGE_LASTKNOWN_SPEED, lastLocation.speed)
 
                         val geoCoder = Geocoder(this@LocationService)
 
@@ -37,7 +37,8 @@ class LocationService : BaseService() {
 
                             if (addresses.isNotEmpty() && Hawk.contains(Constant.STORAGE_MAC_ADDRESS)) {
                                 addresses.first()?.let {
-                                    Hawk.put(Constant.STORAGE_LATEST_ADDRESS, it)
+                                    Log.d("LASTKNOWN_ADDRESS", "Putting ${it.subAdminArea}")
+                                    Hawk.put(Constant.STORAGE_LASTKNOWN_ADDRESS, it.subAdminArea)
                                 }
 
                             }

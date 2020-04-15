@@ -113,3 +113,10 @@ open class DefaultCallback<T>(
         internalError?.show()
     }
 }
+
+fun String?.please(): String {
+    this?.let {
+        return it
+    }
+    return "gagal membaca pesan dari server"
+}
