@@ -14,6 +14,9 @@ class LocationService : BaseService() {
 
     override fun onStartCommand() {
         Log.d("LocationService", "Service Started")
+        if (!Hawk.isBuilt())
+            Hawk.init(applicationContext).build()
+
         FusedLocationProviderClient(this).requestLocationUpdates(
             LocationRequest(),
             object : LocationCallback() {

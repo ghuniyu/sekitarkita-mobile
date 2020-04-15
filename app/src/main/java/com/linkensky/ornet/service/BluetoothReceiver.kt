@@ -41,6 +41,9 @@ class BluetoothReceiver : BroadcastReceiver() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        if (!Hawk.isBuilt())
+            Hawk.init(context).build()
+
         val action = intent?.action
         Log.d(TAG, "Incoming intent : $action")
         when (action) {

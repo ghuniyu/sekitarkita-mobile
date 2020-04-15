@@ -30,6 +30,9 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
+        if (!Hawk.isBuilt())
+            Hawk.init(applicationContext).build()
+
         Log.d(TAG, "Refreshed token: $token")
         Hawk.put(Constant.STORAGE_FIREBASE_TOKEN, token)
         storeFirebaseToken()

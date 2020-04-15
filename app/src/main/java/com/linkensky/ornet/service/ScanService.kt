@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import com.linkensky.ornet.R
 import com.linkensky.ornet.ui.activity.MainActivity
 import com.linkensky.ornet.utils.Constant
+import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.toast
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -37,6 +38,8 @@ class ScanService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (!Hawk.isBuilt())
+            Hawk.init(applicationContext).build()
 
         btAdapter = BluetoothAdapter.getDefaultAdapter()
         if (btAdapter == null) {

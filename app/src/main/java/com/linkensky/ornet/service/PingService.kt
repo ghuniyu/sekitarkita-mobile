@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit
 class PingService : BaseService() {
 
     override fun onStartCommand() {
+        if (!Hawk.isBuilt())
+            Hawk.init(applicationContext).build()
+
         Log.d("PingService", "Service Started")
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay({
             ping()
