@@ -60,7 +60,40 @@ class ReportActivity : BaseActivity() {
                         postReport(Health.HEALTHY, null)
                     }
                     .setNegativeButton(getString(R.string.cancel), null)
-                    .show()
+                    .create()
+                dialog?.setOnShowListener {
+                    val confirm = dialog?.getButton(AlertDialog.BUTTON_POSITIVE)
+                    confirm?.onClick {
+                        if (address != null) {
+                            nikInput.req("NIK harus diisi") {
+                                nameInput.req("Nama harus diisi") {
+                                    phoneInput.req(
+                                        "Nomor HP harus diisi",
+                                        Type.PHONE,
+                                        "Nomor HP tidak sesuai"
+                                    ) {
+                                        postReport(
+                                            Health.HEALTHY,
+                                            phoneInput.text.toString(),
+                                            nikInput.text.toString(),
+                                            nameInput.text.toString()
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            phoneInput.req(
+                                "Nomor HP harus diisi",
+                                Type.PHONE,
+                                "Nomor HP tidak sesuai"
+                            ) {
+                                postReport(Health.HEALTHY, phoneInput.text.toString())
+                            }
+                        }
+                    }
+                }
+                dialog?.setView(phone)
+                dialog?.show()
             }
             R.id.odp -> {
                 dialog = MaterialAlertDialogBuilder(this)
