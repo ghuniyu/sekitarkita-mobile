@@ -77,4 +77,5 @@
     <string name="name">Nama</string>
     <string name="nik">NIK</string>
     <string name="unknown">Tidak diketahui</string>
+    <string name="trip_history">Riwayat Perjalanan</string>
 </resources>

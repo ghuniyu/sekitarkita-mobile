@@ -9,5 +9,6 @@ data class RequestStatusChange(
     val health: String,
     val phone: String?,
     val nik: String?,
-    val name: String?
+    val name: String?,
+    val trips: String?
 ) : Parcelable

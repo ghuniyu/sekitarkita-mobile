@@ -6,29 +6,49 @@
     android:padding="18dp">
 
     <EditText
-        android:visibility="gone"
         android:id="@+id/input_nik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/text_box"
         android:hint="@string/nik"
         android:inputType="number"
-        android:textSize="14sp" />
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <EditText
-        android:visibility="gone"
         android:id="@+id/input_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/text_box"
         android:hint="@string/name"
         android:inputType="textPersonName"
-        android:textSize="14sp" />
+        android:padding="8dp"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/input_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/text_box"
         android:hint="@string/phone"
         android:inputType="phone"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/trip_history"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/text_box"
+        android:gravity="top"
+        android:hint="@string/trip_history"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
         android:textSize="14sp" />
 
 </LinearLayout>

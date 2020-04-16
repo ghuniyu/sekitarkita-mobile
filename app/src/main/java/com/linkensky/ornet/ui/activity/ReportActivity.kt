@@ -46,6 +46,7 @@ class ReportActivity : BaseActivity() {
         val phoneInput = phone.find<EditText>(R.id.input_phone)
         val nikInput = phone.find<EditText>(R.id.input_nik)
         val nameInput = phone.find<EditText>(R.id.input_name)
+        val trips = phone.find<EditText>(R.id.trip_history)
         address?.let {
             nikInput.show()
             nameInput.show()
@@ -72,12 +73,15 @@ class ReportActivity : BaseActivity() {
                                         Type.PHONE,
                                         "Nomor HP tidak sesuai"
                                     ) {
-                                        postReport(
-                                            Health.HEALTHY,
-                                            phoneInput.text.toString(),
-                                            nikInput.text.toString(),
-                                            nameInput.text.toString()
-                                        )
+                                        trips.req("Riwayat Perjalanan Harus diisi") {
+                                            postReport(
+                                                Health.HEALTHY,
+                                                phoneInput.text.toString(),
+                                                nikInput.text.toString(),
+                                                nameInput.text.toString(),
+                                                trips.text.toString()
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -87,7 +91,13 @@ class ReportActivity : BaseActivity() {
                                 Type.PHONE,
                                 "Nomor HP tidak sesuai"
                             ) {
-                                postReport(Health.HEALTHY, phoneInput.text.toString())
+                                trips.req("Riwayat Perjalanan Harus diisi") {
+                                    postReport(
+                                        Health.HEALTHY,
+                                        phoneInput.text.toString(),
+                                        trips = trips.text.toString()
+                                    )
+                                }
                             }
                         }
                     }
@@ -113,12 +123,15 @@ class ReportActivity : BaseActivity() {
                                         Type.PHONE,
                                         "Nomor HP tidak sesuai"
                                     ) {
-                                        postReport(
-                                            Health.ODP,
-                                            phoneInput.text.toString(),
-                                            nikInput.text.toString(),
-                                            nameInput.text.toString()
-                                        )
+                                        trips.req("Riwayat Perjalanan Harus diisi") {
+                                            postReport(
+                                                Health.ODP,
+                                                phoneInput.text.toString(),
+                                                nikInput.text.toString(),
+                                                nameInput.text.toString(),
+                                                trips.text.toString()
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -128,7 +141,13 @@ class ReportActivity : BaseActivity() {
                                 Type.PHONE,
                                 "Nomor HP tidak sesuai"
                             ) {
-                                postReport(Health.ODP, phoneInput.text.toString())
+                                trips.req("Riwayat Perjalanan Harus diisi") {
+                                    postReport(
+                                        Health.ODP,
+                                        phoneInput.text.toString(),
+                                        trips = trips.text.toString()
+                                    )
+                                }
                             }
                         }
                     }
@@ -154,12 +173,15 @@ class ReportActivity : BaseActivity() {
                                         Type.PHONE,
                                         "Nomor HP tidak sesuai"
                                     ) {
-                                        postReport(
-                                            Health.PDP,
-                                            phoneInput.text.toString(),
-                                            nikInput.text.toString(),
-                                            nameInput.text.toString()
-                                        )
+                                        trips.req("Riwayat Perjalanan Harus diisi") {
+                                            postReport(
+                                                Health.PDP,
+                                                phoneInput.text.toString(),
+                                                nikInput.text.toString(),
+                                                nameInput.text.toString(),
+                                                trips.text.toString()
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -169,7 +191,13 @@ class ReportActivity : BaseActivity() {
                                 Type.PHONE,
                                 "Nomor HP tidak sesuai"
                             ) {
-                                postReport(Health.PDP, phoneInput.text.toString())
+                                trips.req("Riwayat Perjalanan Harus diisi") {
+                                    postReport(
+                                        Health.PDP,
+                                        phoneInput.text.toString(),
+                                        trips = trips.text.toString()
+                                    )
+                                }
                             }
                         }
                     }
@@ -195,12 +223,15 @@ class ReportActivity : BaseActivity() {
                                         Type.PHONE,
                                         "Nomor HP tidak sesuai"
                                     ) {
-                                        postReport(
-                                            Health.CONFIRMED,
-                                            phoneInput.text.toString(),
-                                            nikInput.text.toString(),
-                                            nameInput.text.toString()
-                                        )
+                                        trips.req("Riwayat Perjalanan Harus diisi") {
+                                            postReport(
+                                                Health.CONFIRMED,
+                                                phoneInput.text.toString(),
+                                                nikInput.text.toString(),
+                                                nameInput.text.toString(),
+                                                trips.text.toString()
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -210,7 +241,13 @@ class ReportActivity : BaseActivity() {
                                 Type.PHONE,
                                 "Nomor HP tidak sesuai"
                             ) {
-                                postReport(Health.CONFIRMED, phoneInput.text.toString())
+                                trips.req("Riwayat Perjalanan Harus diisi") {
+                                    postReport(
+                                        Health.CONFIRMED,
+                                        phoneInput.text.toString(),
+                                        trips = trips.text.toString()
+                                    )
+                                }
                             }
                         }
                     }
@@ -225,7 +262,8 @@ class ReportActivity : BaseActivity() {
         health: Health,
         phone: String?,
         nik: String? = null,
-        name: String? = null
+        name: String? = null,
+        trips: String? = null
     ) {
         Client.service.requestStatusChange(
             RequestStatusChange(
@@ -233,7 +271,8 @@ class ReportActivity : BaseActivity() {
                 health.condition,
                 phone,
                 nik,
-                name
+                name,
+                trips
             )
         ).enqueue(object : ChangeHealthCallback(this@ReportActivity) {
             override fun onSuccess(response: Response<BaseResponse>) {
