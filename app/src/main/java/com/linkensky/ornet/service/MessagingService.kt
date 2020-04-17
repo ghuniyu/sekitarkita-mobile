@@ -25,7 +25,7 @@ class MessagingService : FirebaseMessagingService() {
                     Hawk.get(Constant.STORAGE_MAC_ADDRESS),
                     Hawk.get(Constant.STORAGE_FIREBASE_TOKEN)
                 )
-            ).enqueue(object : DoNothingCallback(){})
+            ).enqueue(object : DoNothingCallback<BaseResponse>(){})
         }
     }
 

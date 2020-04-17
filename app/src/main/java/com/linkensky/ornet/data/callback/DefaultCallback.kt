@@ -6,7 +6,7 @@ import com.linkensky.ornet.R
 import es.dmoral.toasty.Toasty
 import com.linkensky.ornet.ui.dialog.LoadingDialog
 import com.linkensky.ornet.data.remote.Client
-import com.linkensky.ornet.data.response.BaseErrorResponse
+import com.linkensky.ornet.data.response.BaseResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,13 +55,12 @@ open class DefaultCallback<T>(
             response.code() == 500 -> onInternalServerError()
             else -> onError(response.errorBody().toString())
         }
-        onSuccess(response)
     }
 
     private fun onInvalid(response: Response<T>) {
-        val converter: Converter<ResponseBody, BaseErrorResponse> =
+        val converter: Converter<ResponseBody, BaseResponse> =
             Client.retrofit.responseBodyConverter(
-                BaseErrorResponse::class.java, arrayOf()
+                BaseResponse::class.java, arrayOf()
             )
         response.errorBody()
 

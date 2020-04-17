@@ -57,6 +57,7 @@
             android:padding="16dp">
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:id="@+id/description_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -148,6 +149,7 @@
                 app:layout_constraintTop_toBottomOf="@id/statistic" />
 
             <TextView
+                android:text="@string/healthy"
                 android:id="@+id/status"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"

@@ -30,11 +30,11 @@ abstract class BaseActivity : AppCompatActivity() {
         NUMBER
     }
 
-    fun EditText.show() {
+    fun View.show() {
         this.visibility = View.VISIBLE
     }
 
-    fun EditText.hide() {
+    fun View.hide() {
         this.visibility = View.GONE
     }
 

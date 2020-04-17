@@ -35,10 +35,14 @@ import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.callback.CollectionCallback
 import com.linkensky.ornet.data.callback.DoNothingCallback
+import com.linkensky.ornet.data.callback.GetMeCallback
 import com.linkensky.ornet.data.model.Partner
 import com.linkensky.ornet.data.remote.Client
+import com.linkensky.ornet.data.request.GetMeRequest
 import com.linkensky.ornet.data.request.StoreLocationRequest
 import com.linkensky.ornet.data.response.BaseCollectionResponse
+import com.linkensky.ornet.data.response.BaseResponse
+import com.linkensky.ornet.data.response.DeviceResponse
 import com.linkensky.ornet.service.*
 import com.linkensky.ornet.ui.dialog.LabelDialog
 import com.linkensky.ornet.utils.CheckAutostartPermission
@@ -73,8 +77,6 @@ class MainActivity : BaseActivity() {
     private var labelDialog: LabelDialog? = null
     private val autoStart = CheckAutostartPermission.getInstance()
     private val redacted = arrayOf(67, 111, 118, 105, 100, 45, 49, 57)
-    private val selfCheck =
-        arrayOf(99, 111, 118, 105, 100, 49, 57, 100, 105, 97, 103, 110, 111, 115, 101)
 
     private lateinit var fusedLocation: FusedLocationProviderClient
 
@@ -125,6 +127,9 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (Hawk.get(Constant.IN_OBSERVE_AREA, false))
+            destroy.hide()
+
         destroy.onClick {
             stopService<ScanService>()
             stopService<LocationService>()
@@ -133,6 +138,7 @@ class MainActivity : BaseActivity() {
             exitProcess(0)
         }
 
+        getMe()
         version.text = getString(
             R.string.version,
             BuildConfig.VERSION_NAME.toUpperCase(),
@@ -171,6 +177,22 @@ class MainActivity : BaseActivity() {
 
         checkRemoteConfig()
         scheduleScore()
+    }
+
+    private fun getMe() {
+        val mac = Hawk.get<String?>(Constant.STORAGE_MAC_ADDRESS, null)
+        mac?.let { devId ->
+            Client.service.getMe(GetMeRequest(devId)).enqueue(object : GetMeCallback() {
+                override fun onSuccess(response: Response<DeviceResponse>) {
+                    super.onSuccess(response)
+                    response.body()?.let {
+                        Hawk.put(Constant.STORAGE_ME, it)
+                        Hawk.put(Constant.STORAGE_STATUS, it.health_condition)
+                        setStatus()
+                    }
+                }
+            })
+        }
     }
 
     private fun getPartners() {
@@ -561,6 +583,8 @@ class MainActivity : BaseActivity() {
                                     lastknown_location.text = city
                                     city.lower().split(' ').forEach { k ->
                                         if (partners.contains(k)) {
+                                            destroy.hide()
+                                            Hawk.put(Constant.IN_OBSERVE_AREA, true)
                                             if (Hawk.get(Constant.NOTIFY_OBSERVE_AREA, true)) {
                                                 Hawk.put(Constant.NOTIFY_OBSERVE_AREA, false)
                                                 MaterialAlertDialogBuilder(this)
@@ -577,7 +601,10 @@ class MainActivity : BaseActivity() {
                                                     }
                                                     .show()
                                             }
-                                            Hawk.put(Constant.STORAGE_LASTKNOWN_ADDRESS, address.subAdminArea)
+                                            Hawk.put(
+                                                Constant.STORAGE_LASTKNOWN_ADDRESS,
+                                                address.subAdminArea
+                                            )
                                             Log.d(
                                                 "LASTKNOWN_ADDRESS",
                                                 "Putting ${address.subAdminArea}"
@@ -616,7 +643,7 @@ class MainActivity : BaseActivity() {
                     speed,
                     area
                 )
-            ).enqueue(object : DoNothingCallback() {})
+            ).enqueue(object : DoNothingCallback<BaseResponse>() {})
         }
     }
 

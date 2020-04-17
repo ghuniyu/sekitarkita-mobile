@@ -34,6 +34,9 @@ interface Service {
     @POST("partners")
     fun postStoreLocation(@Body request: StoreLocationRequest): Call<BaseResponse>
 
+    @POST("me")
+    fun getMe(@Body request: GetMeRequest): Call<DeviceResponse>
+
     @GET("partners")
     fun getPartners(): Call<BaseCollectionResponse<List<Partner>>>
 }

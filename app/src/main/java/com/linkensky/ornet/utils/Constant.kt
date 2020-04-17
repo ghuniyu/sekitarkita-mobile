@@ -4,6 +4,7 @@ object Constant {
     const val STORAGE_STATUS = "com.linkensky.ornet.utils.storage.status"
     const val STORAGE_FIREBASE_TOKEN = "com.linkensky.ornet.utils.storage.firebase.token"
     const val STORAGE_MAC_ADDRESS = "com.linkensky.ornet.utils.storage.mac.address"
+    const val STORAGE_ME = "com.linkensky.ornet.utils.storage.me"
     const val STORAGE_LABEL = "com.linkensky.ornet.utils.storage.label"
     const val STORAGE_ANONYMOUS = "com.linkensky.ornet.utils.storage.label.neverask"
     const val STORAGE_LASTKNOWN_LAT = "com.linkensky.ornet.utils.storage.latest.lat"
@@ -13,11 +14,11 @@ object Constant {
     const val NOTIFICATION_SEKITAR_CHANNEL_ID = "com.linkensky.ornet.utils.notification.channel"
     const val NOTIFICATION_SEKITAR_FOREGROUND_ID = 1
     const val NOTIFICATION_SEKITAR_ALERT_ID = 2
-
     const val CHECK_AUTOSTART_PERMISSION = "com.linkensky.ornet.utils.checkautostart"
 
     const val NOTIFICATION_SCORE = "com.linkensky.ornet.utils.notification.score"
     const val NOTIFY_OBSERVE_AREA = "com.linkensky.ornet.utils.notify.observe.area"
+    const val IN_OBSERVE_AREA = "com.linkensky.ornet.utils.in.observe.area"
     const val NOTIFICATION_SCORE_DEFAULT = "default"
     const val NOTIFICATION_SCORE_CHANNEL = "com.linkensky.ornet.utils.notification.score.channel"
     const val NOTIFICATION_SCORE_CHANNEL_ID = "com.linkensky.ornet.utils.notification.score.channel.id"
