@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_margin="16dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -80,11 +80,27 @@
                         android:adjustViewBounds="true"
                         android:src="@drawable/home" />
 
-                    <TextView
+                    <com.ramotion.foldingcell.FoldingCell
+                        app:animationDuration="1000"
+                        app:backSideColor="@color/colorAccent"
+                        app:cameraHeight="30"
+                        android:id="@+id/desc_folding"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/apps_desc" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/apps_desc" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/apps_desc_short" />
+                    </com.ramotion.foldingcell.FoldingCell>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/share"
@@ -148,13 +164,19 @@
                 app:layout_constraintTop_toBottomOf="@id/statistic" />
 
             <TextView
-                android:text="@string/healthy"
                 android:id="@+id/status"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/bg_outline"
                 android:gravity="center"
+                android:paddingStart="32dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="4dp"
+                android:text="@string/healthy"
+                android:textColor="@color/success"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/report"
                 app:layout_constraintEnd_toEndOf="parent"

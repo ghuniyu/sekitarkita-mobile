@@ -3,6 +3,7 @@
     <string name="action_about">Tentang</string>
     <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
     <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar Anda</string>
+    <string name="apps_desc_short">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain… (more)</string>
     <string name="apps_desc">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain menggunakan koneksi Bluetooth.\n\nKetika terdapat Pasien Dalam yang melaporkan diri terinfeksi dan memiliki pernah berdekatan dengan Anda, maka aplikasi akan memberikan notifikasi.\n\nBegitu pula jika Anda terinfeksi, Anda dapat membagikan informasi ke seluruh potensial ODP berdasarkan riwayat perangkat sekitar yang telah tersimpan.\n\nData pribadi Anda tidak akan ditampilkan. Karena aplikasi ini tidak meminta Anda mengisi data pribadi apapun.\n\nMari jadi bagian untuk Solusi Pencegahan!</string>
     <string name="interaction">Lihat Riwayat Interaksi Anda</string>
     <string name="self_check">Pemeriksaan Mandiri</string>
@@ -17,7 +18,7 @@
     <string name="report_title">Saya melaporkan bahwa</string>
     <string name="infected">Saya adalah PDP</string>
     <string name="under_observation">Saya adalah ODP</string>
-    <string name="healthy">Saya SEHAT</string>
+    <string name="healthy">Saya Sehat</string>
     <string name="internal_error">Terdapat kesalahan pada Server</string>
     <string name="network_failure">Terjadi kesalahan pada Jaringan</string>
     <string name="unknown_failure">Terjadi kesalahan</string>

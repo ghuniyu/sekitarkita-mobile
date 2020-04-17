@@ -138,6 +138,10 @@ class MainActivity : BaseActivity() {
             exitProcess(0)
         }
 
+        desc_folding.onClick {
+            desc_folding.toggle(false)
+        }
+
         getMe()
         version.text = getString(
             R.string.version,
