@@ -126,7 +126,7 @@ class BluetoothReceiver : BroadcastReceiver() {
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation: Location = locationResult.lastLocation
+            val mLastLocation: Location = locationResult.lastLocation
             Log.d(TAG, "latitude: ${mLastLocation.latitude}")
             Log.d(TAG, "longitude: ${mLastLocation.longitude}")
             Hawk.put(Constant.STORAGE_LASTKNOWN_LAT, mLastLocation.latitude)
@@ -152,7 +152,8 @@ class BluetoothReceiver : BroadcastReceiver() {
     private fun showNotification(context: Context, label: String) {
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val vibrate = longArrayOf(0, 100, 200, 300)
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val mChannel = NotificationChannel(

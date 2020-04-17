@@ -5,6 +5,7 @@ import android.util.Log
 import com.linkensky.ornet.data.callback.DoNothingCallback
 import com.linkensky.ornet.data.remote.Client
 import com.linkensky.ornet.data.request.StoreLocationRequest
+import com.linkensky.ornet.data.response.BaseResponse
 import com.linkensky.ornet.utils.Constant
 import com.orhanobut.hawk.Hawk
 import java.util.concurrent.Executors
@@ -46,7 +47,7 @@ class PingService : BaseService() {
                 device_id = device_id,
                 area = it
             )
-            Client.service.postStoreLocation(request).enqueue(object : DoNothingCallback(){})
+            Client.service.postStoreLocation(request).enqueue(object : DoNothingCallback<BaseResponse>(){})
         }
     }
 
