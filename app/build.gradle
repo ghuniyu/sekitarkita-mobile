@@ -26,7 +26,7 @@ android {
         applicationId "com.linkensky.ornet"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 9
+        versionCode 10
         versionName "cluring"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
