@@ -5,7 +5,7 @@
     <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar Anda</string>
     <string name="apps_desc_short">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain… (more)</string>
     <string name="apps_desc">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain menggunakan koneksi Bluetooth.\n\nKetika terdapat Pasien Dalam yang melaporkan diri terinfeksi dan memiliki pernah berdekatan dengan Anda, maka aplikasi akan memberikan notifikasi.\n\nBegitu pula jika Anda terinfeksi, Anda dapat membagikan informasi ke seluruh potensial ODP berdasarkan riwayat perangkat sekitar yang telah tersimpan.\n\nData pribadi Anda tidak akan ditampilkan. Karena aplikasi ini tidak meminta Anda mengisi data pribadi apapun.\n\nMari jadi bagian untuk Solusi Pencegahan!</string>
-    <string name="interaction">Lihat Riwayat Interaksi Anda</string>
+    <string name="interaction">Interaksi</string>
     <string name="self_check">Pemeriksaan Mandiri</string>
     <string name="report">Lapor Infeksi</string>
     <string name="share_content">Mari bergabung untuk mencegah penyebaran %1$s. Install aplikasi sekitarkita untuk mencatat riwayat singgung dan peringatan dini %2$s. Kunjungi link berikut https://sekitarkita.id/ untuk info lebih lanjut atau download Aplikasinya di https://sekitarkita.id/download</string>
@@ -79,4 +79,7 @@
     <string name="nik">NIK</string>
     <string name="unknown">Tidak diketahui</string>
     <string name="trip_history">Riwayat Perjalanan</string>
+    <string name="history">Riwayat</string>
+    <string name="home">Beranda</string>
+    <string name="stats">Statistik</string>
 </resources>

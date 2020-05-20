@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="onSelfTestClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onHospitalClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onCallCenterClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/yellowZone">
+
+        <ImageView
+            android:id="@+id/illustration"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/l"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_warning"
+            app:layout_constraintBottom_toTopOf="@id/arcView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.github.florent37.shapeofview.shapes.DiagonalView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:translationY="@dimen/l"
+            app:layout_constraintBottom_toTopOf="@id/arcView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shape_diagonal_angle="10"
+            app:shape_diagonal_position="top">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#27000000"
+                android:orientation="vertical"
+                android:padding="@dimen/s">
+
+                <TextView
+                    android:id="@+id/zone_info"
+                    style="@style/MontserratRegular.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/s"
+                    android:text="Anda Sedang berada di Zona Kuning Covid-19"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toTopOf="@id/learnMore"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/learnMore"
+                    style="@style/MontserratRegular.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/l"
+                    android:background="@drawable/bg_outline"
+                    android:paddingStart="@dimen/s"
+                    android:paddingTop="@dimen/xxs"
+                    android:paddingEnd="@dimen/s"
+                    android:paddingBottom="@dimen/xxs"
+                    android:text="Pelajari Lebih Lanjut"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.github.florent37.shapeofview.shapes.DiagonalView>
+
+        <com.github.florent37.shapeofview.shapes.RoundRectView
+            android:id="@+id/arcView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="220dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shape_roundRect_topLeftRadius="@dimen/l"
+            app:shape_roundRect_topRightRadius="@dimen/l">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:paddingBottom="@dimen/m">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/selfTest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/m"
+                    android:backgroundTint="@color/softPurple"
+                    android:onClick="@{onSelfTestClick}"
+                    app:cardCornerRadius="@dimen/s"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/stIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/m"
+                            android:src="@drawable/ic_lab"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/stLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/stLabel"
+                            style="@style/MontserratBold.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/m"
+                            android:layout_marginTop="@dimen/s"
+                            android:text="Periksa Mandiri"
+                            app:layout_constraintBottom_toTopOf="@id/stInfo"
+                            app:layout_constraintStart_toEndOf="@id/stIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/stInfo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/m"
+                            android:layout_marginBottom="@dimen/s"
+                            android:text="Periksa Mandiri Covid19 dengan mengisi kuesioner"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/more"
+                            app:layout_constraintStart_toEndOf="@id/stIcon"
+                            app:layout_constraintTop_toBottomOf="@id/stLabel" />
+
+                        <ImageView
+                            android:id="@+id/more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/s"
+                            android:src="@drawable/ic_chevron_right"
+                            android:tint="@color/gray"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/selfTest">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/m"
+                            android:onClick="@{onHospitalClick}"
+                            app:cardBackgroundColor="@color/purple"
+                            app:cardCornerRadius="@dimen/m">
+
+                            <LinearLayout
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_medical"
+                                    android:tint="@android:color/white" />
+
+                                <TextView
+                                    style="@style/MontserratBold.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/s"
+                                    android:text="Rumah Sakit"
+                                    android:textColor="@android:color/white" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/s"
+                            android:onClick="@{onCallCenterClick}"
+                            app:cardBackgroundColor="@color/redLight"
+                            app:cardCornerRadius="@dimen/m">
+
+                            <LinearLayout
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_call_center"
+                                    android:tint="@android:color/white" />
+
+                                <TextView
+                                    style="@style/MontserratBold.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/s"
+                                    android:text="Call Center"
+                                    android:textColor="@android:color/white" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/s"
+                            android:layout_marginEnd="@dimen/m"
+                            app:cardBackgroundColor="@color/yellowLight"
+                            app:cardCornerRadius="@dimen/m">
+
+                            <LinearLayout
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_medical"
+                                    android:tint="@android:color/white" />
+
+                                <TextView
+                                    style="@style/MontserratBold.Small"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/s"
+                                    android:text="Rumah Sakit"
+                                    android:textColor="@android:color/white" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.github.florent37.shapeofview.shapes.RoundRectView>
+
+        <TextView
+            android:id="@+id/greeting"
+            style="@style/MontserratRegular.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/m"
+            android:text="Selamat Pagi,"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/MontserratBold.Large"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/m"
+            android:layout_marginEnd="@dimen/m"
+            android:text="Nama Panjang"
+            android:textColor="@color/purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/greeting" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

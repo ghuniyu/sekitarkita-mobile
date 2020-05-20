@@ -1,269 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context=".ui.activity.MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainCL"
+    <data></data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="#fff"
-            android:textSize="@dimen/action_bar_text_font_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/my_label"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <fragment
+            android:id="@+id/navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottomNavigation"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation_main" />
 
-        <TextView
-            android:id="@+id/my_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="Anonim"
-            android:textColor="#fff"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@android:color/white"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainCL">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            style="@style/Widget.Design.BottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/menu_bottom_navigation" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/description_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_margin="16dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/home" />
-
-                    <com.ramotion.foldingcell.FoldingCell
-                        app:animationDuration="1000"
-                        app:backSideColor="@color/colorAccent"
-                        app:cameraHeight="30"
-                        android:id="@+id/desc_folding"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/apps_desc" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/apps_desc_short" />
-                    </com.ramotion.foldingcell.FoldingCell>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/share"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:backgroundTint="@color/colorPrimaryDark"
-                        android:drawablePadding="16dp"
-                        android:onClick="share"
-                        android:text="@string/share"
-                        android:textColor="@android:color/white"
-                        app:icon="@drawable/ic_share" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/interaction"
-                style="@style/normal_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:onClick="showHistory"
-                android:text="@string/interaction"
-                app:backgroundTint="@color/success"
-                app:icon="@drawable/ic_history"
-                app:layout_constraintBottom_toTopOf="@id/statistic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_card"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/statistic"
-                style="@style/normal_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:onClick="showStats"
-                android:text="@string/information"
-                app:backgroundTint="@color/warning"
-                app:icon="@drawable/ic_info_outline_white_24dp"
-                app:layout_constraintBottom_toTopOf="@id/self_check"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/interaction"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/self_check"
-                style="@style/normal_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:onClick="selfCheck"
-                android:text="@string/self_check"
-                app:backgroundTint="@color/yellow"
-                app:icon="@drawable/ic_healing"
-                app:layout_constraintBottom_toTopOf="@id/report"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/statistic" />
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_outline"
-                android:gravity="center"
-                android:paddingStart="32dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="32dp"
-                android:paddingBottom="4dp"
-                android:text="@string/healthy"
-                android:textColor="@color/success"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/report"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/self_check" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/report"
-                style="@style/normal_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:onClick="report"
-                android:text="@string/report"
-                android:textColor="@android:color/white"
-                app:backgroundTint="@color/danger"
-                app:icon="@drawable/ic_warning"
-                app:layout_constraintBottom_toTopOf="@id/destroy"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/status" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/destroy"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:onClick="report"
-                android:text="@string/terminate"
-                android:textColor="@color/warningColor"
-                app:icon="@drawable/ic_terminate"
-                app:iconTint="@color/warningColor"
-                app:layout_constraintBottom_toTopOf="@id/partners_slider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/report" />
-
-            <TextView
-                android:id="@+id/partners_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/in_partners"
-                android:textColor="#707070"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@id/partners_slider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/destroy" />
-
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/partners_slider"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:scrollbarFadeDuration="3000"
-                app:layout_constraintBottom_toTopOf="@id/lastknown_location"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/destroy" />
-
-            <TextView
-                android:id="@+id/lastknown_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:drawableStart="@drawable/ic_location_sm"
-                android:drawablePadding="8dp"
-                android:text="@string/unknown"
-                android:textColor="#B2DFDB"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@id/version"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/partners_slider" />
-
-            <TextView
-                android:id="@+id/version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/version"
-                android:textColor="#B2DFDB"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lastknown_location" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>
