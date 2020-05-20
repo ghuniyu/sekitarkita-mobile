@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.InformationActivity" />
+<!--        <activity android:name=".ui.activity.InformationActivity" />-->
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -30,7 +30,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="id.ghuniyu.sekitar.utils.notification.channel" />
 
-        <activity
+       <!-- <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -42,7 +42,7 @@
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.MacInputActivity" />
         <activity android:name=".ui.activity.ReportActivity" />
-        <activity android:name=".ui.activity.InteractionHistoryActivity" />
+        <activity android:name=".ui.activity.InteractionHistoryActivity" />-->
 
         <service android:name=".service.ScanService" />
         <service android:name=".service.LocationService" />
