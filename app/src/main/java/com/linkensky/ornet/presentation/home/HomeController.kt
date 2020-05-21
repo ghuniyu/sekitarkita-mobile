@@ -36,8 +36,6 @@ class HomeController : BaseController() {
             models(
                 1.rangeTo(5).map {
                     CardInfoBindingModel_()
-                        /*.marStart(if (it == 1) 32 else 16)
-                        .marEnd(if (it == 5) 32 else 0)*/
                         .icon(R.drawable.ic_medical)
                         .id("info-$it")
                         .bg(R.color.greenZone)
@@ -65,11 +63,9 @@ class HomeController : BaseController() {
             id("card-info-carousel")
             models(
                 1.rangeTo(5).map {
-                    CardInfoBindingModel_()
-                        .icon(R.drawable.ic_medical)
-                        .id("info-$it")
-                        .bg(R.color.greenZone)
-                        .title("Info $it")
+                    PartnerBindingModel_()
+                        .id("partner-$it")
+                        .name("Pemprov Gorontalo")
                 }
             )
             numViewsToShowOnScreen(1.5f)
