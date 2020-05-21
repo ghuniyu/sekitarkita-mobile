@@ -167,7 +167,7 @@
 
                 <com.airbnb.epoxy.EpoxyRecyclerView
                     android:id="@+id/recyclerView"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/m"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -175,6 +175,7 @@
                     app:layout_constraintTop_toBottomOf="@id/selfTest">
 
                 </com.airbnb.epoxy.EpoxyRecyclerView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.github.florent37.shapeofview.shapes.RoundRectView>
 

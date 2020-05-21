@@ -17,7 +17,7 @@
 
     <item
         android:id="@+id/reportFragment"
-        android:icon="@drawable/ic_warning"
+        android:icon="@drawable/ic_sign"
         android:title="@string/report" />
 
 </menu>

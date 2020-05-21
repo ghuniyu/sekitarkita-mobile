@@ -23,7 +23,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             recyclerView.setController(controller)
-            recyclerView.layoutManager = GridLayoutManager(context, 1)
+            recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
             controller.requestModelBuild()
         }

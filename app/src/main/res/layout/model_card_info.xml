@@ -4,6 +4,26 @@
 
     <data>
         <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="icon"
+            type="Integer" />
+
+        <variable
+            name="bg"
+            type="Integer" />
+
+        <variable
+            name="marStart"
+            type="Integer" />
+
+        <variable
+            name="marEnd"
+            type="Integer" />
+
+        <variable
             name="onHospitalClick"
             type="android.view.View.OnClickListener" />
     </data>
@@ -11,8 +31,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginStart="@{marStart}"
+        android:layout_marginEnd="@{marEnd}"
         android:onClick="@{onHospitalClick}"
-        app:cardBackgroundColor="@color/purple"
+        app:cardBackgroundColor="@{bg}"
         app:cardCornerRadius="@dimen/m">
 
         <LinearLayout
@@ -24,7 +46,7 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_medical"
+                android:src="@{icon}"
                 android:tint="@android:color/white" />
 
             <TextView
@@ -32,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/s"
-                android:text="Rumah Sakit"
+                android:text="@{title}"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
