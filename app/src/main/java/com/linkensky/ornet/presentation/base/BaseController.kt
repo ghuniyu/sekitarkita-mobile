@@ -51,7 +51,7 @@ fun setImageResource(imageView: ImageView, resource: Int) {
 
 @BindingAdapter("app:cardBackgroundColor")
 fun setCardBg(cardView: CardView, resource: Int){
-    cardView.setBackgroundResource(resource)
+    cardView.setCardBackgroundColor(resource)
 }
 
 abstract class BaseController : EpoxyController()

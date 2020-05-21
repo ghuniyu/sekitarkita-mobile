@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="onCheckClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginTop="@dimen/s"
+        style="@style/PoppinMedium"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/s"
+        android:layout_marginEnd="@dimen/s"
+        app:icon="@drawable/ic_lab"
+        android:padding="@dimen/m"
+        android:onClick="@{onCheckClick}"
+        android:text="Pemeriksaan Mandiri"
+        android:textSize="@dimen/headerText" />
+</layout>

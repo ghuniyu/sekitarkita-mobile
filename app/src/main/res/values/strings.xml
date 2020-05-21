@@ -47,7 +47,7 @@
     <string name="max_char">Maksimal 10 Karakter</string>
     <string name="thankyou">Terimakasih</string>
     <string name="confirm">Konfirmasi</string>
-    <string name="sekitar_title">SekitarKita - %1$s</string>
+    <string name="sekitarkita">SekitarKita</string>
     <string name="anonym">Anonim</string>
     <string name="autostart_manual">Gagal membuka autostart, silahkan izinkan manual di pengaturan keamanan</string>
     <string name="warning">Perhatian</string>

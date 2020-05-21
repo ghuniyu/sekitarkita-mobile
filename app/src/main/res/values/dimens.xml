@@ -37,4 +37,6 @@ SOFTWARE.
     <dimen name="l">32dp</dimen>
     <dimen name="xl">64dp</dimen>
     <dimen name="xxs">4dp</dimen>
+    <dimen name="headerText">20sp</dimen>
+    <dimen name="titleText">18sp</dimen>
 </resources>

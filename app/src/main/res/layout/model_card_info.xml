@@ -50,7 +50,7 @@
                 android:tint="@android:color/white" />
 
             <TextView
-                style="@style/MontserratBold.Small"
+                style="@style/PoppinBold.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/s"

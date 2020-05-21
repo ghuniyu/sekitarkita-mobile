@@ -7,10 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:textViewStyle">@style/MontserratRegular</item>
-        <item name="android:textAppearanceButton">@style/MontserratRegular</item>
+        <item name="android:textViewStyle">@style/PoppinRegular</item>
+        <item name="android:textAppearanceButton">@style/PoppinRegular</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="editTextStyle">@style/MontserratRegular.EditText</item>
+        <item name="editTextStyle">@style/PoppinRegular.EditText</item>
     </style>
 
     <style name="report_btn" parent="Widget.MaterialComponents.Button">
@@ -25,71 +25,79 @@
         <item name="android:padding">12dp</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash_background</item>
+<!--    <style name="SplashTheme" parent="AppTheme">-->
+<!--        <item name="android:windowBackground">@drawable/splash_background</item>-->
+<!--    </style>-->
+
+    <style name="PoppinRegular" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
-    <style name="MontserratRegular" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+    <style name="PoppinMedium" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
     </style>
 
-    <style name="MontserratLight" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/montserrat_light</item>
+    <style name="PoppinSemiBold" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
     </style>
 
-    <style name="MontserratBold" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/montserrat_bold</item>
+    <style name="PoppinBold" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 
-    <style name="MontserratRegular.Small">
-        <item name="android:textSize">12sp</item>
+    <style name="PoppinRegular.Small">
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="MontserratLight.Small">
-        <item name="android:textSize">12sp</item>
+    <style name="PoppinSemiBold.Small">
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="MontserratBold.Small">
-        <item name="android:textSize">12sp</item>
+    <style name="PoppinBold.Small">
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="MontserratRegular.Medium">
-        <item name="android:textSize">16sp</item>
+    <style name="PoppinRegular.Medium">
+        <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="MontserratLight.Medium">
-        <item name="android:textSize">16sp</item>
+    <style name="PoppinSemiBold.Medium">
+        <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="MontserratBold.Medium">
-        <item name="android:textSize">16sp</item>
+    <style name="PoppinBold.Medium">
+        <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="MontserratRegular.Large">
+    <style name="PoppinRegular.Large">
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="MontserratLight.Large">
+    <style name="PoppinSemiBold.Large">
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="MontserratBold.Large">
+    <style name="PoppinBold.Large">
         <item name="android:textSize">28sp</item>
     </style>
 
-    <style name="MontserratRegular.XL">
+    <style name="PoppinRegular.XL">
         <item name="android:textSize">64sp</item>
     </style>
 
-    <style name="MontserratLight.XLarge">
+    <style name="PoppinSemiBold.XLarge">
         <item name="android:textSize">64sp</item>
     </style>
 
-    <style name="MontserratBold.XLarge">
+    <style name="PoppinBold.XLarge">
         <item name="android:textSize">64sp</item>
     </style>
 
-    <style name="MontserratRegular.EditText" parent="android:Widget.EditText">
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+    <style name="PoppinRegular.EditText" parent="android:Widget.EditText">
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 </resources>

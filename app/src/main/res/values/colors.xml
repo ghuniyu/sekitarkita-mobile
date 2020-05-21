@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#46b29d</color>
-    <color name="colorPrimaryDark">#14a085</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#65ddb9</color>
 
     <color name="softPurple">#f7f7fd</color>
@@ -28,5 +28,5 @@
     <color name="gray">#7E7E7E</color>
 
     <color name="colorHistory">#66b1a3</color>
-    <color name="colorText">#5E5E5E</color>
+    <color name="colorText">#263238</color>
 </resources>

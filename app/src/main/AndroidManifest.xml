@@ -20,9 +20,9 @@
         android:theme="@style/AppTheme">
         <!--        <activity android:name=".ui.activity.InformationActivity" />-->
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_bacteria" />
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--            android:resource="@drawable/ic_bacteria" />-->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
