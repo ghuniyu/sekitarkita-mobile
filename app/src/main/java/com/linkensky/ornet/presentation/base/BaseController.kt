@@ -1,5 +1,6 @@
 package com.linkensky.ornet.presentation.base
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -50,7 +51,7 @@ fun setImageResource(imageView: ImageView, resource: Int) {
 
 @BindingAdapter("app:cardBackgroundColor")
 fun setCardBg(cardView: CardView, resource: Int){
-    cardView.setCardBackgroundColor(resource)
+    cardView.setBackgroundResource(resource)
 }
 
 abstract class BaseController : EpoxyController()
