@@ -1,19 +1,18 @@
-package com.linkensky.ornet.presentation.interaction
+package com.linkensky.ornet.presentation.report
 
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.linkensky.ornet.R
-import com.linkensky.ornet.databinding.FragmentInteractionBinding
+import com.linkensky.ornet.databinding.FragmentReportBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 
-class InteractionFragment : BaseFragment<FragmentInteractionBinding>() {
-
+class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private val controller by lazy {
-        InteractionController()
+        ReportController()
     }
 
-    override fun getLayoutRes() = R.layout.fragment_interaction
+    override fun getLayoutRes() = R.layout.fragment_report
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,7 +22,7 @@ class InteractionFragment : BaseFragment<FragmentInteractionBinding>() {
             recyclerView.setController(controller)
             recyclerView.layoutManager = GridLayoutManager(context, 1)
 
-            text = "Interaction"
+            text = "Lapor Infeksi"
             controller.requestModelBuild()
         }
     }

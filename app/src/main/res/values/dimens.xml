@@ -39,4 +39,5 @@ SOFTWARE.
     <dimen name="xxs">4dp</dimen>
     <dimen name="headerText">20sp</dimen>
     <dimen name="titleText">18sp</dimen>
+    <dimen name="macText">16sp</dimen>
 </resources>

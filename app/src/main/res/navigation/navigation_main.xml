@@ -10,7 +10,30 @@
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_interactionFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/interactionFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/interactionFragment"
+        android:name="com.linkensky.ornet.presentation.interaction.InteractionFragment"
+        android:label="interactionFragment">
+        <action
+            android:id="@+id/action_interactionFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="com.linkensky.ornet.presentation.statistic.StatisticFragment"
+        android:label="statisticFragment">
+        <action
+            android:id="@+id/action_statisticFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.linkensky.ornet.presentation.report.ReportFragment"
+        android:label="reportFragment"/>
 
 </navigation>

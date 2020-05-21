@@ -8,7 +8,7 @@ import com.linkensky.ornet.presentation.base.BaseController
 class HomeController : BaseController() {
     override fun buildModels() {
         topBar {
-            id("sekitar-header")
+            id("home-top-bar")
             text("SekitarKita")
         }
 
