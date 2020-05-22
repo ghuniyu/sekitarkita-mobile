@@ -25,7 +25,7 @@ class HomeController : BaseController() {
 
         header {
             id("confirm")
-            text("Terkini")
+            text("Data Indonesia Terkini")
         }
 
         subHeader {
@@ -33,19 +33,11 @@ class HomeController : BaseController() {
             text("Data ini disediakan oleh kawalcorona.com")
         }
 
-        carousel {
-            padding(Carousel.Padding.dp(16, 16, 16, 0, 8))
-            hasFixedSize(true)
-            id("card-info-carousel")
-            models(
-                1.rangeTo(5).map {
-                    CardInfoBindingModel_()
-                        .icon(R.drawable.ic_medical)
-                        .id("info-$it")
-                        .bg(R.color.greenZone)
-                        .title("Info $it")
-                }
-            )
+        stats {
+            id("stats")
+            recovered("4,838")
+            positive("20,165")
+            death("1,278")
         }
 
         selfCheck {

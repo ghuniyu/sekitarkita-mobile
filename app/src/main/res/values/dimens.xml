@@ -42,4 +42,5 @@ SOFTWARE.
     <dimen name="macText">16sp</dimen>
     <dimen name="btPadding">6sp</dimen>
     <dimen name="textS">16sp</dimen>
+    <dimen name="textXs">12sp</dimen>
 </resources>

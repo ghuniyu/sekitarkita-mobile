@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="recovered"
+            type="String" />
+
+        <variable
+            name="positive"
+            type="String" />
+
+        <variable
+            name="death"
+            type="String" />
+
+        <variable
+            name="onCheckClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginStart="@dimen/s"
+        android:layout_marginEnd="@dimen/s"
+        android:layout_marginTop="@dimen/m"
+        android:layout_marginBottom="@dimen/m"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/m"
+        app:cardElevation="@dimen/xxs">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/recoverIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_recover"
+                app:layout_constraintBottom_toTopOf="@+id/recoverLabel"
+                app:layout_constraintEnd_toEndOf="@+id/recoverLabel"
+                app:layout_constraintStart_toStartOf="@+id/recoverLabel" />
+
+
+            <TextView
+                android:id="@+id/recoverLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recover"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/div1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/recover"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{recovered}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/recoverLabel"
+                app:layout_constraintStart_toStartOf="@+id/recoverLabel"
+                app:layout_constraintTop_toBottomOf="@+id/recoverLabel" />
+
+            <View
+                android:id="@+id/div1"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/positiveLabel"
+                app:layout_constraintStart_toEndOf="@id/recoverLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/positiveIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_positive"
+                app:layout_constraintBottom_toTopOf="@+id/deathLabel"
+                app:layout_constraintEnd_toEndOf="@+id/deathLabel"
+                app:layout_constraintStart_toStartOf="@+id/deathLabel" />
+
+            <TextView
+                android:id="@+id/positiveLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/positive"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/div2"
+                app:layout_constraintStart_toEndOf="@+id/div1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/positive"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{death}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/deathLabel"
+                app:layout_constraintStart_toStartOf="@+id/deathLabel"
+                app:layout_constraintTop_toBottomOf="@+id/deathLabel" />
+
+            <View
+                android:id="@+id/div2"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/deathLabel"
+                app:layout_constraintStart_toEndOf="@id/positiveLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/deathIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_death"
+                app:layout_constraintBottom_toTopOf="@+id/positiveLabel"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel" />
+
+            <TextView
+                android:id="@+id/deathLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/death"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/div2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/death"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{positive}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
+                app:layout_constraintTop_toBottomOf="@+id/positiveLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/s"
-        android:layout_marginTop="@dimen/s"
+        android:layout_marginTop="@dimen/m"
         android:text="@{text}"
         android:textSize="@dimen/headerText" />
 </layout>
