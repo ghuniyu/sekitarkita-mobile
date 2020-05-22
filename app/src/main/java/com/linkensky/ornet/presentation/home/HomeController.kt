@@ -3,11 +3,15 @@ package com.linkensky.ornet.presentation.home
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.carousel
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.withState
 import com.linkensky.ornet.*
-import com.linkensky.ornet.presentation.base.BaseController
+import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 
-class HomeController : BaseController() {
-    override fun buildModels() {
+class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController() {
+
+    override fun buildModels() = withState(viewModel) {state ->
         topBar {
             id("home-top-bar")
             text("SekitarKita")
@@ -33,12 +37,27 @@ class HomeController : BaseController() {
             text("Data ini disediakan oleh kawalcorona.com")
         }
 
-        stats {
-            id("stats")
-            recovered("4,838")
-            positive("20,165")
-            death("1,278")
+        when (val response = state.indonesiaStatistics) {
+            is Loading -> {
+                stats {
+                    id("stats")
+                    recovered("...")
+                    positive("...")
+                    death("...")
+                }
+            }
+
+            is Success -> {
+                val data = response().first()
+                stats {
+                    id("stats")
+                    recovered(data.sembuh)
+                    positive(data.positif)
+                    death(data.meninggal)
+                }
+            }
         }
+
 
         selfCheck {
             id("self-check")

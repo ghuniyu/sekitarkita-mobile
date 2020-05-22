@@ -8,6 +8,7 @@ import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentStatisticBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 import com.linkensky.ornet.presentation.report.ReportController
+import kotlinx.android.synthetic.main.recycler_view_item.*
 
 class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
     private val controller by lazy {

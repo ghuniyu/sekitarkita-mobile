@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -11,6 +11,7 @@
         <item name="android:textAppearanceButton">@style/PoppinRegular</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="editTextStyle">@style/PoppinRegular.EditText</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 
     <style name="ReportButton" parent="Widget.MaterialComponents.Button">

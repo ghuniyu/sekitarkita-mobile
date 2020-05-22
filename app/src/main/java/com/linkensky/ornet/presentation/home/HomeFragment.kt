@@ -1,30 +1,42 @@
 package com.linkensky.ornet.presentation.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.linkensky.ornet.R
+import com.airbnb.epoxy.Carousel
+import com.airbnb.epoxy.carousel
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.fragmentViewModel
+import com.linkensky.ornet.*
 import com.linkensky.ornet.databinding.FragmentHomeBinding
+import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.presentation.base.BaseFragment
+import com.linkensky.ornet.presentation.base.MvRxEpoxyController
+import com.linkensky.ornet.presentation.base.buildController
+import com.linkensky.ornet.presentation.interaction.InteractionController
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
+
+    override var fragmentLayout: Int = R.layout.fragment_home
+
+    private val viewModel: HomeViewModel by fragmentViewModel()
 
     private val controller by lazy {
-        HomeController()
+        HomeController(viewModel)
     }
-
-    override fun getLayoutRes() = R.layout.fragment_home
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            recyclerView.setController(controller)
             recyclerView.layoutManager = GridLayoutManager(context, 1)
-
-            controller.requestModelBuild()
         }
     }
+
+    override fun epoxyController() = controller
 
 }
