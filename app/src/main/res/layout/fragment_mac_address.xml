@@ -125,6 +125,7 @@
                 app:layout_constraintTop_toBottomOf="@id/guideLabel" />
 
             <TextView
+                android:textSize="12sp"
                 android:id="@+id/info_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -135,10 +136,11 @@
                 app:layout_constraintTop_toBottomOf="@id/aesthetic" />
 
             <TextView
+                android:textSize="12sp"
                 android:id="@+id/info_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/m"
+                android:layout_marginTop="@dimen/xs"
                 android:text="@string/info_2"
                 app:layout_constraintEnd_toEndOf="@id/guideLabel"
                 app:layout_constraintStart_toStartOf="@id/guideLabel"

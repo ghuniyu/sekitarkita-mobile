@@ -59,7 +59,7 @@ class HomeController : BaseController() {
             id("card-info-carousel")
             models(
                 1.rangeTo(5).map {
-                    GeneralCardBindingModel_()
+                    PartnerCardBindingModel_()
                         .id("partner-$it")
                         .name("Pemprov Gorontalo")
                         .image(R.drawable.logo5)

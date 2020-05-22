@@ -30,6 +30,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <include
@@ -40,7 +41,20 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp"
+            app:tabPaddingStart="@dimen/s"
+            app:tabPaddingEnd="@dimen/s"
+            android:layout_marginStart="@dimen/m"
+            android:layout_marginTop="@dimen/m"
+            android:layout_marginEnd="@dimen/m"
+            android:background="@drawable/tab_layout_background"
+            app:tabBackground="@drawable/tab_layout_selector"
+            app:tabGravity="center"
+            app:tabRippleColor="@null"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            app:tabTextColor="@android:color/white">
 
         </com.google.android.material.tabs.TabLayout>
 

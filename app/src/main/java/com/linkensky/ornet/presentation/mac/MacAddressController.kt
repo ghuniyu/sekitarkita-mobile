@@ -12,9 +12,10 @@ class MacAddressController : BaseController() {
             id("card-tutorial-carousel")
             models(
                 1.rangeTo(5).map {
-                    GeneralCardBindingModel_()
+                    TutorialCardBindingModel_()
                         .id("tutorial-$it")
-                        .name("Buka SSnya")
+                        .title("$it. Cari menu About phone")
+                        .text("Bisa dari menu bagian atas, atau lewat icon yang ada di menu utama")
                         .image(R.drawable.sample_tutorial)
                 }
             )
