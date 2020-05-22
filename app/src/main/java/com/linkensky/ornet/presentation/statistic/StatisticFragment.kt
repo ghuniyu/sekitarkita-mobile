@@ -2,6 +2,7 @@ package com.linkensky.ornet.presentation.statistic
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentStatisticBinding
@@ -24,6 +25,9 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
             recyclerView.layoutManager = GridLayoutManager(context, 1)
 
             text = "Statistik"
+            setOnInfoClick { view ->
+                view.findNavController().navigate(R.id.action_statisticFragment_to_macAddressFragment)
+            }
             controller.requestModelBuild()
         }
     }

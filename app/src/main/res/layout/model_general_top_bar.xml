@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="onInfoClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="text"
             type="String" />
     </data>
@@ -35,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/s"
                 android:contentDescription="@null"
+                android:onClick="@{onInfoClick}"
                 android:src="@drawable/ic_info"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

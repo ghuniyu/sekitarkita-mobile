@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="image"
+            type="int" />
+
+        <variable
             name="text"
             type="String" />
 
@@ -31,7 +35,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                android:src="@drawable/logo5"
+                android:src="@{image}"
                 app:layout_constraintBottom_toTopOf="@id/name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -40,4 +40,5 @@ SOFTWARE.
     <dimen name="headerText">20sp</dimen>
     <dimen name="titleText">18sp</dimen>
     <dimen name="macText">16sp</dimen>
+    <dimen name="btPadding">6sp</dimen>
 </resources>

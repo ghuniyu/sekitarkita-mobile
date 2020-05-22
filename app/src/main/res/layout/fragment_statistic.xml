@@ -4,6 +4,10 @@
 
     <data>
         <variable
+            name="onInfoClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="text"
             type="String" />
 
@@ -27,7 +31,8 @@
 
         <include
             layout="@layout/model_general_top_bar"
-            bind:text="@{text}" />
+            bind:text="@{text}"
+            bind:onInfoClick="@{onInfoClick}"/>
 
         <com.airbnb.epoxy.EpoxyRecyclerView
             android:id="@+id/recyclerView"

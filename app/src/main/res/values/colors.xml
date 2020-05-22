@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#46b29d</color>
+    <color name="colorPrimary">#4AD295</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#65ddb9</color>
 
     <color name="softPurple">#f7f7fd</color>
     <color name="halfPurple">#4F544DF3</color>
     <color name="purple">#544df3</color>
+    <color name="blue">#0074FC</color>
 
     <color name="colorWarning">#FF7435</color>
     <color name="colorDanger">#FF3D3D</color>
 
 
-    <color name="success">#4CD97B</color>
+    <color name="success">#4AD295</color>
     <color name="yellow">#FDD835</color>
     <color name="warning">#F4511E</color>
     <color name="danger">#E53935</color>
@@ -22,7 +23,7 @@
 
     <color name="redZone">#ff505d</color>
     <color name="yellowZone">#ffad3d</color>
-    <color name="greenZone">#00bfa5</color>
+    <color name="greenZone">#4AD295</color>
 
     <color name="pink">#EC407A</color>
     <color name="gray">#7E7E7E</color>

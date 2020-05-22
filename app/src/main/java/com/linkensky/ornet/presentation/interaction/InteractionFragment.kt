@@ -2,6 +2,7 @@ package com.linkensky.ornet.presentation.interaction
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentInteractionBinding
@@ -24,6 +25,9 @@ class InteractionFragment : BaseFragment<FragmentInteractionBinding>() {
             recyclerView.layoutManager = GridLayoutManager(context, 1)
 
             text = "Interaction"
+            setOnInfoClick { view ->
+                view.findNavController().navigate(R.id.action_interactionFragment_to_macAddressFragment)
+            }
             controller.requestModelBuild()
         }
     }

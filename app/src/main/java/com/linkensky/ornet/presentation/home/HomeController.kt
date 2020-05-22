@@ -1,5 +1,6 @@
 package com.linkensky.ornet.presentation.home
 
+import androidx.navigation.findNavController
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.carousel
 import com.linkensky.ornet.*
@@ -10,6 +11,9 @@ class HomeController : BaseController() {
         topBar {
             id("home-top-bar")
             text("SekitarKita")
+            onInfoClick { view ->
+                view.findNavController().navigate(R.id.action_homeFragment_to_macAddressFragment)
+            }
         }
 
         greeting {
@@ -63,9 +67,10 @@ class HomeController : BaseController() {
             id("card-info-carousel")
             models(
                 1.rangeTo(5).map {
-                    PartnerBindingModel_()
+                    GeneralCardBindingModel_()
                         .id("partner-$it")
                         .name("Pemprov Gorontalo")
+                        .image(R.drawable.logo5)
                 }
             )
             numViewsToShowOnScreen(1.5f)

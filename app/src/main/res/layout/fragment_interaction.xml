@@ -3,9 +3,14 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="text"
             type="String" />
+
+        <variable
+            name="onInfoClick"
+            type="android.view.View.OnClickListener" />
 
         <variable
             name="onSelfTestClick"
@@ -27,6 +32,7 @@
 
         <include
             layout="@layout/model_general_top_bar"
+            bind:onInfoClick="@{onInfoClick}"
             bind:text="@{text}" />
 
         <com.airbnb.epoxy.EpoxyRecyclerView

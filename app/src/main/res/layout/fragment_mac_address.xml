@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="text"
+            type="String" />
+
+        <variable
+            name="subTitle"
+            type="String" />
+
+        <variable
+            name="onSelfTestClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onHospitalClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onCallCenterClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/title"
+                layout="@layout/model_title_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/s"
+                android:layout_marginTop="@dimen/m"
+                android:layout_marginEnd="@dimen/s"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:text="@{text}" />
+
+            <include
+                android:id="@+id/subInfo"
+                layout="@layout/model_sub_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/title"
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                bind:text="@{subTitle}" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/macInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m"
+                android:hint="@string/bluetooth_address"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                app:layout_constraintEnd_toEndOf="@id/subInfo"
+                app:layout_constraintStart_toStartOf="@id/subInfo"
+                app:layout_constraintTop_toBottomOf="@id/subInfo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/showMac"
+                style="@style/OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m"
+                android:layout_marginEnd="@dimen/xs"
+                android:text="@string/show_mac"
+                app:layout_constraintEnd_toStartOf="@id/storeMac"
+                app:layout_constraintStart_toStartOf="@id/macInput"
+                app:layout_constraintTop_toBottomOf="@id/macInput" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/storeMac"
+                style="@style/NormalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:text="@string/save"
+                app:layout_constraintBaseline_toBaselineOf="@id/showMac"
+                app:layout_constraintEnd_toEndOf="@id/macInput"
+                app:layout_constraintStart_toEndOf="@id/showMac" />
+
+            <TextView
+                android:id="@+id/guideLabel"
+                style="@style/PoppinMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/s"
+                android:layout_marginTop="@dimen/m"
+                android:text="@string/user_guide"
+                android:textSize="@dimen/headerText"
+                app:layout_constraintTop_toBottomOf="@id/storeMac" />
+
+            <View
+                android:id="@+id/aesthetic"
+                android:layout_width="50dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/xxs"
+                android:background="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="@id/guideLabel"
+                app:layout_constraintTop_toBottomOf="@id/guideLabel" />
+
+            <TextView
+                android:id="@+id/info_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m"
+                android:text="@string/info_1"
+                app:layout_constraintEnd_toEndOf="@id/guideLabel"
+                app:layout_constraintStart_toStartOf="@id/guideLabel"
+                app:layout_constraintTop_toBottomOf="@id/aesthetic" />
+
+            <TextView
+                android:id="@+id/info_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m"
+                android:text="@string/info_2"
+                app:layout_constraintEnd_toEndOf="@id/guideLabel"
+                app:layout_constraintStart_toStartOf="@id/guideLabel"
+                app:layout_constraintTop_toBottomOf="@id/info_1" />
+
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/tutorialRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/l"
+                app:layout_constraintEnd_toEndOf="@id/info_2"
+                app:layout_constraintStart_toStartOf="@id/info_2"
+                app:layout_constraintTop_toBottomOf="@id/info_2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>
