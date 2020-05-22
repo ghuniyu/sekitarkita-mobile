@@ -2,20 +2,18 @@ package com.linkensky.ornet.presentation.statistic
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentStatisticBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
-import com.linkensky.ornet.presentation.report.ReportController
-import kotlinx.android.synthetic.main.recycler_view_item.*
 
 class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
-    private val controller by lazy {
-        ReportController()
-    }
-
     override fun getLayoutRes() = R.layout.fragment_statistic
+
+    val viewModel: StatisticViewModel by activityViewModel();
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +29,8 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
             setOnInfoClick { view ->
                 view.findNavController().navigate(R.id.action_statisticFragment_to_macAddressFragment)
             }
-            controller.requestModelBuild()
         }
     }
+
+    override fun invalidate() {}
 }

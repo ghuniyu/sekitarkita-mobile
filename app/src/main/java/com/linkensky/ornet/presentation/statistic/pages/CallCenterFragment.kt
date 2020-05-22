@@ -6,4 +6,6 @@ import com.linkensky.ornet.presentation.base.BaseFragment
 
 class CallCenterFragment : BaseFragment<FragmentCallCenterBinding>(){
     override fun getLayoutRes() = R.layout.fragment_call_center
+
+    override fun invalidate() {}
 }

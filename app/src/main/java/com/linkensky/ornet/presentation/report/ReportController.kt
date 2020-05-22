@@ -3,6 +3,7 @@ package com.linkensky.ornet.presentation.report
 import androidx.annotation.ColorRes
 import com.linkensky.ornet.R
 import com.linkensky.ornet.presentation.base.BaseController
+import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.report
 
 data class Report(
@@ -12,7 +13,7 @@ data class Report(
     val title: String
 )
 
-class ReportController : BaseController() {
+class ReportController : MvRxEpoxyController() {
     override fun buildModels() {
         val reports = arrayOf(
             Report(R.color.colorDanger, "odp", "Saya adalah ODP"),

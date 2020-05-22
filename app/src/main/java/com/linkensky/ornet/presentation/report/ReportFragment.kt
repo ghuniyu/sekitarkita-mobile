@@ -5,25 +5,27 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentReportBinding
+import com.linkensky.ornet.presentation.base.BaseEpoxyBindingFragment
 import com.linkensky.ornet.presentation.base.BaseFragment
+import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 
-class ReportFragment : BaseFragment<FragmentReportBinding>() {
+class ReportFragment : BaseEpoxyBindingFragment() {
     private val controller by lazy {
         ReportController()
     }
 
-    override fun getLayoutRes() = R.layout.fragment_report
+    override val toolbarTitle: String = "Lapor Infeksi"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            recyclerView.setController(controller)
             recyclerView.layoutManager = GridLayoutManager(context, 2)
-
-            text = "Lapor Infeksi"
-            controller.requestModelBuild()
+            setOnInfoClick { _ ->
+                navigateTo(R.id.action_reportFragment_to_macAddressFragment)
+            }
         }
     }
+
+    override fun epoxyController() = controller
 }

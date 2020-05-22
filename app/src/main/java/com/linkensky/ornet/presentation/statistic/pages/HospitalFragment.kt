@@ -9,6 +9,8 @@ import com.linkensky.ornet.presentation.base.BaseFragment
 
 class HospitalFragment : BaseFragment<FragmentHospitalBinding>() {
     override fun getLayoutRes() = R.layout.fragment_hospital
+    override fun invalidate() {
+    }
 
     private val controller by lazy {
         HospitalController()
@@ -23,5 +25,15 @@ class HospitalFragment : BaseFragment<FragmentHospitalBinding>() {
             recyclerView.layoutManager = GridLayoutManager(context, 1)
             controller.requestModelBuild()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        controller.onSaveInstanceState(outState)
+    }
+
+    override fun onDestroyView() {
+        controller.cancelPendingModelBuild()
+        super.onDestroyView()
     }
 }

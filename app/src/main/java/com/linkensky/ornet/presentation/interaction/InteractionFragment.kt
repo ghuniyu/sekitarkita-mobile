@@ -2,33 +2,29 @@ package com.linkensky.ornet.presentation.interaction
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.mvrx.existingViewModel
 import com.linkensky.ornet.R
-import com.linkensky.ornet.databinding.FragmentInteractionBinding
-import com.linkensky.ornet.presentation.base.BaseFragment
+import com.linkensky.ornet.presentation.base.BaseEpoxyBindingFragment
+import com.linkensky.ornet.presentation.home.HomeViewModel
 
-class InteractionFragment : BaseFragment<FragmentInteractionBinding>() {
+class InteractionFragment : BaseEpoxyBindingFragment() {
+
+    private val viewModel: HomeViewModel by existingViewModel()
+
+    override val toolbarTitle: String = "Interaksi"
 
     private val controller by lazy {
-        InteractionController()
+        InteractionController(viewModel)
     }
-
-    override fun getLayoutRes() = R.layout.fragment_interaction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            recyclerView.setController(controller)
-            recyclerView.layoutManager = GridLayoutManager(context, 1)
-
-            text = "Interaction"
-            setOnInfoClick { view ->
-                view.findNavController().navigate(R.id.action_interactionFragment_to_macAddressFragment)
+            setOnInfoClick { _ ->
+                navigateTo(R.id.action_interactionFragment_to_macAddressFragment)
             }
-            controller.requestModelBuild()
         }
     }
+
+    override fun epoxyController() = controller
 }

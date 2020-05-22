@@ -11,6 +11,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.MvRx
@@ -19,7 +21,6 @@ import com.linkensky.ornet.R
 abstract class BaseEpoxyFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
     protected lateinit var binding: VDB
     protected lateinit var recyclerView: EpoxyRecyclerView
-    protected lateinit var toolbar: Toolbar
     protected val epoxyController by lazy { epoxyController() }
 
 
@@ -38,15 +39,16 @@ abstract class BaseEpoxyFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, fragmentLayout, container, false)
+
         return binding.root.apply {
             recyclerView = findViewById(R.id.recyclerView)
             recyclerView.setController(epoxyController)
+            recyclerView.layoutManager = LinearLayoutManager(context)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun invalidate() {

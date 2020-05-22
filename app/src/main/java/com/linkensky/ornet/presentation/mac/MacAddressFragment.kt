@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentMacAddressBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
-
 class MacAddressFragment : BaseFragment<FragmentMacAddressBinding>() {
     override fun getLayoutRes() = R.layout.fragment_mac_address
 
@@ -28,6 +27,10 @@ class MacAddressFragment : BaseFragment<FragmentMacAddressBinding>() {
 
             controller.requestModelBuild()
         }
+    }
+
+    override fun invalidate() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

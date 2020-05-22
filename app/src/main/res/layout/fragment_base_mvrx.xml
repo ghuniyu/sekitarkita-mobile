@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainContainer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
 
-    <include layout="@layout/recycler_view_item" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="text"
+            type="String" />
+
+        <variable
+            name="onInfoClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/model_general_top_bar"
+            bind:onInfoClick="@{onInfoClick}"
+            bind:text="@{text}" />
+
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/s" />
+    </LinearLayout>
+</layout>
