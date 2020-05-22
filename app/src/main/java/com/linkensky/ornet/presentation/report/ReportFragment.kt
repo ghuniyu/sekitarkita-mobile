@@ -20,7 +20,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             recyclerView.setController(controller)
-            recyclerView.layoutManager = GridLayoutManager(context, 1)
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
 
             text = "Lapor Infeksi"
             controller.requestModelBuild()
