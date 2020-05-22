@@ -72,10 +72,12 @@
                 app:layout_constraintStart_toStartOf="@id/subInfo"
                 app:layout_constraintTop_toBottomOf="@id/subInfo">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.phearme.macaddressedittext.MacAddressEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText" />
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/textS" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
