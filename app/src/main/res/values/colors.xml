@@ -30,4 +30,6 @@
 
     <color name="colorHistory">#66b1a3</color>
     <color name="colorText">#263238</color>
+    <color name="textLight">#90A4AE</color>
+    <color name="grayLine">#DCE7EC</color>
 </resources>

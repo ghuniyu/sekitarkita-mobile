@@ -83,6 +83,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/showMac"
                 style="@style/OutlinedButton"
+                app:strokeColor="@color/colorPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/m"

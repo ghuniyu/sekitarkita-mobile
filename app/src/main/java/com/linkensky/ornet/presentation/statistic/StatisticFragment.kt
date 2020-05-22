@@ -21,10 +21,12 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            recyclerView.setController(controller)
-            recyclerView.layoutManager = GridLayoutManager(context, 1)
 
+            pager.offscreenPageLimit = 2
+            pager.adapter = PagerAdapter(parentFragmentManager)
+            tab.setupWithViewPager(pager)
             text = "Statistik"
+
             setOnInfoClick { view ->
                 view.findNavController().navigate(R.id.action_statisticFragment_to_macAddressFragment)
             }

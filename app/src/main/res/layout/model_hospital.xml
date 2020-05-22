@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="address"
+            type="String" />
+
+        <variable
+            name="phone"
+            type="String" />
+    </data>
+
+    <com.github.florent37.shapeofview.shapes.RoundRectView
+        android:layout_marginTop="@dimen/s"
+        android:layout_marginStart="@dimen/s"
+        android:layout_marginEnd="@dimen/s"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shape_roundRect_bottomLeftRadius="@dimen/s"
+        app:shape_roundRect_bottomRightRadius="@dimen/s"
+        app:shape_roundRect_topLeftRadius="@dimen/s"
+        app:shape_roundRect_topRightRadius="@dimen/s">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outline_gray"
+            android:paddingStart="@dimen/s"
+            android:paddingTop="@dimen/s"
+            android:paddingEnd="@dimen/s"
+            android:paddingBottom="@dimen/xxs">
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{name}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/address"
+                style="@style/PoppinRegular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{address}"
+                android:textColor="@color/textLight"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/horizontal_div"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name" />
+
+            <View
+                android:id="@+id/horizontal_div"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/xs"
+                android:background="@color/grayLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xs"
+                android:layout_marginBottom="@dimen/xs"
+                android:drawableStart="@drawable/ic_phone"
+                android:drawablePadding="@dimen/s"
+                android:gravity="center"
+                android:text="@{phone}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/vertical_div"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_div" />
+
+            <View
+                android:id="@+id/vertical_div"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/grayLine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/location"
+                app:layout_constraintStart_toEndOf="@id/phone"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_div" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_maps"
+                android:drawablePadding="@dimen/s"
+                android:gravity="center"
+                android:text="@string/show_on_map"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vertical_div"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_div" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.github.florent37.shapeofview.shapes.RoundRectView>
+</layout>

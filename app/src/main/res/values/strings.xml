@@ -86,4 +86,5 @@
     <string name="user_guide">Panduan Pengguna</string>
     <string name="info_1">Khusus untuk pengguna android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth anda secara manual.</string>
     <string name="info_2">Anda dapat memlihat *Bluetooth Address* pada bagian status handphone atau lihat pada gambar</string>
+    <string name="show_on_map">Lihat di maps</string>
 </resources>
