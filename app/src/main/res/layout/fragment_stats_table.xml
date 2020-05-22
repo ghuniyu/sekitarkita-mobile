@@ -5,9 +5,75 @@
 
     <data></data>
 
-    <com.airbnb.epoxy.EpoxyRecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingStart="@dimen/s"
+            android:paddingEnd="@dimen/s"
+            android:layout_marginTop="@dimen/m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/area"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/province"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/positive"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.35" />
+
+            <TextView
+                android:id="@+id/positive"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/positive"
+                app:layout_constraintBottom_toBottomOf="@id/area"
+                app:layout_constraintEnd_toStartOf="@id/recover"
+                app:layout_constraintStart_toEndOf="@id/area"
+                app:layout_constraintTop_toTopOf="@id/area" />
+
+            <TextView
+                android:id="@+id/recover"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/recover"
+                app:layout_constraintBottom_toBottomOf="@id/area"
+                app:layout_constraintEnd_toStartOf="@id/death"
+                app:layout_constraintStart_toEndOf="@id/positive"
+                app:layout_constraintTop_toTopOf="@id/area" />
+
+            <TextView
+                android:id="@+id/death"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/death"
+                app:layout_constraintBottom_toBottomOf="@id/area"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/recover"
+                app:layout_constraintTop_toTopOf="@id/area" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/hr"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B0BEC5"/>
+
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
 </layout>

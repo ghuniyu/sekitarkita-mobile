@@ -33,4 +33,6 @@
     <color name="textLight">#90A4AE</color>
     <color name="grayLine">#DCE7EC</color>
     <color name="searchBarHint">#B0BEC5</color>
+
+    <color name="columnDark">#F9FBFF</color>
 </resources>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="positive"
+            type="String" />
+
+        <variable
+            name="death"
+            type="String" />
+
+        <variable
+            name="recover"
+            type="String" />
+
+        <variable
+            name="area"
+            type="String" />
+
+        <variable
+            name="even"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{even ? @color/columnDark : @android:color/white}"
+        android:padding="@dimen/xs"
+        android:paddingStart="@dimen/s"
+        android:paddingEnd="@dimen/s">
+
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{area}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/positive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <TextView
+            android:id="@+id/positive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{positive}"
+            app:layout_constraintBottom_toBottomOf="@id/area"
+            app:layout_constraintEnd_toStartOf="@id/recover"
+            app:layout_constraintStart_toEndOf="@id/area"
+            app:layout_constraintTop_toTopOf="@id/area" />
+
+        <TextView
+            android:id="@+id/recover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{recover}"
+            app:layout_constraintBottom_toBottomOf="@id/area"
+            app:layout_constraintEnd_toStartOf="@id/death"
+            app:layout_constraintStart_toEndOf="@id/positive"
+            app:layout_constraintTop_toTopOf="@id/area" />
+
+        <TextView
+            android:id="@+id/death"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{death}"
+            app:layout_constraintBottom_toBottomOf="@id/area"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recover"
+            app:layout_constraintTop_toTopOf="@id/area" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

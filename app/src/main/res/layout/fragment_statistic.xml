@@ -51,12 +51,5 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         </androidx.viewpager.widget.ViewPager>
-
-        <!--<com.airbnb.epoxy.EpoxyRecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/s" />-->
     </LinearLayout>
 </layout>
