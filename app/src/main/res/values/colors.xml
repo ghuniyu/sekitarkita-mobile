@@ -32,4 +32,5 @@
     <color name="colorText">#263238</color>
     <color name="textLight">#90A4AE</color>
     <color name="grayLine">#DCE7EC</color>
+    <color name="searchBarHint">#B0BEC5</color>
 </resources>
