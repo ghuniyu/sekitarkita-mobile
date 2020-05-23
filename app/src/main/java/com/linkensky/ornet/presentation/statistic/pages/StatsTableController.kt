@@ -4,19 +4,25 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.itemStats
-import com.linkensky.ornet.presentation.base.BaseController
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
+import com.linkensky.ornet.presentation.base.item.Frame
+import com.linkensky.ornet.presentation.base.item.LayoutOption
+import com.linkensky.ornet.presentation.base.item.component.LottieLoading
 import com.linkensky.ornet.presentation.statistic.StatisticViewModel
-import kotlin.random.Random
+import com.linkensky.ornet.utils.addModel
+import com.linkensky.ornet.utils.dp
 
-class StatsTableController(private  val viewModel: StatisticViewModel) : MvRxEpoxyController() {
+class StatsTableController(private val viewModel: StatisticViewModel) : MvRxEpoxyController() {
     override fun buildModels() = withState(viewModel) { state ->
-        when(val response = state.provinceStatistics) {
+        when (val response = state.provinceStatistics) {
             is Loading -> {
-
+                addModel(
+                    "loading-provinces",
+                    LottieLoading(layout = LayoutOption(margin = Frame(8.dp, 80.dp)))
+                )
             }
             is Success -> {
-                val data = response()
+                val data = response.invoke()
                 data.mapIndexed { index, it ->
                     itemStats {
                         id("stats-${it.attributes.FID}")
@@ -27,9 +33,6 @@ class StatsTableController(private  val viewModel: StatisticViewModel) : MvRxEpo
                         death("${it.attributes.Kasus_Meni}")
                     }
                 }
-            }
-            else -> {
-
             }
         }
         Unit

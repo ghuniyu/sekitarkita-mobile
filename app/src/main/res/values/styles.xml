@@ -61,40 +61,44 @@
         <item name="android:fontFamily">@font/poppins_bold</item>
     </style>
 
+    <style name="PoppinMedium.Small" parent="PoppinBold.Medium">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="PoppinRegular.Small">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="PoppinSemiBold.Small">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="PoppinBold.Small">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="PoppinRegular.Medium">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="PoppinSemiBold.Medium">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="PoppinBold.Medium">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="PoppinRegular.Large">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="PoppinSemiBold.Large">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="PoppinBold.Large">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="PoppinRegular.XL">

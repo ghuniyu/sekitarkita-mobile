@@ -19,3 +19,25 @@ data class Attributes(
     val Kode_Provi: Int,
     val Provinsi: String
 )
+
+data class Hospital(
+    val id: Int,
+    val name: String,
+    val address: String,
+    val phone: String,
+    val area: String,
+    val area_detail: String,
+    val latitude: Double?,
+    val longitude: Double?
+)
+
+data class BaseCollectionResponse<T>(
+    val data: T
+): BaseResponse()
+
+
+open class BaseResponse(
+    open val success: Boolean? = null,
+    open val message: String? = null,
+    open val stack_trace: String? = null
+)

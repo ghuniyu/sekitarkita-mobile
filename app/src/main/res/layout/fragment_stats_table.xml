@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/area"
-                style="@style/PoppinMedium"
+                style="@style/PoppinMedium.Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/province"
@@ -31,7 +31,7 @@
 
             <TextView
                 android:id="@+id/positive"
-                style="@style/PoppinMedium"
+                style="@style/PoppinMedium.Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/positive"
@@ -42,7 +42,7 @@
 
             <TextView
                 android:id="@+id/recover"
-                style="@style/PoppinMedium"
+                style="@style/PoppinMedium.Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/recover"
@@ -53,7 +53,7 @@
 
             <TextView
                 android:id="@+id/death"
-                style="@style/PoppinMedium"
+                style="@style/PoppinMedium.Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/death"
@@ -68,6 +68,7 @@
             android:id="@+id/hr"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="4dp"
             android:background="#B0BEC5"/>
 
         <com.airbnb.epoxy.EpoxyRecyclerView

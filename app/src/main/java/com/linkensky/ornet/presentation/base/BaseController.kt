@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
@@ -52,6 +53,11 @@ fun setImageResource(imageView: ImageView, resource: Int) {
 @BindingAdapter("app:cardBackgroundColor")
 fun setCardBg(cardView: CardView, resource: Int){
     cardView.setCardBackgroundColor(resource)
+}
+
+@BindingAdapter("android:focusable")
+fun setFocusable(editText: EditText, isFocus: Boolean) {
+    editText.isFocusable = isFocus;
 }
 
 abstract class BaseController : EpoxyController()

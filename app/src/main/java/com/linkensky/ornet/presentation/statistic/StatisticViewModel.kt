@@ -11,7 +11,7 @@ import org.koin.android.ext.android.inject
 
 class StatisticViewModel(
     state: StatisticState,
-    val service: SekitarKitaService,
+    private val service: SekitarKitaService,
     private val publicService: PublicService
 ) : MvRxViewModel<StatisticState>(state) {
 
@@ -22,6 +22,10 @@ class StatisticViewModel(
     fun getProvinces() = viewModelScope.rxApi {
         publicService.getProvinces()
     }.execute { copy(provinceStatistics= it) }
+
+    fun getHospitals() = viewModelScope.rxApi {
+        service.getHospitals().data
+    }.execute { copy(hospitals = it) }
 
     companion object : MvRxViewModelFactory<StatisticViewModel, StatisticState> {
         override fun create(viewModelContext: ViewModelContext, state: StatisticState): StatisticViewModel {

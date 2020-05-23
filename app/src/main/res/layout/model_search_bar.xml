@@ -18,6 +18,7 @@
         android:drawableStart="@drawable/ic_google"
         android:drawablePadding="@dimen/s"
         android:hint="@{hint}"
+        android:focusable="auto"
         android:padding="@dimen/xs"
         android:paddingStart="@dimen/s"
         android:paddingEnd="@dimen/s"
