@@ -97,17 +97,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/moreInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/s"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_arrow_right"
-                    android:tint="#E0F7FA"
                     app:layout_constraintBottom_toBottomOf="@id/zoneInfo"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/zoneInfo" />
+                    app:layout_constraintTop_toTopOf="@id/zoneInfo"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lottie/radar.json"
+                    app:lottie_loop="true" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.github.florent37.shapeofview.shapes.RoundRectView>
 

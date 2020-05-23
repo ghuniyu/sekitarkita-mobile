@@ -10,7 +10,8 @@ import com.linkensky.ornet.utils.rxApi
 import org.koin.android.ext.android.inject
 
 class SelfcheckViewModel(
-    state: SelfcheckState, val service: SekitarKitaService,
+    state: SelfcheckState,
+    val service: SekitarKitaService,
     private val publicService: PublicService
 ) : MvRxViewModel<SelfcheckState>(state) {
 
@@ -23,5 +24,15 @@ class SelfcheckViewModel(
             val publicService: PublicService by viewModelContext.activity.inject()
             return SelfcheckViewModel(state, service, publicService)
         }
+    }
+
+    fun nextPage() = withState { state ->
+        setState { copy(page = state.page + 1) }
+    }
+
+    fun prevPage() = withState { state ->
+        val i = state.page - 1
+        if (i > -1)
+            setState { copy(page = i) }
     }
 }

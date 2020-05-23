@@ -5,8 +5,12 @@
     <data>
 
         <variable
-            name="hint"
-            type="String" />
+            name="onNext"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onBack"
+            type="android.view.View.OnClickListener" />
     </data>
 
 
@@ -24,6 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:onClick="@{onBack}"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,6 +150,7 @@ mengetahui deteksi dini covid-19"
                     app:layout_constraintTop_toBottomOf="@id/no" />
 
                 <Button
+                    android:onClick="@{onNext}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right_light"

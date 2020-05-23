@@ -5,8 +5,12 @@
     <data>
 
         <variable
-            name="hint"
-            type="String" />
+            name="onNext"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onBack"
+            type="android.view.View.OnClickListener" />
     </data>
 
 
@@ -28,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
+            android:onClick="@{onBack}"
             android:padding="@dimen/s"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
@@ -148,6 +153,7 @@ mengetahui deteksi dini covid-19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right_light"
+                    android:onClick="@{onNext}"
                     android:text="@string/next"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="@id/counter"
