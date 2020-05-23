@@ -89,4 +89,7 @@
     <string name="show_on_map">Lihat di maps</string>
     <string name="start">mulai</string>
     <string name="next">Selanjutnya</string>
+    <string name="empty_data">Data tidak ditemukan</string>
+    <string name="something_went_wrong">Oops! Terjadi Kesalahan</string>
+    <string name="refresh">Muat ulang</string>
 </resources>
