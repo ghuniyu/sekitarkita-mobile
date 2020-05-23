@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.epoxy.EpoxyController
+import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.existingViewModel
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.CallCenter
 import com.linkensky.ornet.databinding.FragmentCallCenterBinding
 import com.linkensky.ornet.itemCallCenter
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
@@ -17,6 +20,8 @@ import com.linkensky.ornet.presentation.base.buildController
 import com.linkensky.ornet.presentation.base.item.Frame
 import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.component.InputText
+import com.linkensky.ornet.presentation.base.item.component.LottieEmptyState
+import com.linkensky.ornet.presentation.base.item.component.LottieErrorState
 import com.linkensky.ornet.presentation.base.item.component.LottieLoading
 import com.linkensky.ornet.presentation.base.item.keyValue
 import com.linkensky.ornet.presentation.information.InformationViewModel
@@ -60,22 +65,42 @@ class CallCenterFragment : BaseEpoxyFragment<FragmentCallCenterBinding>() {
             }
             is Success -> {
                 val callCenters = response.invoke()
-                callCenters.mapIndexed { i, item ->
-                    itemCallCenter {
-                        id("cs-$i")
-                        province(item.area_detail)
-                        area(item.area)
-                        onCall { _ ->
-                            val dialIntent = Intent(Intent.ACTION_DIAL)
-                            dialIntent.data = Uri.parse("tel:${item.phone}")
-                            startActivity(dialIntent)
-                        }
-                        onBrowse { _ ->
-                            val dialIntent = Intent(Intent.ACTION_VIEW)
-                            dialIntent.data = Uri.parse(item.website)
-                            startActivity(dialIntent)
-                        }
-                    }
+                if(callCenters.isEmpty()) renderEmptyState() else renderCallCenters(callCenters)
+            }
+
+            is Fail -> {
+                addModel(
+                    "error-callcenter",
+                    LottieErrorState(clickListener = keyValue { _ ->
+                        viewModel.getHospitals()
+                    })
+                )
+            }
+        }
+    }
+
+    private fun EpoxyController.renderEmptyState() {
+        addModel(
+            "empty-callcenter",
+            LottieEmptyState(layout = LayoutOption(margin = Frame(8.dp, 40.dp)))
+        )
+    }
+
+    private fun EpoxyController.renderCallCenters(callCenters: List<CallCenter>) {
+        callCenters.mapIndexed { i, item ->
+            itemCallCenter {
+                id("cs-$i")
+                province(item.area_detail)
+                area(item.area)
+                onCall { _ ->
+                    val dialIntent = Intent(Intent.ACTION_DIAL)
+                    dialIntent.data = Uri.parse("tel:${item.phone}")
+                    startActivity(dialIntent)
+                }
+                onBrowse { _ ->
+                    val dialIntent = Intent(Intent.ACTION_VIEW)
+                    dialIntent.data = Uri.parse(item.website)
+                    startActivity(dialIntent)
                 }
             }
         }

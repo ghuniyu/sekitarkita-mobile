@@ -35,7 +35,7 @@ class InputText(context: Context) : FrameLayout(context), ModelBind<InputText.Mo
             inputType = model.inputType ?: EditorInfo.TYPE_CLASS_TEXT
 
             imeOptions = model.imeOption
-            setOnEditorActionListener { v, actionId, event ->
+            setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     model.onDoneAction.getValue()?.invoke()
                     true
