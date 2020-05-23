@@ -13,7 +13,7 @@
     <string name="bluetooth_unavailable">Perangkat Anda tidak memiliki Bluetooth</string>
     <string name="bluetooth_active">Bluetooth Aktif</string>
     <string name="mac_location" translatable="false">Anda Dapat melihat *Alamat Bluetooth* pada Bagian Status Handphone</string>
-    <string name="report_disclaimer" translatable="false">Pastikan Anda mensubmit data dengan sebenar-benarnya. Karena aplikasi akan membagikan peringatan dini ke seluruh pengguna yang memiliki riwayat bersingunggan dengan Anda.\nJangan membuat pelaporan palsu yang menyesatkan. </string>
+    <string name="report_disclaimer" translatable="false">Pastikan anda memasukkan data dengan sebenar - benarnya , karena aplikasi akan membagikan peringatan dini keseluruh pengguna yang memiliki riwayat bersinggungan dengan anda.</string>
     <string name="status" translatable="false">Saya %1$s</string>
     <string name="report_title">Saya melaporkan bahwa</string>
     <string name="infected">Saya adalah PDP</string>
