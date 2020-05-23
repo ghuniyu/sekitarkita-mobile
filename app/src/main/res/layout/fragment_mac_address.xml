@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="@color/colorText"
-                    android:textSize="@dimen/textS" />
+                    android:textSize="@dimen/textM" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

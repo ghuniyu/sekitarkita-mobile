@@ -316,7 +316,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Info"
-                            android:textSize="@dimen/textS"
+                            android:textSize="@dimen/textM"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

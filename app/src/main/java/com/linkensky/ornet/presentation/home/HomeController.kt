@@ -1,5 +1,6 @@
 package com.linkensky.ornet.presentation.home
 
+import androidx.annotation.DrawableRes
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.carousel
@@ -9,9 +10,15 @@ import com.airbnb.mvrx.withState
 import com.linkensky.ornet.*
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 
+data class Partner(
+    val name: String,
+    @DrawableRes
+    val banner: Int
+)
+
 class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController() {
 
-    override fun buildModels() = withState(viewModel) {state ->
+    override fun buildModels() = withState(viewModel) { state ->
         topBar {
             id("home-top-bar")
             text("SekitarKita")
@@ -68,15 +75,20 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             text("Saat ini Kami Bekerjasama dengan")
         }
 
+        val partners = arrayOf(
+            Partner("Pemprov. Gorontalo", R.drawable.pemprov_gto_banner),
+            Partner("Ritase", R.drawable.ritase_banner),
+            Partner("Juragankost", R.drawable.juragankost_banner)
+        )
+
         carousel {
             padding(Carousel.Padding.dp(16, 16, 16, 16, 8))
             id("card-info-carousel")
             models(
-                1.rangeTo(5).map {
+                partners.map {
                     PartnerCardBindingModel_()
-                        .id("partner-$it")
-                        .name("Pemprov Gorontalo")
-                        .image(R.drawable.logo5)
+                        .id("partner-${it.name}")
+                        .image(it.banner)
                 }
             )
             numViewsToShowOnScreen(1.5f)

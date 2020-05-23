@@ -23,7 +23,7 @@
             android:layout_margin="@dimen/s"
             android:contentDescription="@null"
             android:src="@drawable/ic_bluetooth"
-            android:background="@drawable/circle"
+            android:background="@drawable/circle_bluetooth"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="area"
+            type="String" />
+
+        <variable
+            name="province"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xs"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/area"
+            style="@style/PoppinMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/s"
+            android:text="@{area}"
+            android:textSize="@dimen/textS"
+            app:layout_constraintBottom_toTopOf="@id/province"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/province"
+            style="@style/PoppinRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{province}"
+            android:textColor="#90A4AE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/area"
+            app:layout_constraintTop_toBottomOf="@id/area" />
+
+        <ImageView
+            android:id="@+id/web"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="@dimen/s"
+            android:background="@drawable/circle_web"
+            android:contentDescription="@null"
+            android:padding="@dimen/btPadding"
+            android:src="@drawable/ic_globe"
+            app:layout_constraintEnd_toStartOf="@id/call"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/call"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="@dimen/s"
+            android:background="@drawable/circle_phone"
+            android:contentDescription="@null"
+            android:padding="@dimen/btPadding"
+            android:src="@drawable/ic_phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
