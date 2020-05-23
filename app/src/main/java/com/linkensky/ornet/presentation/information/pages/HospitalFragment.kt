@@ -1,5 +1,7 @@
 package com.linkensky.ornet.presentation.information.pages
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -67,6 +69,18 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
                         name(item.name)
                         address(item.address)
                         phone(item.phone)
+                        onCall { _ ->
+                            val dialIntent = Intent(Intent.ACTION_DIAL)
+                            dialIntent.data = Uri.parse("tel:${item.phone}")
+                            startActivity(dialIntent)
+                        }
+                        onShowMap { _ ->
+                            val location = "geo:${item.latitude},${item.longitude}?q=${item.latitude},${item.longitude}"
+                            val showMapIntent = Intent(Intent.ACTION_VIEW)
+                            showMapIntent.setPackage("com.google.android.apps.maps")
+                            showMapIntent.data = Uri.parse(location)
+                            startActivity(showMapIntent)
+                        }
                     }
                 }
             }

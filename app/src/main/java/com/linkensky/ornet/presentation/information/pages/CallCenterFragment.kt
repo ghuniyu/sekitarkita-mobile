@@ -1,5 +1,7 @@
 package com.linkensky.ornet.presentation.information.pages
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -63,6 +65,16 @@ class CallCenterFragment : BaseEpoxyFragment<FragmentCallCenterBinding>() {
                         id("cs-$i")
                         province(item.area_detail)
                         area(item.area)
+                        onCall { _ ->
+                            val dialIntent = Intent(Intent.ACTION_DIAL)
+                            dialIntent.data = Uri.parse("tel:${item.phone}")
+                            startActivity(dialIntent)
+                        }
+                        onBrowse { _ ->
+                            val dialIntent = Intent(Intent.ACTION_VIEW)
+                            dialIntent.data = Uri.parse(item.website)
+                            startActivity(dialIntent)
+                        }
                     }
                 }
             }

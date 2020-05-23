@@ -11,6 +11,14 @@
         <variable
             name="province"
             type="String" />
+
+        <variable
+            name="onBrowse"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onCall"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +53,7 @@
             app:layout_constraintTop_toBottomOf="@id/area" />
 
         <ImageView
+            android:onClick="@{onBrowse}"
             android:id="@+id/web"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -59,6 +68,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:onClick="@{onCall}"
             android:id="@+id/call"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -66,7 +76,7 @@
             android:background="@drawable/circle_phone"
             android:contentDescription="@null"
             android:padding="@dimen/btPadding"
-            android:src="@drawable/ic_phone"
+            android:src="@drawable/ic_cs_phone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

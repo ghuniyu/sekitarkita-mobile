@@ -15,6 +15,14 @@
         <variable
             name="phone"
             type="String" />
+
+        <variable
+            name="onShowMap"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onCall"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <com.github.florent37.shapeofview.shapes.RoundRectView
@@ -72,6 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@id/address" />
 
             <TextView
+                android:onClick="@{onCall}"
                 android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,6 +106,7 @@
                 app:layout_constraintTop_toBottomOf="@id/horizontal_div" />
 
             <TextView
+                android:onClick="@{onShowMap}"
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
