@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="hint"
+            type="String" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selfcheck_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:padding="@dimen/s"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/PoppinMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/s"
+            android:paddingEnd="@dimen/s"
+            android:text="Deteksi Dini Covid 19"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/PoppinRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/s"
+            android:paddingEnd="@dimen/s"
+            android:text="Berikut adalah pertanyaan singkat untuk
+mengetahui deteksi dini covid-19"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/m"
+            android:contentDescription="@null"
+            android:src="@drawable/illustration_travel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+        <com.github.florent37.shapeofview.shapes.RoundRectView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shape_roundRect_topLeftRadius="@dimen/s"
+            app:shape_roundRect_topRightRadius="@dimen/s">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="@dimen/s">
+
+                <TextView
+                    android:id="@+id/question"
+                    style="@style/PoppinMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Apakah dalam 14 hari terakhir sebelum timbul gejala pernah ke luar negeri yang memiliki transmisi lokal COVID-19 ?"
+                    android:textSize="@dimen/textM"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/help"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Malaysia, Singapura, China, dll dalam Daftar Negara Terpapar"
+                    android:textSize="@dimen/textXs"
+                    app:layout_constraintEnd_toEndOf="@id/question"
+                    app:layout_constraintStart_toStartOf="@id/question"
+                    app:layout_constraintTop_toBottomOf="@id/question" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/yes"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:padding="@dimen/s"
+                    android:text="IYA"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintEnd_toEndOf="@id/help"
+                    app:layout_constraintStart_toStartOf="@id/help"
+                    app:layout_constraintTop_toBottomOf="@id/help" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/no"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:padding="@dimen/s"
+                    android:text="Tidak"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/yellow"
+                    app:layout_constraintEnd_toEndOf="@id/help"
+                    app:layout_constraintStart_toStartOf="@id/help"
+                    app:layout_constraintTop_toBottomOf="@id/yes" />
+
+                <TextView
+                    android:id="@+id/counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xl"
+                    android:text="1 dari 5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/no" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_arrow_right_light"
+                    android:text="@string/next"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="@id/counter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/counter" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.github.florent37.shapeofview.shapes.RoundRectView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

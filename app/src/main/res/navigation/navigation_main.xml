@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_homeFragment_to_macAddressFragment"
             app:destination="@id/macAddressFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_selfcheckFragment"
+            app:destination="@id/selfcheckFragment" />
     </fragment>
 
     <fragment
@@ -53,4 +56,9 @@
         android:id="@+id/macAddressFragment"
         android:name="com.linkensky.ornet.presentation.mac.MacAddressFragment"
         android:label="macAddressFragment"/>
+
+    <fragment
+        android:id="@+id/selfcheckFragment"
+        android:name="com.linkensky.ornet.presentation.selfcheck.SelfcheckFragment"
+        android:label="selfcheckFragment"/>
 </navigation>

@@ -5,11 +5,11 @@ import android.view.View
 import androidx.navigation.findNavController
 import com.airbnb.mvrx.activityViewModel
 import com.linkensky.ornet.R
-import com.linkensky.ornet.databinding.FragmentStatisticBinding
+import com.linkensky.ornet.databinding.FragmentInformationBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 
-class InformationFragment : BaseFragment<FragmentStatisticBinding>() {
-    override fun getLayoutRes() = R.layout.fragment_statistic
+class InformationFragment : BaseFragment<FragmentInformationBinding>() {
+    override fun getLayoutRes() = R.layout.fragment_information
 
     val viewModel: InformationViewModel by activityViewModel()
 
