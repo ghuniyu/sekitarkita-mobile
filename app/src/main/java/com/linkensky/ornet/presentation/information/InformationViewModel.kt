@@ -27,6 +27,10 @@ class InformationViewModel(
         service.getHospitals().data
     }.execute { copy(hospitals = it) }
 
+    fun getCallCenters() = viewModelScope.rxApi {
+        service.getCallCenters().data
+    }.execute { copy(callCenters = it) }
+
     companion object : MvRxViewModelFactory<InformationViewModel, InformationState> {
         override fun create(viewModelContext: ViewModelContext, state: InformationState): InformationViewModel {
             val service: SekitarKitaService by viewModelContext.activity.inject()

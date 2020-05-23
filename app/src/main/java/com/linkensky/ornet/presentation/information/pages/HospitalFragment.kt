@@ -32,7 +32,7 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            recyclerView.layoutManager = GridLayoutManager(context,1)
+            recyclerView.layoutManager = GridLayoutManager(context, 1)
         }
 
         viewModel.getHospitals()
@@ -40,7 +40,7 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
 
     override fun epoxyController() = buildController(viewModel) { state ->
         addModel(
-            "hospital-searcbar", InputText.Model(
+            "hospital-search-bar", InputText.Model(
                 hint = "Rumah Sakit / Kota / Provinsi",
                 layout = LayoutOption(margin = Frame(16.dp, 8.dp)),
                 itemLayout = LayoutOption(padding = Frame(16.dp, 8.dp)),
@@ -50,7 +50,7 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
             )
         )
 
-        when(val response = state.hospitals) {
+        when (val response = state.hospitals) {
             is Loading -> {
                 Log.d("HELLO", "LOADING NIH")
                 addModel(
@@ -61,7 +61,7 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
             is Success -> {
                 Log.d("HELLO", "SUCCESS NIH")
                 val hospitals = response.invoke()
-                hospitals.mapIndexed {i, item ->
+                hospitals.mapIndexed { i, item ->
                     hospital {
                         id("hospital-$i")
                         name(item.name)

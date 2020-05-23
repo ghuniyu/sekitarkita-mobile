@@ -31,9 +31,17 @@ data class Hospital(
     val longitude: Double?
 )
 
+data class CallCenter(
+    val mobile: String,
+    val phone: String,
+    val website: String,
+    val area: String,
+    val area_detail: String
+)
+
 data class BaseCollectionResponse<T>(
     val data: T
-): BaseResponse()
+) : BaseResponse()
 
 
 open class BaseResponse(
