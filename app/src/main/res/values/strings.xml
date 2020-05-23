@@ -6,7 +6,7 @@
     <string name="apps_desc_short">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain… (more)</string>
     <string name="apps_desc">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain menggunakan koneksi Bluetooth.\n\nKetika terdapat Pasien Dalam yang melaporkan diri terinfeksi dan memiliki pernah berdekatan dengan Anda, maka aplikasi akan memberikan notifikasi.\n\nBegitu pula jika Anda terinfeksi, Anda dapat membagikan informasi ke seluruh potensial ODP berdasarkan riwayat perangkat sekitar yang telah tersimpan.\n\nData pribadi Anda tidak akan ditampilkan. Karena aplikasi ini tidak meminta Anda mengisi data pribadi apapun.\n\nMari jadi bagian untuk Solusi Pencegahan!</string>
     <string name="interaction">Interaksi</string>
-    <string name="self_check">Pemeriksaan Mandiri</string>
+    <string name="self_check">Lakukan Pemeriksaan Mandiri</string>
     <string name="report">Lapor Infeksi</string>
     <string name="share_content">Mari bergabung untuk mencegah penyebaran %1$s. Install aplikasi sekitarkita untuk mencatat riwayat singgung dan peringatan dini %2$s. Kunjungi link berikut https://sekitarkita.id/ untuk info lebih lanjut atau download Aplikasinya di https://sekitarkita.id/download</string>
     <string name="share">Bagikan SekitarKita</string>
@@ -87,4 +87,5 @@
     <string name="info_1">Khusus untuk pengguna android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth anda secara manual.</string>
     <string name="info_2">Anda dapat memlihat *Bluetooth Address* pada bagian status handphone atau lihat pada gambar</string>
     <string name="show_on_map">Lihat di maps</string>
+    <string name="start">mulai</string>
 </resources>

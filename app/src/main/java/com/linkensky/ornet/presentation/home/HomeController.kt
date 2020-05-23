@@ -58,11 +58,6 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             }
         }
 
-
-        selfCheck {
-            id("self-check")
-        }
-
         header {
             id("partner")
             text("Kerja Sama")
