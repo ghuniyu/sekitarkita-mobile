@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.linkensky.ornet.presentation.statistic.StatisticFragment"
+        android:name="com.linkensky.ornet.presentation.information.InformationFragment"
         android:label="statisticFragment">
         <action
             android:id="@+id/action_statisticFragment_to_reportFragment"

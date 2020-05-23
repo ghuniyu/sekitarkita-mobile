@@ -1,4 +1,4 @@
-package com.linkensky.ornet.presentation.statistic.pages
+package com.linkensky.ornet.presentation.information.pages
 
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
@@ -8,11 +8,11 @@ import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.base.item.Frame
 import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.component.LottieLoading
-import com.linkensky.ornet.presentation.statistic.StatisticViewModel
+import com.linkensky.ornet.presentation.information.InformationViewModel
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
 
-class StatsTableController(private val viewModel: StatisticViewModel) : MvRxEpoxyController() {
+class StatsTableController(private val viewModel: InformationViewModel) : MvRxEpoxyController() {
     override fun buildModels() = withState(viewModel) { state ->
         when (val response = state.provinceStatistics) {
             is Loading -> {

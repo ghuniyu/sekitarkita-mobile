@@ -1,4 +1,4 @@
-package com.linkensky.ornet.presentation.statistic.pages
+package com.linkensky.ornet.presentation.information.pages
 
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentCallCenterBinding

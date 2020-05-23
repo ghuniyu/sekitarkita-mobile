@@ -1,4 +1,4 @@
-package com.linkensky.ornet.presentation.statistic.pages
+package com.linkensky.ornet.presentation.information.pages
 
 import com.linkensky.ornet.presentation.base.BaseController
 import com.linkensky.ornet.searchBar

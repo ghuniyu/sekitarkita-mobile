@@ -1,4 +1,4 @@
-package com.linkensky.ornet.presentation.statistic
+package com.linkensky.ornet.presentation.information
 
 import android.os.Bundle
 import android.view.View
@@ -8,10 +8,10 @@ import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentStatisticBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 
-class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
+class InformationFragment : BaseFragment<FragmentStatisticBinding>() {
     override fun getLayoutRes() = R.layout.fragment_statistic
 
-    val viewModel: StatisticViewModel by activityViewModel()
+    val viewModel: InformationViewModel by activityViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -22,7 +22,7 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding>() {
             pager.offscreenPageLimit = 2
             pager.adapter = PagerAdapter(parentFragmentManager)
             tab.setupWithViewPager(pager)
-            text = "Statistik"
+            text = "Informasi"
 
             setOnInfoClick { view ->
                 view.findNavController().navigate(R.id.action_statisticFragment_to_macAddressFragment)

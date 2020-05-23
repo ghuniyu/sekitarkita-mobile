@@ -1,4 +1,4 @@
-package com.linkensky.ornet.presentation.statistic
+package com.linkensky.ornet.presentation.information
 
 import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
@@ -9,11 +9,11 @@ import com.linkensky.ornet.presentation.base.MvRxViewModel
 import com.linkensky.ornet.utils.rxApi
 import org.koin.android.ext.android.inject
 
-class StatisticViewModel(
-    state: StatisticState,
+class InformationViewModel(
+    state: InformationState,
     private val service: SekitarKitaService,
     private val publicService: PublicService
-) : MvRxViewModel<StatisticState>(state) {
+) : MvRxViewModel<InformationState>(state) {
 
     init {
         getProvinces()
@@ -27,11 +27,11 @@ class StatisticViewModel(
         service.getHospitals().data
     }.execute { copy(hospitals = it) }
 
-    companion object : MvRxViewModelFactory<StatisticViewModel, StatisticState> {
-        override fun create(viewModelContext: ViewModelContext, state: StatisticState): StatisticViewModel {
+    companion object : MvRxViewModelFactory<InformationViewModel, InformationState> {
+        override fun create(viewModelContext: ViewModelContext, state: InformationState): InformationViewModel {
             val service: SekitarKitaService by viewModelContext.activity.inject()
             val publicService: PublicService by viewModelContext.activity.inject()
-            return StatisticViewModel(state, service, publicService)
+            return InformationViewModel(state, service, publicService)
         }
     }
 }

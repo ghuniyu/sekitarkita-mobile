@@ -1,11 +1,11 @@
-package com.linkensky.ornet.presentation.statistic
+package com.linkensky.ornet.presentation.information
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.linkensky.ornet.presentation.statistic.pages.CallCenterFragment
-import com.linkensky.ornet.presentation.statistic.pages.HospitalFragment
-import com.linkensky.ornet.presentation.statistic.pages.StatsTableFragment
+import com.linkensky.ornet.presentation.information.pages.CallCenterFragment
+import com.linkensky.ornet.presentation.information.pages.HospitalFragment
+import com.linkensky.ornet.presentation.information.pages.StatsTableFragment
 
 class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
