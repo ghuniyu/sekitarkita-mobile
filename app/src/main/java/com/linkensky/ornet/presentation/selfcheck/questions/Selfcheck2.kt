@@ -2,22 +2,22 @@ package com.linkensky.ornet.presentation.selfcheck.questions
 
 import android.os.Bundle
 import android.view.View
-import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentSelfcheck2Binding
-import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
-import com.linkensky.ornet.presentation.base.buildController
+import com.linkensky.ornet.presentation.base.BaseFragment
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckViewModel
+import kotlinx.android.synthetic.main.fragment_selfcheck_2.*
 
-class Selfcheck2 : BaseEpoxyFragment<FragmentSelfcheck2Binding>() {
+class Selfcheck2 : BaseFragment<FragmentSelfcheck2Binding>() {
 
-    override var fragmentLayout = R.layout.fragment_selfcheck_2
-
-    private val viewModel: SelfcheckViewModel by existingViewModel()
+    private val viewModel: SelfcheckViewModel by activityViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            page = "2 dari 5"
             lifecycleOwner = viewLifecycleOwner
             setOnNext {
                 viewModel.nextPage()
@@ -25,11 +25,35 @@ class Selfcheck2 : BaseEpoxyFragment<FragmentSelfcheck2Binding>() {
             setOnBack {
                 viewModel.prevPage()
             }
+            setOnCough { viewModel.cough() }
+            setOnFlu { viewModel.flu() }
+            setOnSoreThroat { viewModel.soreThroat() }
+            setOnBD { viewModel.bD() }
         }
     }
 
-    override fun epoxyController() = buildController(viewModel) {
+    override fun getLayoutRes() = R.layout.fragment_selfcheck_2
 
+    override fun invalidate() = withState(viewModel) {
+        if (it.hasCough)
+            cough.setIconResource(R.drawable.ic_check_circle)
+        else
+            cough.setIconResource(0)
+
+        if (it.hasFlu)
+            flu.setIconResource(R.drawable.ic_check_circle)
+        else
+            flu.setIconResource(0)
+
+        if (it.hasBD)
+            breath.setIconResource(R.drawable.ic_check_circle)
+        else
+            breath.setIconResource(0)
+
+        if (it.hasSoreThroat)
+            throat.setIconResource(R.drawable.ic_check_circle)
+        else
+            throat.setIconResource(0)
     }
 
 }

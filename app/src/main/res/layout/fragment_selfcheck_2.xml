@@ -5,8 +5,29 @@
     <data>
 
         <variable
+            name="page"
+            type="String" />
+
+        <variable
             name="onNext"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onCough"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onFlu"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onBD"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onSoreThroat"
+            type="android.view.View.OnClickListener" />
+
 
         <variable
             name="onBack"
@@ -22,17 +43,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selfcheck_bg"
+            android:contentDescription="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:onClick="@{onBack}"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
+            android:onClick="@{onBack}"
             android:padding="@dimen/s"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +67,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/s"
             android:paddingEnd="@dimen/s"
-            android:text="Deteksi Dini Covid 19"
+            android:text="@string/quest_title"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,8 +81,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/s"
             android:paddingEnd="@dimen/s"
-            android:text="Berikut adalah pertanyaan singkat untuk
-mengetahui deteksi dini covid-19"
+            android:text="@string/quest_subtitle"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,8 +93,8 @@ mengetahui deteksi dini covid-19"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/m"
             android:contentDescription="@null"
-            android:src="@drawable/illustration_fever"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/illustration_breath"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
         <com.github.florent37.shapeofview.shapes.RoundRectView
@@ -96,7 +117,7 @@ mengetahui deteksi dini covid-19"
                     style="@style/PoppinMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Apakah anda sedang demam atau dalam 14 hari terakhir pernah demam ?"
+                    android:text="@string/quest_2"
                     android:textSize="@dimen/textM"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -106,54 +127,88 @@ mengetahui deteksi dini covid-19"
                     android:id="@+id/help"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Gunakan termometer untuk mengukur suhu tubuh anda"
+                    android:text="@string/quest_2_info"
                     android:textSize="@dimen/textXs"
                     app:layout_constraintEnd_toEndOf="@id/question"
                     app:layout_constraintStart_toStartOf="@id/question"
                     app:layout_constraintTop_toBottomOf="@id/question" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/yes"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:id="@+id/cough"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/m"
+                    android:layout_marginEnd="@dimen/xs"
+                    android:onClick="@{onCough}"
                     android:padding="@dimen/s"
-                    android:text="IYA"
-                    android:textColor="@color/colorText"
-                    app:layout_constraintEnd_toEndOf="@id/help"
+                    android:text="@string/cough"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/yellow"
+                    app:layout_constraintEnd_toStartOf="@id/flu"
                     app:layout_constraintStart_toStartOf="@id/help"
                     app:layout_constraintTop_toBottomOf="@id/help" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/no"
+                    android:id="@+id/flu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/xs"
+                    android:onClick="@{onFlu}"
+                    android:padding="@dimen/s"
+                    android:text="@string/flu"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/yellow"
+                    app:layout_constraintBottom_toBottomOf="@id/cough"
+                    app:layout_constraintEnd_toEndOf="@id/help"
+                    app:layout_constraintStart_toEndOf="@id/cough"
+                    app:layout_constraintTop_toTopOf="@id/cough" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/breath"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/m"
+                    android:layout_marginTop="@dimen/xs"
+                    android:layout_marginEnd="@dimen/xs"
+                    android:onClick="@{onBD}"
                     android:padding="@dimen/s"
-                    android:text="Tidak"
+                    android:text="@string/BD"
                     android:textColor="@android:color/white"
                     app:backgroundTint="@color/yellow"
-                    app:layout_constraintEnd_toEndOf="@id/help"
+                    app:layout_constraintEnd_toStartOf="@id/throat"
                     app:layout_constraintStart_toStartOf="@id/help"
-                    app:layout_constraintTop_toBottomOf="@id/yes" />
+                    app:layout_constraintTop_toBottomOf="@id/cough" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/throat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/xs"
+                    android:onClick="@{onSoreThroat}"
+                    android:padding="@dimen/s"
+                    android:text="@string/sore_throat"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/yellow"
+                    app:layout_constraintBottom_toBottomOf="@id/breath"
+                    app:layout_constraintEnd_toEndOf="@id/help"
+                    app:layout_constraintStart_toEndOf="@id/breath"
+                    app:layout_constraintTop_toTopOf="@id/breath" />
 
                 <TextView
                     android:id="@+id/counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/xl"
-                    android:text="1 dari 5"
+                    android:text="@{page}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/no" />
+                    app:layout_constraintTop_toBottomOf="@id/breath" />
 
                 <Button
-                    android:onClick="@{onNext}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right_light"
+                    android:onClick="@{onNext}"
                     android:text="@string/next"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="@id/counter"

@@ -5,7 +5,19 @@
     <data>
 
         <variable
+            name="page"
+            type="String" />
+
+        <variable
             name="onNext"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onYes"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onNo"
             type="android.view.View.OnClickListener" />
 
         <variable
@@ -25,7 +37,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/back"
@@ -45,7 +58,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/s"
             android:paddingEnd="@dimen/s"
-            android:text="Deteksi Dini Covid 19"
+            android:text="@string/quest_title"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,8 +72,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/s"
             android:paddingEnd="@dimen/s"
-            android:text="Berikut adalah pertanyaan singkat untuk
-mengetahui deteksi dini covid-19"
+            android:text="@string/quest_subtitle"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,8 +84,8 @@ mengetahui deteksi dini covid-19"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/m"
             android:contentDescription="@null"
-            android:src="@drawable/illustration_breath"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/illustration_fever"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
         <com.github.florent37.shapeofview.shapes.RoundRectView
@@ -96,7 +108,7 @@ mengetahui deteksi dini covid-19"
                     style="@style/PoppinMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Apakah anda memiliki gejala pernapasan dibawah ini ?"
+                    android:text="@string/quest_1"
                     android:textSize="@dimen/textM"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -106,78 +118,50 @@ mengetahui deteksi dini covid-19"
                     android:id="@+id/help"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Bisa pilih lebih dari satu gejala"
+                    android:text="@string/quest1_info"
                     android:textSize="@dimen/textXs"
                     app:layout_constraintEnd_toEndOf="@id/question"
                     app:layout_constraintStart_toStartOf="@id/question"
                     app:layout_constraintTop_toBottomOf="@id/question" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/cough"
+                    android:id="@+id/yes"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/m"
-                    android:layout_marginEnd="@dimen/xs"
                     android:padding="@dimen/s"
-                    android:text="Batuk"
-                    android:textColor="@android:color/white"
-                    app:backgroundTint="@color/yellow"
-                    app:layout_constraintEnd_toStartOf="@id/flue"
+                    android:onClick="@{onYes}"
+                    android:text="@string/yes"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintEnd_toEndOf="@id/help"
                     app:layout_constraintStart_toStartOf="@id/help"
                     app:layout_constraintTop_toBottomOf="@id/help" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/flue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/xs"
-                    android:padding="@dimen/s"
-                    android:text="Pilek"
-                    android:textColor="@android:color/white"
-                    app:backgroundTint="@color/yellow"
-                    app:layout_constraintBottom_toBottomOf="@id/cough"
-                    app:layout_constraintEnd_toEndOf="@id/help"
-                    app:layout_constraintStart_toEndOf="@id/cough"
-                    app:layout_constraintTop_toTopOf="@id/cough" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/breath"
+                    android:id="@+id/no"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/xs"
-                    android:layout_marginEnd="@dimen/xs"
                     android:padding="@dimen/s"
-                    android:text="Sesak Nafas"
+                    android:text="@string/no"
+                    android:onClick="@{onNo}"
                     android:textColor="@android:color/white"
                     app:backgroundTint="@color/yellow"
-                    app:layout_constraintEnd_toStartOf="@id/throat"
-                    app:layout_constraintStart_toStartOf="@id/help"
-                    app:layout_constraintTop_toBottomOf="@id/cough" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/throat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/xs"
-                    android:padding="@dimen/s"
-                    android:text="Sakit Tenggorokan"
-                    android:textColor="@android:color/white"
-                    app:backgroundTint="@color/yellow"
-                    app:layout_constraintBottom_toBottomOf="@id/breath"
                     app:layout_constraintEnd_toEndOf="@id/help"
-                    app:layout_constraintStart_toEndOf="@id/breath"
-                    app:layout_constraintTop_toTopOf="@id/breath" />
+                    app:layout_constraintStart_toStartOf="@id/help"
+                    app:layout_constraintTop_toBottomOf="@id/yes" />
 
                 <TextView
                     android:id="@+id/counter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/xl"
-                    android:text="1 dari 5"
+                    android:text="@{page}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/breath" />
+                    app:layout_constraintTop_toBottomOf="@id/no" />
 
                 <Button
                     android:layout_width="wrap_content"

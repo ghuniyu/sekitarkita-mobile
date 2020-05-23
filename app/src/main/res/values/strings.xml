@@ -89,4 +89,23 @@
     <string name="show_on_map">Lihat di maps</string>
     <string name="start">mulai</string>
     <string name="next">Selanjutnya</string>
+    <string name="yes">IYA</string>
+    <string name="no">Tidak</string>
+    <string name="quest1_info">Gunakan termometer untuk mengukur suhu tubuh anda</string>
+    <string name="quest_1">Apakah anda sedang demam atau dalam 14 hari terakhir pernah demam ?</string>
+    <string name="quest_subtitle">Berikut adalah pertanyaan singkat untuk mengetahui deteksi dini covid-19</string>
+    <string name="quest_title">Deteksi Dini Covid 19</string>
+    <string name="quest_2">Apakah anda memiliki gejala pernapasan dibawah ini ?</string>
+    <string name="quest_2_info">Bisa lebih dari satu gejala, atau jika anda rasa itu hanya gejala biasa, silahkan lewati pertanyaan ini.</string>
+    <string name="cough">Batuk</string>
+    <string name="flu">Pilek</string>
+    <string name="BD">Sesak Nafas</string>
+    <string name="sore_throat">Sakit Tenggorokan</string>
+    <string name="quest_3">Apakah dalam 14 hari terakhir sebelum timbul gejala pernah ke luar negeri yang memiliki transmisi lokal COVID-19 ?</string>
+    <string name="quest_3_info">Malaysia, Singapura, China, dll dalam Daftar Negara Terpapar</string>
+    <string name="quest_4">Apakah dalam 14 hari terakhir sebelum timbul gejala pernah ke kota di Indonesia yang memiliki transmisi lokal COVID-19?</string>
+    <string name="quest_4_info">Jakarta, Depok, Bandung, Solo, Bogor, Bali, Semarang dll</string>
+    <string name="quest_5">Apakah Anda pernah berkontak fisik dengan pasien Positif COVID-19 atau mengunjungi fasilitas kesehatan berhubungan dengan pasien konfirmasi COVID-19?</string>
+    <string name="quest_5_info">Malaysia, Singapura, China, dll dalam Daftar Negara Terpapar</string>
+    <string name="submit">Lihat Hasil</string>
 </resources>

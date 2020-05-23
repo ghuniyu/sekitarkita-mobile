@@ -37,8 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@null" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/back"
@@ -108,7 +107,7 @@
                     style="@style/PoppinMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/quest_3"
+                    android:text="@string/quest_5"
                     android:textSize="@dimen/textM"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +117,7 @@
                     android:id="@+id/help"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/quest_3_info"
+                    android:text="@string/quest_5_info"
                     android:textSize="@dimen/textXs"
                     app:layout_constraintEnd_toEndOf="@id/question"
                     app:layout_constraintStart_toStartOf="@id/question"
@@ -168,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right_light"
                     android:onClick="@{onNext}"
-                    android:text="@string/next"
+                    android:text="@string/submit"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="@id/counter"
                     app:layout_constraintEnd_toEndOf="parent"

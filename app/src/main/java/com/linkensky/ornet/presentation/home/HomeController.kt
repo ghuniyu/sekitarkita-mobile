@@ -32,6 +32,9 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             greeting("Selamat Malam")
             name("Ghuniyu")
             zoneInfo("Anda sedang berada di Zona Hijau Covid-19")
+            onSelfcheck { view ->
+                view.findNavController().navigate(R.id.action_homeFragment_to_selfcheckFragment)
+            }
         }
 
         header {

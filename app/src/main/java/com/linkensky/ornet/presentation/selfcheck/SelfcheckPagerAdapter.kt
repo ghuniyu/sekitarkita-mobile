@@ -1,20 +1,22 @@
 package com.linkensky.ornet.presentation.selfcheck
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import com.linkensky.ornet.presentation.information.pages.CallCenterFragment
-import com.linkensky.ornet.presentation.information.pages.HospitalFragment
-import com.linkensky.ornet.presentation.information.pages.StatsTableFragment
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.linkensky.ornet.presentation.selfcheck.questions.*
 
-class SelfcheckPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class SelfcheckPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
+    FragmentStateAdapter(fm, lifecycle) {
 
     private val fragment = listOf(
-        StatsTableFragment(),
-        HospitalFragment(),
-        CallCenterFragment()
+        Selfcheck1(),
+        Selfcheck2(),
+        Selfcheck3(),
+        Selfcheck4(),
+        Selfcheck5()
     )
 
-    override fun getItem(position: Int): Fragment = fragment[position]
-    override fun getCount() = fragment.size
+    override fun getItemCount() = fragment.size
+
+    override fun createFragment(position: Int) = fragment[position]
 }
