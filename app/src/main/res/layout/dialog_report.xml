@@ -1,99 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.florent37.shapeofview.shapes.RoundRectView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:shape_roundRect_bottomLeftRadius="@dimen/s"
-    app:shape_roundRect_bottomRightRadius="@dimen/s"
-    app:shape_roundRect_topLeftRadius="@dimen/s"
-    app:shape_roundRect_topRightRadius="@dimen/s">
+    android:layout_height="match_parent"
+    android:background="#A6263238"
+    android:padding="@dimen/s">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.github.florent37.shapeofview.shapes.RoundRectView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:padding="@dimen/s">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_roundRect_bottomLeftRadius="@dimen/s"
+        app:shape_roundRect_bottomRightRadius="@dimen/s"
+        app:shape_roundRect_topLeftRadius="@dimen/s"
+        app:shape_roundRect_topRightRadius="@dimen/s">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/PoppinMedium"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apakah anda yakin ?"
-            android:textSize="@dimen/textM"
+            android:background="@android:color/white"
+            android:padding="@dimen/s"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Saya menyatakan bahwa saya benar-banar Orang Dalam Pemantauan (ODP).  Berikut kontak saya"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/s"
-            android:hint="Nomor Telepon"
-            app:boxStrokeColor="#B0BEC5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/message">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/title"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:text="Haloo"
-                android:textSize="@dimen/textS" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/are_you_sure"
+                android:textSize="@dimen/textM"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/travel_history"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/s"
-            android:background="@drawable/travel_history_bg"
-            android:gravity="top"
-            android:hint="Tulis riwayat perjalanan anda...."
-            android:imeOptions="actionDone"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:padding="@dimen/s"
-            android:textSize="@dimen/textS"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone" />
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/report_confirmation"
+                android:textColor="@color/colorText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/s"
-            android:layout_marginEnd="@dimen/xs"
-            app:layout_constraintEnd_toStartOf="@id/confirm"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/travel_history" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/s"
+                android:hint="@string/phone"
+                app:boxStrokeColor="#B0BEC5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/message">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/confirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xs"
-            android:padding="@dimen/s"
-            android:text="Konfirmasi"
-            app:layout_constraintBottom_toBottomOf="@id/cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cancel"
-            app:layout_constraintTop_toTopOf="@id/cancel" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/textS" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/travel_history"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/s"
+                android:background="@drawable/travel_history_bg"
+                android:gravity="top"
+                android:hint="@string/travel_history_detail"
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:padding="@dimen/s"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/textLight"
+                android:textSize="@dimen/textS"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_layout"
+                android:autofillHints="@string/travel_history_detail" />
 
-</com.github.florent37.shapeofview.shapes.RoundRectView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginEnd="@dimen/xs"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toStartOf="@id/confirm"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travel_history"
+                app:strokeColor="@color/colorPrimary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xs"
+                android:text="@string/confirm"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="@id/cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cancel"
+                app:layout_constraintTop_toTopOf="@id/cancel" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.github.florent37.shapeofview.shapes.RoundRectView>
+</androidx.constraintlayout.widget.ConstraintLayout>

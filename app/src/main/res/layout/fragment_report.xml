@@ -11,15 +11,7 @@
             type="String" />
 
         <variable
-            name="onSelfTestClick"
-            type="android.view.View.OnClickListener" />
-
-        <variable
-            name="onHospitalClick"
-            type="android.view.View.OnClickListener" />
-
-        <variable
-            name="onCallCenterClick"
+            name="onReport"
             type="android.view.View.OnClickListener" />
     </data>
 
@@ -45,10 +37,10 @@
             app:layout_constraintTop_toBottomOf="@id/header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:paddingTop="@dimen/s"
-                android:paddingBottom="@dimen/s"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/s"
+                android:paddingBottom="@dimen/s">
 
 
                 <androidx.cardview.widget.CardView
@@ -57,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/s"
                     android:layout_marginEnd="@dimen/xs"
+                    android:onClick="@{onReport}"
                     app:cardBackgroundColor="#08192B"
                     app:cardCornerRadius="@dimen/s"
                     app:layout_constraintEnd_toStartOf="@+id/card_pdp"
@@ -103,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xs"
                     android:layout_marginEnd="@dimen/s"
+                    android:onClick="@{onReport}"
                     app:cardBackgroundColor="#FFA300"
                     app:cardCornerRadius="@dimen/s"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -142,9 +136,10 @@
                     android:layout_marginStart="@dimen/s"
                     android:layout_marginTop="@dimen/s"
                     android:layout_marginEnd="@dimen/xs"
+                    android:onClick="@{onReport}"
                     app:cardBackgroundColor="#F44545"
                     app:cardCornerRadius="@dimen/s"
-                    app:layout_constraintEnd_toStartOf="@+id/card_odr"
+                    app:layout_constraintEnd_toStartOf="@+id/card_otg"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/card_odp">
 
@@ -175,12 +170,13 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_odr"
+                    android:id="@+id/card_otg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xs"
                     android:layout_marginTop="@dimen/s"
                     android:layout_marginEnd="@dimen/s"
+                    android:onClick="@{onReport}"
                     app:cardBackgroundColor="#4AD297"
                     app:cardCornerRadius="@dimen/s"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -215,15 +211,16 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_comer"
+                    android:id="@+id/card_traveler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/s"
                     android:layout_marginTop="@dimen/s"
                     android:layout_marginEnd="@dimen/xs"
+                    android:onClick="@{onReport}"
                     app:cardBackgroundColor="#F44545"
                     app:cardCornerRadius="@dimen/s"
-                    app:layout_constraintEnd_toStartOf="@id/card_otg"
+                    app:layout_constraintEnd_toStartOf="@id/card_healthy"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_positive">
 
@@ -254,17 +251,18 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_otg"
+                    android:id="@+id/card_healthy"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xs"
                     android:layout_marginTop="@dimen/s"
                     android:layout_marginEnd="@dimen/s"
+                    android:onClick="@{onReport}"
                     app:cardBackgroundColor="#4AD297"
                     app:cardCornerRadius="@dimen/s"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/card_comer"
-                    app:layout_constraintTop_toBottomOf="@id/card_odr">
+                    app:layout_constraintStart_toEndOf="@id/card_traveler"
+                    app:layout_constraintTop_toBottomOf="@id/card_otg">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -302,7 +300,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/card_comer"
+                    app:layout_constraintTop_toBottomOf="@id/card_traveler"
                     app:layout_constraintVertical_bias="1">
 
                     <androidx.constraintlayout.widget.ConstraintLayout

@@ -38,11 +38,8 @@
     <string name="location_permission">Izin Lokasi</string>
     <string name="understand">Saya Mengerti</string>
     <string name="exit">Keluar</string>
-    <string name="confirm_healthy">Saya menyatakan bahwa saya benar benar sehat</string>
+    <string name="confirm_healthy">Saya menyatakan bahwa saya benar-benar sehat</string>
     <string name="cancel">Batalkan</string>
-    <string name="confirm_odp">Saya menyatakan bahwa saya benar benar Orang Dalam Pemantauan, berikut contact saya</string>
-    <string name="confirm_pdp">Saya menyatakan bahwa saya benar benar Pasien Dalam Pengawasan, berikut contact saya</string>
-    <string name="confirm_positive">Saya menyatakan bahwa saya benar benar Confirmed Positif, berikut contact saya</string>
     <string name="min_char">Minimal 5 Karakter</string>
     <string name="max_char">Maksimal 10 Karakter</string>
     <string name="thankyou">Terimakasih</string>
@@ -111,4 +108,11 @@
     <string name="empty_data">Data tidak ditemukan</string>
     <string name="something_went_wrong">Oops! Terjadi Kesalahan</string>
     <string name="refresh">Muat ulang</string>
+    <string name="report_confirmation">Saya menyatakan bahwa saya benar-banar %1$s. Berikut kontak saya</string>
+    <string name="odp_desc">Orang Dalam Pemantauan (ODP)</string>
+    <string name="pdp_desc">"Pasien Dalam Pemantauan (PDP) "</string>
+    <string name="otg_desc">Orang Tanpa Gejala (OTG)</string>
+    <string name="positive_desc">Pasien Positif</string>
+    <string name="traveler_desc">Pelaku Perjalanan</string>
+    <string name="travel_history_detail">Tulis riwayat perjalanan anda....</string>
 </resources>
