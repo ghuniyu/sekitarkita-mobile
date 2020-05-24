@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
         <variable
             name="recovered"
             type="String" />
@@ -164,6 +170,41 @@
                 app:layout_constraintStart_toStartOf="@+id/positiveLabel"
                 app:layout_constraintTop_toBottomOf="@+id/positiveLabel" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/recoverLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/recoverLabel"
+                app:layout_constraintStart_toStartOf="@+id/recoverLabel"
+                app:layout_constraintTop_toBottomOf="@+id/recoverLabel"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/positiveLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
+                app:layout_constraintTop_toBottomOf="@+id/positiveLabel"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/deathLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/deathLabel"
+                app:layout_constraintStart_toStartOf="@+id/deathLabel"
+                app:layout_constraintTop_toBottomOf="@+id/deathLabel"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

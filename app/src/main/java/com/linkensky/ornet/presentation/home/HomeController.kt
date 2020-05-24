@@ -51,9 +51,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             is Loading -> {
                 stats {
                     id("stats")
-                    recovered("...")
-                    positive("...")
-                    death("...")
+                    isLoading(true)
                 }
             }
 
@@ -61,6 +59,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                 val data = response().first()
                 stats {
                     id("stats")
+                    isLoading(false)
                     recovered(data.sembuh)
                     positive(data.positif)
                     death(data.meninggal)
