@@ -43,7 +43,7 @@ class SelfcheckViewModel(
     }
 
     fun bD() = withState {
-        setState { copy(hasBD = !it.hasBD) }
+        setState { copy(hasBreathProblem = !it.hasBreathProblem) }
     }
 
     fun soreThroat() = withState {

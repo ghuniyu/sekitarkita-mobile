@@ -8,7 +8,7 @@ data class SelfcheckState(
     val hasFever: Boolean = false,
     val hasFlu: Boolean = false,
     val hasCough: Boolean = false,
-    val hasBD: Boolean = false,
+    val hasBreathProblem: Boolean = false,
     val hasSoreThroat: Boolean = false,
     val inInfectedCountry: Boolean = false,
     val inInfectedCity: Boolean = false,

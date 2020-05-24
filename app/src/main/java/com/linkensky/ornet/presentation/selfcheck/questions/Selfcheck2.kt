@@ -45,7 +45,7 @@ class Selfcheck2 : BaseFragment<FragmentSelfcheck2Binding>() {
         else
             flu.setIconResource(0)
 
-        if (it.hasBD)
+        if (it.hasBreathProblem)
             breath.setIconResource(R.drawable.ic_check_circle)
         else
             breath.setIconResource(0)

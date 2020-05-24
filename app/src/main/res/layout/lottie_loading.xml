@@ -9,7 +9,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="lottie/bounce-loading.json"
+        app:lottie_fileName="lottie/wave-primary-loading.json"
         app:lottie_loop="true" />
 
 </LinearLayout>

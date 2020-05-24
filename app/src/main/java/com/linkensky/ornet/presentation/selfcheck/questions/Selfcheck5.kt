@@ -2,6 +2,7 @@ package com.linkensky.ornet.presentation.selfcheck.questions
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
@@ -19,11 +20,33 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
         binding.apply {
             page = "5 dari 5"
             lifecycleOwner = viewLifecycleOwner
-            setOnNext { viewModel.nextPage() }
+            setOnNext { calculate() }
             setOnBack { viewModel.prevPage() }
 
             setOnYes { viewModel.directContact(true) }
             setOnNo { viewModel.directContact(false) }
+        }
+    }
+
+    private fun calculate() = withState(viewModel) { s ->
+        var status = "Sehat"
+        if ((s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity)) ||
+            ((s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.directContact))
+        ) {
+            status = "PDP"
+        } else if (((!s.hasFever && !s.hasCough && !s.hasSoreThroat && !s.hasFlu && !(s.inInfectedCountry || s.inInfectedCity)) && s.directContact)) {
+            status = "OTG"
+        } else if (((s.hasFever || (s.hasCough || s.hasSoreThroat || s.hasFlu)) && ((s.inInfectedCountry || s.inInfectedCity)) || s.directContact)) {
+            status = "ODP"
+        } else if ((s.inInfectedCountry || s.inInfectedCity)) {
+            status = "Traveler"
+        }
+        context?.let {
+            AlertDialog.Builder(it)
+                .setTitle("Hasil Pemeriksaan Mandiri")
+                .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
+                .setPositiveButton("Tutup", null)
+                .show()
         }
     }
 
