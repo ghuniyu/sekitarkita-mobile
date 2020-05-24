@@ -18,10 +18,6 @@ import com.linkensky.ornet.databinding.FragmentReportBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
-    private val controller by lazy {
-        ReportController()
-    }
-
     private val viewModel: ReportViewModel by activityViewModel()
 
     override fun getLayoutRes() = R.layout.fragment_report
@@ -44,14 +40,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 }
             }
             text = "Lapor Infeksi"
-            controller.requestModelBuild()
         }
     }
 
     private fun reportDialog(status: Status) = withState(viewModel) { state ->
         viewModel.setStatus(status)
         context?.let { ctx ->
-            val d = Dialog(ctx, android.R.style.Theme_Material_Wallpaper_NoTitleBar)
+            val d = Dialog(ctx, R.style.ReportDialog)
             d.window?.setBackgroundDrawableResource(android.R.color.transparent)
             d.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
             d.setContentView(R.layout.dialog_report)
