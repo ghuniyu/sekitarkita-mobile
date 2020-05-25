@@ -3,6 +3,8 @@ package com.linkensky.ornet.presentation.selfcheck
 import com.airbnb.mvrx.MvRxState
 
 data class SelfcheckState(
+    val phone: String? = null,
+    val name: String? = null,
     val page: Int = 1,
 
     val hasFever: Boolean = false,

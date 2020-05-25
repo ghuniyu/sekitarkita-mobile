@@ -2,7 +2,6 @@ package com.linkensky.ornet.presentation.selfcheck.questions
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.findNavController
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
@@ -21,9 +20,7 @@ class Selfcheck1 : BaseFragment<FragmentSelfcheck1Binding>() {
             page = "1 dari 5"
             lifecycleOwner = viewLifecycleOwner
             setOnNext { viewModel.nextPage() }
-            setOnBack {
-                it.findNavController().navigate(R.id.action_selfcheckFragment_to_homeFragment)
-            }
+            setOnBack {viewModel.prevPage()}
 
             setOnYes { viewModel.hasFever(true) }
             setOnNo { viewModel.hasFever(false) }

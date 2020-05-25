@@ -17,9 +17,10 @@ class SelfcheckFragment : BaseFragment<FragmentSelfcheckBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            val adapter = SelfcheckPagerAdapter(parentFragmentManager, lifecycle)
             lifecycleOwner = viewLifecycleOwner
-            pager.offscreenPageLimit = 4
-            pager.adapter = SelfcheckPagerAdapter(parentFragmentManager, lifecycle)
+            pager.offscreenPageLimit = adapter.itemCount
+            pager.adapter = adapter
             pager.isUserInputEnabled = false
         }
     }

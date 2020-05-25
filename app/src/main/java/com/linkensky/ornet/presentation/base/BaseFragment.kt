@@ -1,12 +1,14 @@
 package com.linkensky.ornet.presentation.base
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import com.airbnb.mvrx.BaseMvRxFragment
 
 abstract class BaseFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
@@ -20,4 +22,9 @@ abstract class BaseFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
     }
 
     protected abstract fun getLayoutRes(): Int
+
+    protected fun hideSoftKey(context: Context?, view: View){
+        (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }

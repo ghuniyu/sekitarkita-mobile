@@ -9,6 +9,7 @@ class SelfcheckPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fm, lifecycle) {
 
     private val fragment = listOf(
+        SelfcheckData(),
         Selfcheck1(),
         Selfcheck2(),
         Selfcheck3(),

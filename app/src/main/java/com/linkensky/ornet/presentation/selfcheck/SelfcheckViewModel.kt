@@ -25,7 +25,7 @@ class SelfcheckViewModel(
     }
 
     fun nextPage() = withState { state ->
-        if (state.page != 5)
+        if (state.page != 6)
             setState { copy(page = state.page + 1) }
     }
 
@@ -69,4 +69,7 @@ class SelfcheckViewModel(
         setState { copy(directContact = value) }
         nextPage()
     }
+
+    fun setPhone(phone: String) = setState { copy(phone = phone) }
+    fun setName(name: String) = setState { copy(name = name) }
 }

@@ -84,7 +84,7 @@
     <string name="info_1">Khusus untuk pengguna android Oreo, Pie, dan Android 10. Anda perlu memasukkan MAC Address Bluetooth anda secara manual.</string>
     <string name="info_2">Anda dapat memlihat *Bluetooth Address* pada bagian status handphone atau lihat pada gambar</string>
     <string name="show_on_map">Lihat di maps</string>
-    <string name="start">mulai</string>
+    <string name="start">Mulai</string>
     <string name="next">Selanjutnya</string>
     <string name="yes">IYA</string>
     <string name="no">Tidak</string>
@@ -115,4 +115,6 @@
     <string name="positive_desc">Pasien Positif</string>
     <string name="traveler_desc">Pelaku Perjalanan</string>
     <string name="travel_history_detail">Tulis riwayat perjalanan anda....</string>
+    <string name="pre_test">Selebelum Memulai Test Silahkan isi data diri anda.</string>
+    <string name="pre_test_help">Isi Sesuai Kartu identitas anda ya.</string>
 </resources>
