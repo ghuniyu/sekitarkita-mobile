@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -73,7 +72,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Saya Adalah ODP"
+                            android:text="@string/im_odp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +111,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Saya Adalah PDP"
+                            android:text="@string/im_pdp"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +151,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Saya Confirmed Positif"
+                            android:text="@string/im_positif"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -192,7 +191,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Saya Adalah OTG"
+                            android:text="@string/im_otg"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -233,7 +232,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Saya Pelaku Perjalanan"
+                            android:text="@string/im_traveler"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -273,7 +272,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Saya Sehat"
+                            android:text="@string/im_healthy"
                             android:textColor="@android:color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -305,7 +304,7 @@
                             style="@style/PoppinMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Info"
+                            android:text="@string/info"
                             android:textSize="@dimen/textM"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

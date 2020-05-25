@@ -117,4 +117,11 @@
     <string name="travel_history_detail">Tulis riwayat perjalanan anda....</string>
     <string name="pre_test">Selebelum Memulai Test Silahkan isi data diri anda.</string>
     <string name="pre_test_help">Isi Sesuai Kartu identitas anda ya.</string>
+    <string name="im_positif">Saya Positif</string>
+    <string name="im_odp">Saya Adalah ODP</string>
+    <string name="im_pdp">Saya Adalah PDP</string>
+    <string name="im_otg">Saya Adalah OTG</string>
+    <string name="im_traveler">Saya Pelaku Perjalanan</string>
+    <string name="im_healthy">Saya Sehat</string>
+    <string name="info">Info</string>
 </resources>
