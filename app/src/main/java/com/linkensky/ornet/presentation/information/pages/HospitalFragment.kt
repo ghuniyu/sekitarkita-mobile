@@ -3,7 +3,6 @@ package com.linkensky.ornet.presentation.information.pages
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,7 +12,7 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.existingViewModel
 import com.linkensky.ornet.R
-import com.linkensky.ornet.data.Hospital
+import com.linkensky.ornet.data.model.Hospital
 import com.linkensky.ornet.databinding.FragmentHospitalBinding
 import com.linkensky.ornet.hospital
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment

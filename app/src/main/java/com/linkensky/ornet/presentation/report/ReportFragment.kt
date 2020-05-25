@@ -52,6 +52,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             d.setContentView(R.layout.dialog_report)
             d.setCancelable(false)
 
+            val name = d.findViewById<TextView>(R.id.name)
             val message = d.findViewById<TextView>(R.id.message)
             val phone = d.findViewById<EditText>(R.id.phone)
             val travelHistory = d.findViewById<EditText>(R.id.travel_history)
@@ -59,8 +60,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             val confirm = d.findViewById<Button>(R.id.confirm)
 
             message.text = getString(R.string.report_confirmation, status.toString())
+            name.text = state.name
             phone.setText(state.phone)
             travelHistory.setText(state.travelHistory)
+
+            name.doOnTextChanged { text, _, _, _ ->
+                viewModel.setName(text.toString())
+            }
 
             phone.doOnTextChanged { text, _, _, _ ->
                 viewModel.setPhone(text.toString())

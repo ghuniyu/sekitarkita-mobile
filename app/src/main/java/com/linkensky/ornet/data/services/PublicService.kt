@@ -1,7 +1,7 @@
 package com.linkensky.ornet.data.services
 
-import com.linkensky.ornet.data.Country
-import com.linkensky.ornet.data.Province
+import com.linkensky.ornet.data.model.Country
+import com.linkensky.ornet.data.model.Province
 import retrofit2.http.GET
 
 interface PublicService {

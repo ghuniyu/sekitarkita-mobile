@@ -12,7 +12,7 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.existingViewModel
 import com.linkensky.ornet.R
-import com.linkensky.ornet.data.CallCenter
+import com.linkensky.ornet.data.model.CallCenter
 import com.linkensky.ornet.databinding.FragmentCallCenterBinding
 import com.linkensky.ornet.itemCallCenter
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment

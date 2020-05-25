@@ -5,7 +5,7 @@ import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
-import com.linkensky.ornet.data.Province
+import com.linkensky.ornet.data.model.Province
 import com.linkensky.ornet.itemStats
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.base.item.Frame
@@ -13,7 +13,6 @@ import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.component.LottieEmptyState
 import com.linkensky.ornet.presentation.base.item.component.LottieErrorState
 import com.linkensky.ornet.presentation.base.item.component.LottieLoading
-import com.linkensky.ornet.presentation.base.item.component.ViewText
 import com.linkensky.ornet.presentation.base.item.keyValue
 import com.linkensky.ornet.presentation.information.InformationViewModel
 import com.linkensky.ornet.utils.addModel

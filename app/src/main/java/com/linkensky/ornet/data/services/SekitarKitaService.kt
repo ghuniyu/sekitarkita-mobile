@@ -1,8 +1,8 @@
 package com.linkensky.ornet.data.services
 
-import com.linkensky.ornet.data.BaseCollectionResponse
-import com.linkensky.ornet.data.CallCenter
-import com.linkensky.ornet.data.Hospital
+import com.linkensky.ornet.data.model.BaseCollectionResponse
+import com.linkensky.ornet.data.model.CallCenter
+import com.linkensky.ornet.data.model.Hospital
 import retrofit2.http.GET
 
 interface SekitarKitaService {

@@ -25,6 +25,7 @@ class ReportViewModel(
     }
 
     fun setPhone(phone: String) = setState { copy(phone = phone) }
+    fun setName(name: String) = setState { copy(name = name) }
     fun setTravelHistory(travelHistory: String) = setState { copy(travelHistory = travelHistory) }
     fun setStatus(status: Status) = setState { copy(status = status) }
     fun postReport(){
