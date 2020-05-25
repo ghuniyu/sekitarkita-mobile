@@ -9,6 +9,7 @@ import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.*
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
+import com.orhanobut.hawk.Hawk
 
 data class Partner(
     val name: String,
@@ -30,7 +31,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
         greeting {
             id("greeting")
             greeting("Selamat Malam")
-            name("Ghuniyu")
+            name(Hawk.get(Const.NAME, App.getContext().getString(R.string.anonym)))
             zoneInfo("Anda sedang berada di Zona Hijau Covid-19")
             onSelfcheck { view ->
                 view.findNavController().navigate(R.id.action_homeFragment_to_selfcheckFragment)

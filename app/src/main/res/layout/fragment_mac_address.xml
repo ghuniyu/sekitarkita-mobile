@@ -15,15 +15,11 @@
             type="String" />
 
         <variable
-            name="onSelfTestClick"
+            name="onShowMac"
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="onHospitalClick"
-            type="android.view.View.OnClickListener" />
-
-        <variable
-            name="onCallCenterClick"
+            name="onSave"
             type="android.view.View.OnClickListener" />
     </data>
 
@@ -34,7 +30,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#fafdff">
 
             <include
                 android:id="@+id/title"
@@ -67,7 +64,7 @@
                 android:layout_marginTop="@dimen/m"
                 android:hint="@string/bluetooth_address"
                 app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="@id/subInfo"
                 app:layout_constraintStart_toStartOf="@id/subInfo"
                 app:layout_constraintTop_toBottomOf="@id/subInfo">
@@ -83,15 +80,16 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/showMac"
                 style="@style/OutlinedButton"
-                app:strokeColor="@color/colorPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/m"
+                android:layout_marginTop="@dimen/s"
                 android:layout_marginEnd="@dimen/xs"
+                android:onClick="@{onShowMac}"
                 android:text="@string/show_mac"
                 app:layout_constraintEnd_toStartOf="@id/storeMac"
                 app:layout_constraintStart_toStartOf="@id/macInput"
-                app:layout_constraintTop_toBottomOf="@id/macInput" />
+                app:layout_constraintTop_toBottomOf="@id/macInput"
+                app:strokeColor="@color/colorPrimary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/storeMac"
@@ -99,6 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/xs"
+                android:onClick="@{onSave}"
                 android:text="@string/save"
                 app:layout_constraintBaseline_toBaselineOf="@id/showMac"
                 app:layout_constraintEnd_toEndOf="@id/macInput"
@@ -125,23 +124,23 @@
                 app:layout_constraintTop_toBottomOf="@id/guideLabel" />
 
             <TextView
-                android:textSize="12sp"
                 android:id="@+id/info_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/m"
                 android:text="@string/info_1"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/guideLabel"
                 app:layout_constraintStart_toStartOf="@id/guideLabel"
                 app:layout_constraintTop_toBottomOf="@id/aesthetic" />
 
             <TextView
-                android:textSize="12sp"
                 android:id="@+id/info_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/xs"
                 android:text="@string/info_2"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/guideLabel"
                 app:layout_constraintStart_toStartOf="@id/guideLabel"
                 app:layout_constraintTop_toBottomOf="@id/info_1" />
