@@ -74,6 +74,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 d.dismiss()
             }
             confirm.setOnClickListener {
+                viewModel.postReport()
                 d.dismiss()
             }
             d.show()

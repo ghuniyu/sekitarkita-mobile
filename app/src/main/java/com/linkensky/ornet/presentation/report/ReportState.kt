@@ -4,7 +4,7 @@ import com.airbnb.mvrx.MvRxState
 import com.linkensky.ornet.App
 import com.linkensky.ornet.R
 
-enum class Status(val status: Int) {
+enum class Status(private val status: Int) {
     ODP(R.string.odp_desc),
     PDP(R.string.pdp_desc),
     POSITIVE(R.string.positive_desc),
@@ -19,6 +19,7 @@ enum class Status(val status: Int) {
 
 data class ReportState(
     val phone: String? = null,
+    val name: String? = null,
     val travelHistory: String? = null,
     val status: Status = Status.HEALTHY
 ) : MvRxState

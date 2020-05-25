@@ -59,13 +59,34 @@
                 app:boxStrokeColor="#B0BEC5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/message">
+                app:layout_constraintTop_toBottomOf="@id/name_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/textS" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/s"
+                android:hint="@string/name"
+                app:boxStrokeColor="#B0BEC5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/message">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/textS" />
             </com.google.android.material.textfield.TextInputLayout>
