@@ -3,6 +3,7 @@ package com.linkensky.ornet.presentation.selfcheck.questions
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
@@ -45,7 +46,8 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             AlertDialog.Builder(it)
                 .setTitle("Hasil Pemeriksaan Mandiri")
                 .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
-                .setPositiveButton("Tutup", null)
+                .setPositiveButton("Tutup"
+                ) { _, _ -> view?.findNavController()?.navigate(R.id.action_selfcheckFragment_to_homeFragment) }
                 .show()
         }
     }
