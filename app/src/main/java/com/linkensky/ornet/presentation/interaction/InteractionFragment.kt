@@ -22,7 +22,7 @@ class InteractionFragment : BaseEpoxyBindingFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Hawk.contains(Const.DEVICE_ID))
-            viewModel.getDeviceInteractionHistory(Const.DEVICE_ID)
+            viewModel.getDeviceInteractionHistory(Hawk.get(Const.DEVICE_ID))
 
     }
 
