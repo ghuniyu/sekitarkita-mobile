@@ -53,6 +53,7 @@ class MacAddressFragment : BaseFragment<FragmentMacAddressBinding>() {
                             Hawk.put(Const.DEVICE_ID, macAddress)
                             Toasty.success(requireContext(), R.string.bluetooth_saved.resString())
                                 .show()
+                            hideSoftKey(context, view)
                             view.findNavController().navigate(R.id.action_macAddressFragment_to_selfcheckFragment)
                         }
                         .setNegativeButton(getString(R.string.cancel), null)
