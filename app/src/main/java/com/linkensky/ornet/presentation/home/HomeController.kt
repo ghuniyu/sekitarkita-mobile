@@ -17,12 +17,25 @@ data class Partner(
     val banner: Int
 )
 
+data class Zone(
+    val name: String,
+    val info: String,
+    val radar: String
+)
 class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController() {
 
     override fun buildModels() = withState(viewModel) { state ->
+        val zones = hashMapOf(
+            'r' to Zone("Merah","Anda Sedang di Zona Merah Covid-19", "lottie/radar-red.json"),
+            'g' to Zone("Hijau","Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
+            'y' to Zone("Kuning","Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json")
+        )
+        val k = zones.keys.random()
+
         topBar {
             id("home-top-bar")
             text("SekitarKita")
+            zone(k)
             onInfoClick { view ->
                 view.findNavController().navigate(R.id.action_homeFragment_to_macAddressFragment)
             }
@@ -32,7 +45,8 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             id("greeting")
             greeting("Selamat Malam")
             name(Hawk.get(Const.NAME, App.getContext().getString(R.string.anonym)))
-            zoneInfo("Anda sedang berada di Zona Hijau Covid-19")
+            zoneInfo(zones[k]?.info)
+            zone(k)
             onSelfcheck { view ->
                 view.findNavController().navigate(R.id.action_homeFragment_to_selfcheckFragment)
             }

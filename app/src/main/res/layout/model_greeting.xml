@@ -17,6 +17,14 @@
             type="String" />
 
         <variable
+            name="zone"
+            type="char" />
+
+        <variable
+            name="radar"
+            type="String" />
+
+        <variable
             name="onSelfcheck"
             type="android.view.View.OnClickListener" />
     </data>
@@ -38,14 +46,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/greenZone">
+                android:background="@{zone == 'r' ? @color/redZone : (zone == 'g' ? @color/greenZone : @color/yellowZone)}">
 
                 <ImageView
                     android:id="@+id/diagonal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="340dp"
+                    android:layout_height="100dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_diagonal"
+                    android:scaleType="fitXY"
+                    android:src="@{zone == 'r' ? @drawable/diagonal_red : (zone == 'g' ? @drawable/diagonal_green : @drawable/diagonal_yellow)}"
                     app:layout_constraintBottom_toTopOf="@id/zoneInfo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -92,13 +101,11 @@
 
                 <ImageView
                     android:id="@+id/aesthetic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/s"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_dot"
-                    android:tint="#E0F7FA"
-                    app:layout_constraintBottom_toTopOf="@id/radar"
+                    android:scaleType="fitXY"
+                    android:src="@{zone == 'r' ? @drawable/diagonal_red_tr : (zone == 'g' ? @drawable/diagonal_green_tr : @drawable/diagonal_yellow_tr)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="zone"
+            type="char" />
+
+        <variable
             name="onInfoClick"
             type="android.view.View.OnClickListener" />
 
@@ -16,7 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/greenZone">
+        android:background="@{zone == 'r' ? @color/redZone : (zone == 'g' ? @color/greenZone : @color/yellowZone)}">
 
         <com.github.florent37.shapeofview.shapes.RoundRectView
             android:layout_width="match_parent"

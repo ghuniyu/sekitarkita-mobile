@@ -22,8 +22,8 @@
     <color name="redLight">#ff505d</color>
     <color name="yellowLight">#ffad3d</color>
 
-    <color name="redZone">#ff505d</color>
-    <color name="yellowZone">#ffad3d</color>
+    <color name="redZone">#FF5C5C</color>
+    <color name="yellowZone">#FFB229</color>
     <color name="greenZone">#4AD295</color>
 
     <color name="pink">#EC407A</color>
