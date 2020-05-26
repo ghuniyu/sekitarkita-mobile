@@ -40,7 +40,6 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             onSuccess = {
                 binding.apply {
                     isLoading = false
-                    isDisableBtn = true
                 }
                 Hawk.put(Const.SELF_TEST_COMPLETED, true)
                 viewModel.nextPage()

@@ -58,7 +58,6 @@
             android:onClick="@{onClose}"
             android:text="@string/close"
             android:textColor="@color/colorText"
-            android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +78,15 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/s">
 
+                <ImageView
+                    android:src="@{illustration}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
                 <TextView
                     style="@style/PoppinMedium"
                     android:layout_width="wrap_content"
@@ -88,17 +96,10 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
-
-                <!--<ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!--<com.github.florent37.shapeofview.shapes.RoundRectView
+        <com.github.florent37.shapeofview.shapes.RoundRectView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/s"
@@ -116,24 +117,11 @@
                 android:padding="@dimen/s">
 
                 <com.airbnb.epoxy.EpoxyRecyclerView
-                    android:id="@+id/summaries"
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-        </com.github.florent37.shapeofview.shapes.RoundRectView>-->
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/close"
-            app:layout_constraintEnd_toEndOf="@id/close"
-            app:layout_constraintStart_toStartOf="@id/close"
-            app:layout_constraintTop_toTopOf="@id/close"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="lottie/wave-primary-loading.json"
-            app:lottie_loop="true" />
+        </com.github.florent37.shapeofview.shapes.RoundRectView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

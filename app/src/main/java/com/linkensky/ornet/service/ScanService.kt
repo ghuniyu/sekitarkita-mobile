@@ -87,7 +87,7 @@ class ScanService : BaseService() {
                 NotificationCompat.Builder(this, Const.NOTIFICATION_SEKITAR_CHANNEL_ID)
                     .setOngoing(true)
                     .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setContentText("SekitarKita - sedang Berjalan")
+                    .setContentText("SekitarKita - sedang berjalan")
                     .setContentIntent(pendingIntent)
                     .build()
             )

@@ -30,10 +30,6 @@
         <variable
             name="isLoading"
             type="Boolean" />
-
-        <variable
-            name="isDisableBtn"
-            type="Boolean" />
     </data>
 
 
@@ -189,7 +185,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right_light"
-                    android:enabled="@{!isDisableBtn}"
                     android:onClick="@{onNext}"
                     android:text="@string/submit"
                     android:textAllCaps="false"

@@ -1,5 +1,6 @@
 package com.linkensky.ornet.data.model.enums
 
+import androidx.annotation.DrawableRes
 import com.linkensky.ornet.App
 import com.linkensky.ornet.R
 
@@ -15,6 +16,7 @@ enum class Status(private val info: Int) {
         return App.getContext().getString(info)
     }
 
+    @DrawableRes
     fun getDrawable(): Int {
         return when (this) {
             ODP -> R.drawable.illustration_odp
