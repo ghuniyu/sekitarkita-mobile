@@ -31,4 +31,10 @@ object Const {
     const val NOTIFICATION_SCORE_ID_VALUE = 1337
     const val MIN_VERSION = "minVersion"
     const val BLUETOOTH_DENY_MESSAGE = "Aplikasi tidak dapat dijalankan tanpa bluetooth"
+    const val SEHAT = "Sehat"
+    const val HEALTHY = "Healthy"
+    const val PDP = "PDP"
+    const val OTG = "OTG"
+    const val ODP = "ODP"
+    const val TRAVELLER = "Traveler"
 }

@@ -49,3 +49,17 @@ open class BaseResponse(
     open val message: String? = null,
     open val stack_trace: String? = null
 )
+
+data class Interaction(
+    val id: Int,
+    val device_id: String,
+    val another_device: String,
+    val latitude: Double?,
+    val longitude: Double?,
+    val created_at: String,
+    val updated_at: String
+)
+
+data class InteractionHistoryResponse(
+    val nearbies: List<Interaction>
+)

@@ -3,6 +3,7 @@ package com.linkensky.ornet.presentation.home
 import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
+import com.linkensky.ornet.data.model.InteractionHistoryRequest
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
 import com.linkensky.ornet.utils.rxApi
@@ -21,6 +22,12 @@ class HomeViewModel(
        service.getIndonesia()
     }.execute {
         copy(indonesiaStatistics = it)
+    }
+
+    fun getDeviceInteractionHistory(deviceId: String) = viewModelScope.rxApi {
+        service.deviceHistories(InteractionHistoryRequest(deviceId))
+    }.execute {
+        copy(historyInteraction = it)
     }
 
 

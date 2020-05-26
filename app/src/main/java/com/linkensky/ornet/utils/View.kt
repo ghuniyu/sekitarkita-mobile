@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.LayoutRes
+import androidx.core.widget.doOnTextChanged
 
 
 fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = false): View {
@@ -72,3 +74,13 @@ inline fun <T : View> T.lparams(
 ) = apply {
     layoutParams = LinearLayout.LayoutParams(width, height, weight).apply { closure() }
 }
+
+fun EditText.validate(message: String, validator: (String) -> Boolean) {
+    this.doOnTextChanged { text, _, _, _ ->
+        this.error = if (validator(text.toString())) null else message
+    }
+
+    this.error = if (validator(this.text.toString())) null else message
+}
+
+fun String.validPhone() = this.matches(Regex("^(^\\+62|62|^08)(\\d{3,4}-?){2}\\d{3,4}${'$'}"))

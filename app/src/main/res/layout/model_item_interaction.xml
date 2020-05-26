@@ -7,6 +7,14 @@
         <variable
             name="text"
             type="String" />
+
+        <variable
+            name="textDate"
+            type="String" />
+
+        <variable
+            name="textTime"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +54,7 @@
             style="@style/PoppinRegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tue, 24 mar 2020"
+            android:text="@{textDate}"
             android:textColor="#90A4AE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/s"
-            android:text="06:40"
+            android:text="@{textTime}"
             android:textColor="#90A4AE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

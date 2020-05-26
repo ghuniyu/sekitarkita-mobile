@@ -11,6 +11,10 @@
         <variable
             name="onBack"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="isEnableBtn"
+            type="boolean" />
     </data>
 
 
@@ -154,12 +158,14 @@
 
 
                 <Button
+                    android:id="@+id/btnNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/s"
                     android:drawableEnd="@drawable/ic_arrow_right_light"
                     android:onClick="@{onNext}"
                     android:text="@string/start"
+                    android:enabled="@{isEnableBtn}"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

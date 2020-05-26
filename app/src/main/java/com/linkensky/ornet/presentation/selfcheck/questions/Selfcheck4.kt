@@ -3,6 +3,7 @@ package com.linkensky.ornet.presentation.selfcheck.questions
 import android.os.Bundle
 import android.view.View
 import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentSelfcheck4Binding
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_selfcheck_4.*
 
 class Selfcheck4 : BaseFragment<FragmentSelfcheck4Binding>() {
 
-    private val viewModel: SelfcheckViewModel by activityViewModel()
+    private val viewModel: SelfcheckViewModel by existingViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

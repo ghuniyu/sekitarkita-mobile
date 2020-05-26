@@ -23,6 +23,7 @@ import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentHomeBinding
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.service.ScanService
+import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.MacAddressRetriever
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
@@ -37,6 +38,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
     override var fragmentLayout: Int = R.layout.fragment_home
 
     private val viewModel: HomeViewModel by activityViewModel()
+    private val autoStart = CheckAutostartPermission.getInstance()
 
     private val controller by lazy {
         HomeController(viewModel)
@@ -56,8 +58,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
     private fun requestLocationPermission() {
         Dexter.withContext(context)
             .withPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             )
             .withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
@@ -128,8 +129,8 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
     }
 
     private fun bluetoothOn() {
-        if (Hawk.contains(Const.STORAGE_MAC_ADDRESS)) {
-//            checkAutostart()
+        if (Hawk.contains(Const.DEVICE_ID)) {
+            checkAutostart()
             Log.d(TAG, getString(R.string.bluetooth_active))
             requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
         } else {
@@ -143,8 +144,25 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
             navigateTo(R.id.action_homeFragment_to_macAddressFragment)
             return
         } else {
-            Hawk.put(Const.STORAGE_MAC_ADDRESS, mac)
+            Hawk.put(Const.DEVICE_ID, mac)
             bluetoothOn()
+        }
+    }
+
+    private fun checkAutostart() {
+        if (autoStart.isAutoStartPermissionAvailable(requireContext())) {
+            if (Hawk.get(Const.CHECK_AUTOSTART_PERMISSION, true)) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.warning))
+                    .setMessage(getString(R.string.autostart_request))
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.understand)) { _, _ ->
+                        autoStart.getAutoStartPermission(requireContext())
+//                        checkLabel()
+                    }
+                    .show()
+                Hawk.put(Const.CHECK_AUTOSTART_PERMISSION, false)
+            }
         }
     }
 

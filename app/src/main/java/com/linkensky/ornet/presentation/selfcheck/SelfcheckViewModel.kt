@@ -1,9 +1,12 @@
 package com.linkensky.ornet.presentation.selfcheck
 
+import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
+import com.linkensky.ornet.data.model.RequestReportData
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
+import com.linkensky.ornet.utils.rxApi
 import org.koin.android.ext.android.inject
 
 class SelfcheckViewModel(
@@ -21,31 +24,25 @@ class SelfcheckViewModel(
         }
     }
 
-    fun nextPage() = withState { state ->
-        if (state.page != 6)
-            setState { copy(page = state.page + 1) }
+    fun nextPage() = setState {
+        var currentPage = page
+        if (currentPage != 6) currentPage += 1
+        copy(page = currentPage)
     }
 
-    fun prevPage() = withState { state ->
-        if (state.page != 1)
-            setState { copy(page = state.page - 1) }
+    fun prevPage() = setState {
+        var currentPage = page
+        if (currentPage != 1) currentPage -= 1
+        copy(page = currentPage)
     }
 
-    fun cough() = withState {
-        setState { copy(hasCough = !it.hasCough) }
-    }
+    fun cough() =  setState { copy(hasCough = !hasCough) }
 
-    fun flu() = withState {
-        setState { copy(hasFlu = !it.hasFlu) }
-    }
+    fun flu() = setState { copy(hasFlu = !hasFlu) }
 
-    fun bD() = withState {
-        setState { copy(hasBreathProblem = !it.hasBreathProblem) }
-    }
+    fun bD() = setState { copy(hasBreathProblem = !hasBreathProblem) }
 
-    fun soreThroat() = withState {
-        setState { copy(hasSoreThroat = !it.hasSoreThroat) }
-    }
+    fun soreThroat() = setState { copy(hasSoreThroat = !hasSoreThroat) }
 
     fun hasFever(value: Boolean) {
         setState { copy(hasFever = value) }
@@ -69,4 +66,14 @@ class SelfcheckViewModel(
 
     fun setPhone(phone: String) = setState { copy(phone = phone) }
     fun setName(name: String) = setState { copy(name = name) }
+
+    fun storeReportTest(resultTest: RequestReportData) = viewModelScope.rxApi {
+        service.storeSelfCheck(resultTest)
+    }.execute {
+        copy(responseStoreTest = it)
+    }
+
+    fun clearAllState() = setState {
+        SelfcheckState()
+    }
 }

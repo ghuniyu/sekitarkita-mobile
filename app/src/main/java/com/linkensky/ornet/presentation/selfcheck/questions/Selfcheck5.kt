@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
+import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.model.RequestReportData
 import com.linkensky.ornet.databinding.FragmentSelfcheck5Binding
 import com.linkensky.ornet.presentation.base.BaseFragment
+import com.linkensky.ornet.presentation.selfcheck.SelfcheckState
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckViewModel
+import com.linkensky.ornet.utils.Formatter
+import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_selfcheck_5.*
 
 class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
 
-    private val viewModel: SelfcheckViewModel by activityViewModel()
+    private val viewModel: SelfcheckViewModel by existingViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,29 +31,73 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             setOnYes { viewModel.directContact(true) }
             setOnNo { viewModel.directContact(false) }
         }
+
+        viewModel.asyncSubscribe(
+            subscriptionLifecycleOwner,
+            SelfcheckState::responseStoreTest,
+            onSuccess = {
+                binding.apply {
+                    isLoading = false
+                }
+                val status =  Hawk.get<String>(Const.STORAGE_STATUS)
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Hasil Pemeriksaan Mandiri")
+                    .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
+                    .setPositiveButton(
+                        "Tutup"
+                    ) { _, _ ->
+                        viewModel.clearAllState()
+                        view.findNavController().popBackStack(R.id.homeFragment, false)
+                    }
+                    .show()
+            },
+            onFail = {
+                binding.apply {
+                    isLoading = false
+                }
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Oops!")
+                    .setMessage("Terjadi kesalahan, coba ulangi lagi.")
+                    .setPositiveButton(
+                        "Ulangi"
+                    ) { _, _ -> calculate() }
+                    .show()
+            }
+        )
     }
 
     private fun calculate() = withState(viewModel) { s ->
-        var status = "Sehat"
+        var status = Const.SEHAT
         if ((s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity)) ||
             ((s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.directContact))
         ) {
-            status = "PDP"
+            status = Const.PDP
         } else if (((!s.hasFever && !s.hasCough && !s.hasSoreThroat && !s.hasFlu && !(s.inInfectedCountry || s.inInfectedCity)) && s.directContact)) {
-            status = "OTG"
+            status = Const.OTG
         } else if (((s.hasFever || (s.hasCough || s.hasSoreThroat || s.hasFlu)) && ((s.inInfectedCountry || s.inInfectedCity)) || s.directContact)) {
-            status = "ODP"
+            status = Const.ODP
         } else if ((s.inInfectedCountry || s.inInfectedCity)) {
-            status = "Traveler"
+            status = Const.TRAVELLER
         }
-        context?.let {
-            AlertDialog.Builder(it)
-                .setTitle("Hasil Pemeriksaan Mandiri")
-                .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
-                .setPositiveButton("Tutup"
-                ) { _, _ -> view?.findNavController()?.navigate(R.id.action_selfcheckFragment_to_homeFragment) }
-                .show()
-        }
+
+        Hawk.put(Const.STORAGE_STATUS, status)
+        Hawk.put(Const.NAME, s.name)
+        Hawk.put(Const.PHONE, s.phone)
+
+        viewModel.storeReportTest(RequestReportData(
+            device_id = Hawk.get<String>(Const.DEVICE_ID),
+            has_fever = s.hasFever,
+            has_cough = s.hasCough,
+            has_breath_problem = s.hasBreathProblem,
+            has_direct_contact = s.directContact,
+            has_flu = s.hasFlu,
+            has_in_infected_city = s.inInfectedCity,
+            has_in_infected_country = s.inInfectedCountry,
+            has_sore_throat = s.hasSoreThroat,
+            result = Formatter.healthStatusFormat(status),
+            name = s.name!!,
+            phone = s.phone!!
+        ))
     }
 
     override fun getLayoutRes() = R.layout.fragment_selfcheck_5
@@ -61,6 +109,12 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
         } else {
             yes.setIconResource(0)
             no.setIconResource(R.drawable.ic_check_circle)
+        }
+
+        if(it.responseStoreTest is Loading) {
+            binding.apply {
+                isLoading = true
+            }
         }
     }
 }

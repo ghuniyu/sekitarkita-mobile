@@ -1,7 +1,9 @@
 package com.linkensky.ornet.data.services
 
 import com.linkensky.ornet.data.model.*
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface SekitarKitaService {
     @GET("hospitals")
@@ -15,5 +17,11 @@ interface SekitarKitaService {
 
     @GET("province-statistics")
     suspend fun getProvinces(): List<Province>
+
+    @POST("store-selfcheck")
+    suspend fun storeSelfCheck(@Body request: RequestReportData): BaseResponse
+
+    @POST("device-history")
+    suspend fun deviceHistories(@Body request: InteractionHistoryRequest): InteractionHistoryResponse
 }
 
