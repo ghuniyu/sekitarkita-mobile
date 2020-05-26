@@ -8,8 +8,7 @@ import org.koin.android.ext.android.inject
 
 class SelfcheckViewModel(
     state: SelfcheckState,
-    val service: SekitarKitaService,
-    private val publicService: PublicService
+    val service: SekitarKitaService
 ) : MvRxViewModel<SelfcheckState>(state) {
 
     companion object : MvRxViewModelFactory<SelfcheckViewModel, SelfcheckState> {
@@ -18,8 +17,7 @@ class SelfcheckViewModel(
             state: SelfcheckState
         ): SelfcheckViewModel {
             val service: SekitarKitaService by viewModelContext.activity.inject()
-            val publicService: PublicService by viewModelContext.activity.inject()
-            return SelfcheckViewModel(state, service, publicService)
+            return SelfcheckViewModel(state, service)
         }
     }
 
