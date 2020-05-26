@@ -24,17 +24,8 @@ class SelfcheckViewModel(
         }
     }
 
-    fun nextPage() = setState {
-        var currentPage = page
-        if (currentPage != 6) currentPage += 1
-        copy(page = currentPage)
-    }
-
-    fun prevPage() = setState {
-        var currentPage = page
-        if (currentPage != 1) currentPage -= 1
-        copy(page = currentPage)
-    }
+    fun nextPage() = setState { copy(page = this.page + (if (this.page != 6) 1 else 0)) }
+    fun prevPage() = setState { copy(page = this.page - (if (this.page != 1) 1 else 0)) }
 
     fun cough() =  setState { copy(hasCough = !hasCough) }
 

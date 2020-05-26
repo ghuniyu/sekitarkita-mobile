@@ -78,6 +78,8 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             status = Const.ODP
         } else if ((s.inInfectedCountry || s.inInfectedCity)) {
             status = Const.TRAVELLER
+        } else if (s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity) && s.directContact) {
+            status = "Positif"
         }
 
         Hawk.put(Const.STORAGE_STATUS, status)
