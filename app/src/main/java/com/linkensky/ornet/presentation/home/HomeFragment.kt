@@ -3,7 +3,9 @@ package com.linkensky.ornet.presentation.home
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -62,6 +64,19 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                     report?.let {
                         if (report.areAllPermissionsGranted()) {
                             enableBluetooth()
+                        } else if (report.isAnyPermissionPermanentlyDenied) {
+                            MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.location_permission.resString())
+                                .setMessage(R.string.request_location_permission.resString())
+                                .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                    openSettings()
+                                }
+                                .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                    activity?.finish()
+                                }
+                                .setCancelable(false)
+                                .setIcon(R.mipmap.ic_launcher)
+                                .show()
                         } else {
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.location_permission.resString())
@@ -128,11 +143,11 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
 
     private fun bluetoothOn() {
         if (Hawk.contains(Const.DEVICE_ID)) {
-            if(Hawk.contains(Const.SELF_TEST_COMPLETED)) {
+            if (Hawk.contains(Const.SELF_TEST_COMPLETED)) {
                 checkAutostart()
                 Log.d(TAG, getString(R.string.bluetooth_active))
                 requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
-            }else {
+            } else {
                 navigateTo(R.id.action_homeFragment_to_selfcheckFragment)
             }
         } else {
@@ -166,6 +181,18 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 Hawk.put(Const.CHECK_AUTOSTART_PERMISSION, false)
             }
         }
+    }
+
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        enableBluetooth()
     }
 
     override fun onStart() {
