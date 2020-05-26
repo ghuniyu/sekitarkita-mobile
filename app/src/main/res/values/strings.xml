@@ -124,4 +124,6 @@
     <string name="im_traveler">Saya Pelaku Perjalanan</string>
     <string name="im_healthy">Saya Sehat</string>
     <string name="info">Info</string>
+    <string name="test_retake">Ubah Jawaban</string>
+    <string name="close">Tutup</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -178,22 +178,20 @@
                     android:layout_width="70dp"
                     android:layout_height="25dp"
                     android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                    app:lottie_autoPlay="true"
-                    app:lottie_fileName="lottie/wave-primary-loading.json"
-                    app:lottie_loop="true"
                     app:layout_constraintBottom_toBottomOf="@id/counter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/counter"
-                    tools:layout_editor_absoluteX="280dp"
-                    tools:layout_editor_absoluteY="356dp" />
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lottie/wave-primary-loading.json"
+                    app:lottie_loop="true" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_right_light"
+                    android:enabled="@{!isDisableBtn}"
                     android:onClick="@{onNext}"
                     android:text="@string/submit"
-                    android:enabled="@{!isDisableBtn}"
                     android:textAllCaps="false"
                     android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/counter"

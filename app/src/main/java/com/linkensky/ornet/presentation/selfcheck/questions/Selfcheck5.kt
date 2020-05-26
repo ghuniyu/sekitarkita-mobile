@@ -9,6 +9,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.RequestReportData
+import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentSelfcheck5Binding
 import com.linkensky.ornet.presentation.base.BaseFragment
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckState
@@ -42,18 +43,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
                     isDisableBtn = true
                 }
                 Hawk.put(Const.SELF_TEST_COMPLETED, true)
-                val status =  Hawk.get<String>(Const.STORAGE_STATUS)
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Hasil Pemeriksaan Mandiri")
-                    .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
-                    .setPositiveButton(
-                        "Tutup"
-                    ) { _, _ ->
-                        viewModel.clearAllState()
-                        view.findNavController().popBackStack(R.id.homeFragment, false)
-                    }
-                    .setCancelable(false)
-                    .show()
+                viewModel.nextPage()
             },
             onFail = {
                 binding.apply {
@@ -71,27 +61,28 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
     }
 
     private fun calculate() = withState(viewModel) { s ->
-        var status = Const.SEHAT
+        var status = Status.HEALTHY
         if ((s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity)) ||
             ((s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.directContact))
         ) {
-            status = Const.PDP
+            status = Status.PDP
         } else if (((!s.hasFever && !s.hasCough && !s.hasSoreThroat && !s.hasFlu && !(s.inInfectedCountry || s.inInfectedCity)) && s.directContact)) {
-            status = Const.OTG
+            status = Status.OTG
         } else if (((s.hasFever || (s.hasCough || s.hasSoreThroat || s.hasFlu)) && ((s.inInfectedCountry || s.inInfectedCity)) || s.directContact)) {
-            status = Const.ODP
+            status = Status.ODP
         } else if ((s.inInfectedCountry || s.inInfectedCity)) {
-            status = Const.TRAVELLER
+            status = Status.TRAVELER
         } else if (s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity) && s.directContact) {
-            status = Const.POSITIF
+            status = Status.POSITIVE
         }
 
         Hawk.put(Const.STORAGE_STATUS, status)
         Hawk.put(Const.NAME, s.name)
         Hawk.put(Const.PHONE, s.phone)
 
+        viewModel.setStatus(status)
         viewModel.storeReportTest(RequestReportData(
-            device_id = Hawk.get<String>(Const.DEVICE_ID),
+            device_id = Hawk.get(Const.DEVICE_ID),
             has_fever = s.hasFever,
             has_cough = s.hasCough,
             has_breath_problem = s.hasBreathProblem,
@@ -100,7 +91,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             has_in_infected_city = s.inInfectedCity,
             has_in_infected_country = s.inInfectedCountry,
             has_sore_throat = s.hasSoreThroat,
-            result = Formatter.healthStatusFormat(status),
+            result = Formatter.low(status.name),
             name = s.name!!,
             phone = s.phone!!
         ))

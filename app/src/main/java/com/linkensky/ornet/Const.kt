@@ -24,18 +24,9 @@ object Const {
     const val IN_OBSERVE_AREA = "com.linkensky.ornet.utils.in.observe.area"
     const val NOTIFICATION_SCORE_DEFAULT = "default"
     const val NOTIFICATION_SCORE_CHANNEL = "com.linkensky.ornet.utils.notification.score.channel"
-    const val NOTIFICATION_SCORE_CHANNEL_ID =
-        "com.linkensky.ornet.utils.notification.score.channel.id"
+    const val NOTIFICATION_SCORE_CHANNEL_ID = "com.linkensky.ornet.utils.notification.score.channel.id"
     const val NOTIFICATION_SCORE_ID = "com.linkensky.ornet.utils.notification.score.id"
     const val NOTIFICATION_SCORE_ID_VALUE = 1337
     const val MIN_VERSION = "minVersion"
     const val BLUETOOTH_DENY_MESSAGE = "Aplikasi tidak dapat dijalankan tanpa bluetooth"
-    const val SEHAT = "Sehat"
-    const val HEALTHY = "Healthy"
-    const val PDP = "PDP"
-    const val OTG = "OTG"
-    const val ODP = "ODP"
-    const val TRAVELLER = "Traveler"
-    const val POSITIF = "POSITIF"
-    const val POSITIVE = "POSITIVE"
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.linkensky.ornet.data.model.RequestReportData
+import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
 import com.linkensky.ornet.utils.rxApi
@@ -24,7 +25,8 @@ class SelfcheckViewModel(
         }
     }
 
-    fun nextPage() = setState { copy(page = this.page + (if (this.page != 6) 1 else 0)) }
+    fun firstPage() = setState { copy(page = 1) }
+    fun nextPage() = setState { copy(page = this.page + (if (this.page != 7) 1 else 0)) }
     fun prevPage() = setState { copy(page = this.page - (if (this.page != 1) 1 else 0)) }
 
     fun cough() =  setState { copy(hasCough = !hasCough) }
@@ -52,10 +54,10 @@ class SelfcheckViewModel(
 
     fun directContact(value: Boolean) {
         setState { copy(directContact = value) }
-        nextPage()
     }
 
     fun setPhone(phone: String) = setState { copy(phone = phone) }
+    fun setStatus(status: Status) = setState { copy(status = status) }
     fun setName(name: String) = setState { copy(name = name) }
 
     fun storeReportTest(resultTest: RequestReportData) = viewModelScope.rxApi {

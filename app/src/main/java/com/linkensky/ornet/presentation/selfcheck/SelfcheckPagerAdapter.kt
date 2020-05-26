@@ -14,7 +14,8 @@ class SelfcheckPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
         Selfcheck2(),
         Selfcheck3(),
         Selfcheck4(),
-        Selfcheck5()
+        Selfcheck5(),
+        SelfcheckResult()
     )
 
     override fun getItemCount() = fragment.size

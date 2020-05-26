@@ -2,6 +2,7 @@ package com.linkensky.ornet.presentation.report
 
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
+import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
 import org.koin.android.ext.android.inject

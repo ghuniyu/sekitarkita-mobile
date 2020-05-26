@@ -14,6 +14,7 @@ import androidx.core.widget.doOnTextChanged
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentReportBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 
