@@ -79,6 +79,7 @@ class Formatter {
         fun healthStatusFormat(status: String): String {
             return when (status) {
                 Const.SEHAT -> Const.HEALTHY
+                Const.POSITIF -> Const.POSITIVE
                 else -> status
             }.toLowerCase(Locale.ROOT)
         }

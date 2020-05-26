@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import com.airbnb.mvrx.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.RequestReportData
@@ -38,9 +39,10 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             onSuccess = {
                 binding.apply {
                     isLoading = false
+                    isDisableBtn = true
                 }
                 val status =  Hawk.get<String>(Const.STORAGE_STATUS)
-                AlertDialog.Builder(requireContext())
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Hasil Pemeriksaan Mandiri")
                     .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
                     .setPositiveButton(
@@ -49,6 +51,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
                         viewModel.clearAllState()
                         view.findNavController().popBackStack(R.id.homeFragment, false)
                     }
+                    .setCancelable(false)
                     .show()
             },
             onFail = {
@@ -79,7 +82,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
         } else if ((s.inInfectedCountry || s.inInfectedCity)) {
             status = Const.TRAVELLER
         } else if (s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity) && s.directContact) {
-            status = "Positif"
+            status = Const.POSITIF
         }
 
         Hawk.put(Const.STORAGE_STATUS, status)

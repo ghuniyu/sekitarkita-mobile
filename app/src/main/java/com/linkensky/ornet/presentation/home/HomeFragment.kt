@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.mvrx.activityViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -15,9 +14,7 @@ import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentHomeBinding
@@ -75,6 +72,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                                 .setNegativeButton(getString(R.string.exit)) { _, _ ->
                                     activity?.finish()
                                 }
+                                .setCancelable(false)
                                 .setIcon(R.mipmap.ic_launcher)
                                 .show()
                         }

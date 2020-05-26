@@ -37,4 +37,6 @@ object Const {
     const val OTG = "OTG"
     const val ODP = "ODP"
     const val TRAVELLER = "Traveler"
+    const val POSITIF = "POSITIF"
+    const val POSITIVE = "POSITIVE"
 }

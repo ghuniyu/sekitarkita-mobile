@@ -30,6 +30,10 @@
         <variable
             name="isLoading"
             type="Boolean" />
+
+        <variable
+            name="isDisableBtn"
+            type="Boolean" />
     </data>
 
 
@@ -189,6 +193,7 @@
                     android:drawableEnd="@drawable/ic_arrow_right_light"
                     android:onClick="@{onNext}"
                     android:text="@string/submit"
+                    android:enabled="@{!isDisableBtn}"
                     android:textAllCaps="false"
                     android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/counter"
