@@ -21,31 +21,15 @@ class SelfcheckViewModel(
         }
     }
 
-    fun nextPage() = withState { state ->
-        if (state.page != 6)
-            setState { copy(page = state.page + 1) }
-    }
+    fun nextPage() = setState { copy(page = this.page + (if (this.page != 6) 1 else 0)) }
+    fun prevPage() = setState { copy(page = this.page - (if (this.page != 1) 1 else 0)) }
+    fun cough() = setState { copy(hasCough = !this.hasCough) }
 
-    fun prevPage() = withState { state ->
-        if (state.page != 1)
-            setState { copy(page = state.page - 1) }
-    }
+    fun flu() = setState { copy(hasFlu = !this.hasFlu) }
 
-    fun cough() = withState {
-        setState { copy(hasCough = !it.hasCough) }
-    }
+    fun bD() = setState { copy(hasBreathProblem = !this.hasBreathProblem) }
 
-    fun flu() = withState {
-        setState { copy(hasFlu = !it.hasFlu) }
-    }
-
-    fun bD() = withState {
-        setState { copy(hasBreathProblem = !it.hasBreathProblem) }
-    }
-
-    fun soreThroat() = withState {
-        setState { copy(hasSoreThroat = !it.hasSoreThroat) }
-    }
+    fun soreThroat() = setState { copy(hasSoreThroat = !this.hasSoreThroat) }
 
     fun hasFever(value: Boolean) {
         setState { copy(hasFever = value) }

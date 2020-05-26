@@ -41,13 +41,19 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             status = "ODP"
         } else if ((s.inInfectedCountry || s.inInfectedCity)) {
             status = "Traveler"
+        } else if (s.hasFever && (s.hasCough || s.hasSoreThroat || s.hasFlu) && s.hasBreathProblem && (s.inInfectedCountry || s.inInfectedCity) && s.directContact) {
+            status = "Positif"
         }
         context?.let {
             AlertDialog.Builder(it)
                 .setTitle("Hasil Pemeriksaan Mandiri")
                 .setMessage("Dari Jawaban anda, maka Calculator menyimpulkan bahwa Anda $status ...")
-                .setPositiveButton("Tutup"
-                ) { _, _ -> view?.findNavController()?.navigate(R.id.action_selfcheckFragment_to_homeFragment) }
+                .setPositiveButton(
+                    "Tutup"
+                ) { _, _ ->
+                    view?.findNavController()
+                        ?.navigate(R.id.action_selfcheckFragment_to_homeFragment)
+                }
                 .show()
         }
     }
