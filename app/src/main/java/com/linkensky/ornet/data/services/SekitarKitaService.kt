@@ -1,8 +1,6 @@
 package com.linkensky.ornet.data.services
 
-import com.linkensky.ornet.data.model.BaseCollectionResponse
-import com.linkensky.ornet.data.model.CallCenter
-import com.linkensky.ornet.data.model.Hospital
+import com.linkensky.ornet.data.model.*
 import retrofit2.http.GET
 
 interface SekitarKitaService {
@@ -11,5 +9,11 @@ interface SekitarKitaService {
 
     @GET("call-centers")
     suspend fun getCallCenters(): BaseCollectionResponse<List<CallCenter>>
+
+    @GET("indonesia-statistics")
+    suspend fun getIndonesia(): List<Country>
+
+    @GET("province-statistics")
+    suspend fun getProvinces(): List<Province>
 }
 

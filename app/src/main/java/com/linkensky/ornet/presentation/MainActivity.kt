@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.ActivityMainBinding
 import com.linkensky.ornet.presentation.base.BaseActivity
+import org.greenrobot.eventbus.EventBus
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val topDestination = listOf(

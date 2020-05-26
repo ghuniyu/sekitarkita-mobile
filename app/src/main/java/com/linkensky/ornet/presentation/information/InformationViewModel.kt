@@ -3,7 +3,6 @@ package com.linkensky.ornet.presentation.information
 import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
-import com.linkensky.ornet.data.services.PublicService
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
 import com.linkensky.ornet.utils.rxApi
@@ -11,8 +10,7 @@ import org.koin.android.ext.android.inject
 
 class InformationViewModel(
     state: InformationState,
-    private val service: SekitarKitaService,
-    private val publicService: PublicService
+    private val service: SekitarKitaService
 ) : MvRxViewModel<InformationState>(state) {
 
     init {
@@ -20,7 +18,7 @@ class InformationViewModel(
     }
 
     fun getProvinces() = viewModelScope.rxApi {
-        publicService.getProvinces()
+        service.getProvinces()
     }.execute { copy(provinceStatistics= it) }
 
     fun getHospitals() = viewModelScope.rxApi {
@@ -34,8 +32,7 @@ class InformationViewModel(
     companion object : MvRxViewModelFactory<InformationViewModel, InformationState> {
         override fun create(viewModelContext: ViewModelContext, state: InformationState): InformationViewModel {
             val service: SekitarKitaService by viewModelContext.activity.inject()
-            val publicService: PublicService by viewModelContext.activity.inject()
-            return InformationViewModel(state, service, publicService)
+            return InformationViewModel(state, service)
         }
     }
 }

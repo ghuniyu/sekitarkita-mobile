@@ -2,7 +2,6 @@ package com.linkensky.ornet.presentation.selfcheck
 
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
-import com.linkensky.ornet.data.services.PublicService
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
 import org.koin.android.ext.android.inject

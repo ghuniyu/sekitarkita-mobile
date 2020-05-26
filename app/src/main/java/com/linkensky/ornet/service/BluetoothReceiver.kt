@@ -1,0 +1,211 @@
+package com.linkensky.ornet.service
+
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothClass
+import android.bluetooth.BluetoothDevice
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.location.Location
+import android.media.AudioAttributes
+import android.media.RingtoneManager
+import android.os.Build
+import android.os.Looper
+import android.util.Log
+import androidx.core.app.NotificationCompat
+import com.google.android.gms.location.*
+import com.linkensky.ornet.Const
+import com.linkensky.ornet.R
+import com.linkensky.ornet.presentation.home.BluetoothStateChanged
+import com.orhanobut.hawk.Hawk
+import org.greenrobot.eventbus.EventBus
+
+class BluetoothReceiver : BroadcastReceiver() {
+    companion object {
+        const val TAG = "BluetoothReceiver"
+        const val MINIMUM_SPEED = 4.6
+        fun deviceToString(device: BluetoothDevice): String {
+            return "[Address: " + device.address + ", Name: " + device.name + "]"
+        }
+    }
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if (!Hawk.isBuilt())
+            Hawk.init(context).build()
+
+        val action = intent?.action
+        Log.d(TAG, "Incoming intent : $action")
+        when (action) {
+            BluetoothDevice.ACTION_FOUND -> {
+                val device =
+                    intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                val deviceType = getBluetoothType(device.bluetoothClass.majorDeviceClass)
+                Log.d(TAG, "Device discovered! [${deviceType}] ${deviceToString(device)}")
+                if (context != null) {
+                    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                    fusedLocationClient.lastLocation.addOnCompleteListener {
+                        val location: Location? = it.result
+                        if (location == null) {
+                            requestNewLocationData(context)
+                        } else {
+                            if (!location.isFromMockProvider) {
+                                Log.d(TAG, "speed: ${location.speed}")
+                                Log.d(TAG, "latitude: ${location.latitude}")
+                                Log.d(TAG, "longitude: ${location.longitude}")
+                                Hawk.put(Const.STORAGE_LASTKNOWN_SPEED, location.speed)
+                                Hawk.put(Const.STORAGE_LASTKNOWN_LAT, location.latitude)
+                                Hawk.put(Const.STORAGE_LASTKNOWN_LNG, location.longitude)
+                            }
+                        }
+                    }
+                }
+
+                if (Hawk.get(Const.STORAGE_LASTKNOWN_SPEED, 0) > MINIMUM_SPEED) return
+
+                //FIXME: select specifics allowed type
+                val allowedType: IntArray = intArrayOf(
+                    BluetoothClass.Device.Major.AUDIO_VIDEO,
+                    BluetoothClass.Device.Major.COMPUTER,
+                    BluetoothClass.Device.Major.MISC,
+                    BluetoothClass.Device.Major.PHONE,
+                    BluetoothClass.Device.Major.UNCATEGORIZED,
+                    BluetoothClass.Device.Major.WEARABLE
+                )
+                if (!allowedType.contains(device.bluetoothClass.majorDeviceClass)) return
+
+//                Client.service.postStoreDevice(
+//                    StoreDeviceRequest(
+//                        Hawk.get(Constant.STORAGE_MAC_ADDRESS),
+//                        device.address,
+//                        Hawk.get(Constant.STORAGE_LASTKNOWN_LAT),
+//                        Hawk.get(Constant.STORAGE_LASTKNOWN_LNG),
+//                        Hawk.get(Constant.STORAGE_LASTKNOWN_SPEED),
+//                        device.name
+//                    )
+//                ).enqueue(object : Callback<StoreDeviceResponse> {
+//                    override fun onFailure(call: Call<StoreDeviceResponse>, t: Throwable) {
+//                        Log.w(TAG, t.localizedMessage)
+//                    }
+//
+//                    override fun onResponse(
+//                        call: Call<StoreDeviceResponse>,
+//                        response: Response<StoreDeviceResponse>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            response.body()?.nearby_device?.health_condition?.let {
+//                                if (it != ReportActivity.Health.HEALTHY.name) {
+//                                    context?.let { ctx ->
+//                                        showNotification(ctx, it.toUpperCase(Locale.getDefault()))
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                })
+            }
+            BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
+                Log.d(TAG, "Discovery ended.")
+            }
+            BluetoothAdapter.ACTION_STATE_CHANGED -> {
+                val bluetoothState = intent.getIntExtra(
+                    BluetoothAdapter.EXTRA_STATE,
+                    BluetoothAdapter.ERROR
+                )
+                when (bluetoothState) {
+                    BluetoothAdapter.STATE_ON -> {
+                        EventBus.getDefault().post(BluetoothStateChanged(true))
+                    }
+                    BluetoothAdapter.STATE_OFF -> {
+                        EventBus.getDefault().post(BluetoothStateChanged())
+                    }
+                }
+                Log.d(TAG, "Bluetooth state changed.")
+            }
+        }
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            Log.d(TAG, "latitude: ${mLastLocation.latitude}")
+            Log.d(TAG, "longitude: ${mLastLocation.longitude}")
+            Hawk.put(Const.STORAGE_LASTKNOWN_LAT, mLastLocation.latitude)
+            Hawk.put(Const.STORAGE_LASTKNOWN_LNG, mLastLocation.longitude)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData(context: Context) {
+        val mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        fusedLocationClient.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    private fun showNotification(context: Context, label: String) {
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val vibrate = longArrayOf(0, 100, 200, 300)
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val mChannel = NotificationChannel(
+                "YOUR_CHANNEL_ID",
+                "YOUR CHANNEL NAME",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            val attributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build()
+
+            mChannel.description = "Anda sedang berada di sekitar $label"
+            mChannel.enableLights(true)
+            mChannel.enableVibration(true)
+            mChannel.setSound(alarmSound, attributes)
+            notificationManager.createNotificationChannel(mChannel)
+
+        }
+
+        val notification =
+            NotificationCompat.Builder(context, Const.NOTIFICATION_SEKITAR_CHANNEL_ID)
+                .setContentTitle(context.getString(R.string.attention))
+                .setContentText("Anda sedang berada di sekitar $label")
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setChannelId(Const.NOTIFICATION_SEKITAR_CHANNEL_ID)
+                .setSound(alarmSound)
+                .setVibrate(vibrate)
+                .setOnlyAlertOnce(true)
+                .build()
+        notificationManager.notify(Const.NOTIFICATION_SEKITAR_ALERT_ID, notification)
+    }
+
+    private fun getBluetoothType(type: Int): String {
+        when (type) {
+            BluetoothClass.Device.Major.AUDIO_VIDEO -> return "AUDIO_VIDEO"
+            BluetoothClass.Device.Major.COMPUTER -> return "COMPUTER"
+            BluetoothClass.Device.Major.HEALTH -> return "HEALTH"
+            BluetoothClass.Device.Major.IMAGING -> return "IMAGING"
+            BluetoothClass.Device.Major.MISC -> return "MISC"
+            BluetoothClass.Device.Major.NETWORKING -> return "NETWORKING"
+            BluetoothClass.Device.Major.PERIPHERAL -> return "PERIPHERAL"
+            BluetoothClass.Device.Major.PHONE -> return "PHONE"
+            BluetoothClass.Device.Major.TOY -> return "TOY"
+            BluetoothClass.Device.Major.UNCATEGORIZED -> return "UNCATEGORIZED"
+            BluetoothClass.Device.Major.WEARABLE -> return "WEARABLE"
+        }
+        return "UNKNOWN"
+    }
+}

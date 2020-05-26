@@ -2,13 +2,14 @@ package com.linkensky.ornet
 
 import android.content.Context
 import android.content.res.Configuration
-import android.util.Log
 import androidx.multidex.MultiDexApplication
 import com.airbnb.mvrx.MvRx
 import com.airbnb.mvrx.MvRxViewModelConfigFactory
-import com.linkensky.ornet.data.networkModule
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.linkensky.ornet.di.appModule
 import com.orhanobut.hawk.Hawk
 import io.reactivex.plugins.RxJavaPlugins
+import org.greenrobot.eventbus.EventBus
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import java.lang.ref.WeakReference
@@ -23,13 +24,13 @@ class App : MultiDexApplication() {
 
         mContext = WeakReference(applicationContext)
 
-        RxJavaPlugins.setErrorHandler {
-            Log.d("RXJAVAERROR", it.toString())
+        RxJavaPlugins.setErrorHandler {throwable ->
+            throwable.message?.let { it -> FirebaseCrashlytics.getInstance().log(it) }
         }
 
         startKoin {
             androidContext(this@App)
-            modules(networkModule)
+            modules(appModule)
         }
     }
 

@@ -98,3 +98,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
         }
     }
 }
+
+class BluetoothStateChanged(
+    val isEnable: Boolean = false
+)

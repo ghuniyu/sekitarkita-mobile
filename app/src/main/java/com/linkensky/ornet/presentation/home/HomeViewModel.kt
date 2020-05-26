@@ -3,7 +3,6 @@ package com.linkensky.ornet.presentation.home
 import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
-import com.linkensky.ornet.data.services.PublicService
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
 import com.linkensky.ornet.utils.rxApi
@@ -11,8 +10,7 @@ import org.koin.android.ext.android.inject
 
 class HomeViewModel(
     state: HomeState,
-    val service: SekitarKitaService,
-    private val publicService: PublicService
+    val service: SekitarKitaService
 ) : MvRxViewModel<HomeState>(state) {
 
     init {
@@ -20,7 +18,7 @@ class HomeViewModel(
     }
 
     fun getIndonesiaStatistics() = viewModelScope.rxApi {
-       publicService.getIndonesia()
+       service.getIndonesia()
     }.execute {
         copy(indonesiaStatistics = it)
     }
@@ -29,8 +27,7 @@ class HomeViewModel(
     companion object : MvRxViewModelFactory<HomeViewModel, HomeState> {
         override fun create(viewModelContext: ViewModelContext, state: HomeState): HomeViewModel {
             val service: SekitarKitaService by viewModelContext.activity.inject()
-            val publicService: PublicService by viewModelContext.activity.inject()
-            return HomeViewModel(state, service, publicService)
+            return HomeViewModel(state, service)
         }
     }
 }
