@@ -55,7 +55,12 @@
     <fragment
         android:id="@+id/macAddressFragment"
         android:name="com.linkensky.ornet.presentation.mac.MacAddressFragment"
-        android:label="macAddressFragment"/>
+        android:label="macAddressFragment">
+        <action
+            android:id="@+id/action_macAddressFragment_to_selfcheckFragment"
+            app:destination="@id/selfcheckFragment"
+            app:enterAnim="@anim/fragment_fade_enter" />
+    </fragment>
 
     <fragment
         android:id="@+id/selfcheckFragment"

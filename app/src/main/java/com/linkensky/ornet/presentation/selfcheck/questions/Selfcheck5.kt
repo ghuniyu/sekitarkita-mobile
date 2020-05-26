@@ -41,6 +41,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
                     isLoading = false
                     isDisableBtn = true
                 }
+                Hawk.put(Const.SELF_TEST_COMPLETED, true)
                 val status =  Hawk.get<String>(Const.STORAGE_STATUS)
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Hasil Pemeriksaan Mandiri")

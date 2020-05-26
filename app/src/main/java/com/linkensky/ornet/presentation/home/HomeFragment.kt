@@ -128,9 +128,13 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
 
     private fun bluetoothOn() {
         if (Hawk.contains(Const.DEVICE_ID)) {
-            checkAutostart()
-            Log.d(TAG, getString(R.string.bluetooth_active))
-            requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
+            if(Hawk.contains(Const.SELF_TEST_COMPLETED)) {
+                checkAutostart()
+                Log.d(TAG, getString(R.string.bluetooth_active))
+                requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
+            }else {
+                navigateTo(R.id.action_homeFragment_to_selfcheckFragment)
+            }
         } else {
             retrieveMac()
         }
