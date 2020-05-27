@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="odp"
+            type="String" />
+
+        <variable
+            name="pdp"
+            type="String" />
+
+        <variable
+            name="positive"
+            type="String" />
+
+        <variable
+            name="onCheckClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/s"
+        android:layout_marginTop="@dimen/m"
+        android:layout_marginEnd="@dimen/s"
+        android:layout_marginBottom="@dimen/m"
+        app:cardCornerRadius="@dimen/m"
+        app:cardElevation="@dimen/xxs">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/odpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_recover"
+                app:layout_constraintBottom_toTopOf="@+id/odpLabel"
+                app:layout_constraintEnd_toEndOf="@+id/odpLabel"
+                app:layout_constraintStart_toStartOf="@+id/odpLabel" />
+
+
+            <TextView
+                android:id="@+id/odpLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/odp"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/div1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/odp"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{odp}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/odpLabel"
+                app:layout_constraintStart_toStartOf="@+id/odpLabel"
+                app:layout_constraintTop_toBottomOf="@+id/odpLabel" />
+
+            <View
+                android:id="@+id/div1"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/pdpLabel"
+                app:layout_constraintStart_toEndOf="@id/odpLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/pdpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_positive"
+                app:layout_constraintBottom_toTopOf="@+id/pdpLabel"
+                app:layout_constraintEnd_toEndOf="@+id/pdpLabel"
+                app:layout_constraintStart_toStartOf="@+id/pdpLabel" />
+
+            <TextView
+                android:id="@+id/pdpLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pdp"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/div2"
+                app:layout_constraintStart_toEndOf="@+id/div1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/pdp"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{pdp}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
+                app:layout_constraintTop_toBottomOf="@+id/positiveLabel" />
+
+            <View
+                android:id="@+id/div2"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/positiveLabel"
+                app:layout_constraintStart_toEndOf="@id/pdpLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/positiveIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_death"
+                app:layout_constraintBottom_toTopOf="@+id/positiveLabel"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel" />
+
+            <TextView
+                android:id="@+id/positiveLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/positive"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/div2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/positive"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{positive}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/pdpLabel"
+                app:layout_constraintStart_toStartOf="@+id/pdpLabel"
+                app:layout_constraintTop_toBottomOf="@+id/pdpLabel" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/odpLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/odpLabel"
+                app:layout_constraintStart_toStartOf="@+id/odpLabel"
+                app:layout_constraintTop_toBottomOf="@+id/odpLabel"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/pdpLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/pdpLabel"
+                app:layout_constraintStart_toStartOf="@+id/pdpLabel"
+                app:layout_constraintTop_toBottomOf="@+id/pdpLabel"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/positiveLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
+                app:layout_constraintTop_toBottomOf="@+id/positiveLabel"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

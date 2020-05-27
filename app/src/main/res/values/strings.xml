@@ -127,4 +127,6 @@
     <string name="info">Info</string>
     <string name="test_retake">Ubah Jawaban</string>
     <string name="close">Tutup</string>
+    <string name="odp">ODP</string>
+    <string name="pdp">PDP</string>
 </resources>

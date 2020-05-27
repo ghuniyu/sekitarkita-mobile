@@ -22,6 +22,7 @@ object Const {
     const val NOTIFICATION_SCORE = "com.linkensky.ornet.utils.notification.score"
     const val NOTIFY_OBSERVE_AREA = "com.linkensky.ornet.utils.notify.observe.area"
     const val IN_OBSERVE_AREA = "com.linkensky.ornet.utils.in.observe.area"
+    const val AREA_NAME = "com.linkensky.ornet.utils.area.name"
     const val NOTIFICATION_SCORE_DEFAULT = "default"
     const val NOTIFICATION_SCORE_CHANNEL = "com.linkensky.ornet.utils.notification.score.channel"
     const val NOTIFICATION_SCORE_CHANNEL_ID = "com.linkensky.ornet.utils.notification.score.channel.id"
