@@ -2,6 +2,8 @@ package com.linkensky.ornet.data
 
 import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.data.services.SekitarKitaService
+import io.socket.client.IO
+import io.socket.client.Socket
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -43,3 +45,7 @@ fun retrofit(url: String = BuildConfig.APP_BASE_URL): Retrofit {
 
 fun provideSekitarKitaService(retrofit: Retrofit): SekitarKitaService =
     retrofit.create(SekitarKitaService::class.java)
+
+fun socket(): Socket {
+    return IO.socket(BuildConfig.APP_SOCKET_URL)
+}

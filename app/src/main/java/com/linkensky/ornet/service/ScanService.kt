@@ -1,5 +1,6 @@
 package com.linkensky.ornet.service
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,13 +12,23 @@ import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.gson.Gson
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.event.PingEvent
+import com.linkensky.ornet.data.model.RequestUserReport
+import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.MainActivity
 import com.linkensky.ornet.presentation.home.BluetoothStateChanged
+import com.linkensky.ornet.utils.rxApi
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
+import io.socket.client.Socket
+import kotlinx.coroutines.GlobalScope
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.koin.android.ext.android.inject
+import org.koin.ext.scope
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -25,11 +36,16 @@ import java.util.concurrent.TimeUnit
 class ScanService : BaseService() {
 
     private var btAdapter: BluetoothAdapter? = null
-    private var btReceiver = BluetoothReceiver()
-    var scheduleTaskExecutor: ScheduledExecutorService = Executors.newScheduledThreadPool(5)
+    private var scheduleTaskExecutor: ScheduledExecutorService = Executors.newScheduledThreadPool(5)
+    private val socketClient: Socket by inject()
+    private val service: SekitarKitaService by inject()
+
+    private val btReceiver by lazy {
+        BluetoothReceiver(socketClient)
+    }
 
     companion object {
-        private const val TAG = "BluetoothReceiver"
+        private const val TAG = "ScanService"
     }
 
     override fun onStartCommand() {
@@ -56,9 +72,17 @@ class ScanService : BaseService() {
         startForeground()
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        EventBus.getDefault().register(this)
+        if (!socketClient.connected()) socketClient.connect()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(btReceiver)
+        EventBus.getDefault().unregister(this)
+        socketClient.disconnect()
     }
 
     private fun startForeground() {
@@ -105,6 +129,30 @@ class ScanService : BaseService() {
             Log.d(TAG, "StartDiscovery returned false. Maybe Bluetooth isn't on?")
         } else {
             Log.d(TAG, "StartDiscovery")
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    @Subscribe
+    fun onEvent(event: PingEvent) {
+        Log.d(TAG, "Subs: PingEvent")
+        if (socketClient.connected()) {
+            socketClient.emit(
+                "user-report", Gson().toJson(
+                    RequestUserReport(
+                        latitude = event.latitude,
+                        longitude = event.longitude,
+                        device_id = event.device_id,
+                        area = event.area
+                    )
+                )
+            ).on("sekitar-device-${Hawk.get<String>(Const.DEVICE_ID)}") {
+                Log.d(TAG, it.first().toString())
+
+                socketClient.off("sekitar-device-${Hawk.get<String>(Const.DEVICE_ID)}")
+            }
+        } else {
+            Log.d(TAG, "Disconnect Socket")
         }
     }
 }

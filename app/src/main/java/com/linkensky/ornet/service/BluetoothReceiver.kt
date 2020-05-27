@@ -17,13 +17,18 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
+import com.google.gson.Gson
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.model.RequestReportData
+import com.linkensky.ornet.data.model.RequestUserReport
 import com.linkensky.ornet.presentation.home.BluetoothStateChanged
 import com.orhanobut.hawk.Hawk
+import io.socket.client.Socket
 import org.greenrobot.eventbus.EventBus
+import org.koin.experimental.property.inject
 
-class BluetoothReceiver : BroadcastReceiver() {
+class BluetoothReceiver(val clientSocket: Socket) : BroadcastReceiver() {
     companion object {
         const val TAG = "BluetoothReceiver"
         const val MINIMUM_SPEED = 4.6

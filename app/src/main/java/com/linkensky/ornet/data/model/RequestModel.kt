@@ -26,3 +26,10 @@ data class ReportDataRequest(
 data class InteractionHistoryRequest(
     val device_id: String
 )
+
+data class RequestUserReport(
+    val device_id: String,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    val area: String? = null
+)

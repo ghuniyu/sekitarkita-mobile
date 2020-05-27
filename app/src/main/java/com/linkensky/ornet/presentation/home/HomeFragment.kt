@@ -21,6 +21,7 @@ import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentHomeBinding
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
+import com.linkensky.ornet.service.LocationService
 import com.linkensky.ornet.service.ScanService
 import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.MacAddressRetriever
@@ -41,6 +42,10 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
 
     private val controller by lazy {
         HomeController(viewModel)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -147,6 +152,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 checkAutostart()
                 Log.d(TAG, getString(R.string.bluetooth_active))
                 requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
+                requireActivity().startService(Intent(requireActivity(), LocationService::class.java))
             } else {
                 navigateTo(R.id.action_homeFragment_to_selfcheckFragment)
             }
@@ -205,6 +211,9 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
         EventBus.getDefault().unregister(this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
     companion object {
         const val TAG = "HOME_FRAGMENT"

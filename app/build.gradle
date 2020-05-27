@@ -42,6 +42,7 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'APP_BASE_URL', rootProject['app.baseUrl']
         it.buildConfigField 'String', 'APP_IMAGE_URL', rootProject['app.imageUrl']
+        it.buildConfigField 'String', 'APP_SOCKET_URL', rootProject['app.socketUrl']
         it.buildConfigField 'Integer[]', 'APP_KAWALCRN_API', rootProject['app.KawalCRNAPI']
         it.buildConfigField 'Integer[]', 'APP_SELFCHECK_URL', rootProject['app.selfCheckUrl']
     }
@@ -134,7 +135,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'org.greenrobot:eventbus:3.2.0'
 
-    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
 
 configurations {
