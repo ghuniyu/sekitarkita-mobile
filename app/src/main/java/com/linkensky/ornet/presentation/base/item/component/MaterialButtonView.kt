@@ -48,7 +48,7 @@ class MaterialButtonView(context: Context) : FrameLayout(context),
     }
 
     data class Model(
-        var text: CharSequence = "",
+        var text: String = "",
         var clickListener: KeyValue<((View) -> Unit)?> = KeyValue(null),
         var enabled: Boolean = true,
         var allCaps: Boolean = true,

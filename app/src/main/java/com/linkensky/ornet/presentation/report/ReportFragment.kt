@@ -11,23 +11,31 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.ChangeStatusRequest
 import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentReportBinding
+import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.presentation.base.BaseFragment
+import com.linkensky.ornet.presentation.base.MvRxEpoxyController
+import com.linkensky.ornet.presentation.base.buildController
+import com.linkensky.ornet.presentation.base.item.Frame
+import com.linkensky.ornet.presentation.base.item.LayoutOption
+import com.linkensky.ornet.presentation.base.item.component.LottieLoading
+import com.linkensky.ornet.presentation.base.item.component.MaterialButtonView
+import com.linkensky.ornet.presentation.base.item.keyValue
+import com.linkensky.ornet.utils.addModel
+import com.linkensky.ornet.utils.dp
 import com.linkensky.ornet.utils.required
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
 
-class ReportFragment : BaseFragment<FragmentReportBinding>() {
+class ReportFragment : BaseEpoxyFragment<FragmentReportBinding>() {
     private val viewModel: ReportViewModel by activityViewModel()
-
-    override fun getLayoutRes() = R.layout.fragment_report
+    override var fragmentLayout = R.layout.fragment_report
     override fun invalidate() {}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +76,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             val confirm = d.findViewById<Button>(R.id.confirm)
 
             message.text = getString(R.string.report_confirmation, status.toString())
-            name.setText(state.name)
+            name.setText(Hawk.get<String>(Const.NAME))
             phone.setText(state.phone)
             travelHistory.setText(state.travelHistory)
 
@@ -119,5 +127,47 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 name = state.name!!
             )
         )
+    }
+
+    override fun epoxyController() = buildController(viewModel) { state ->
+        when (state.responsePostChangeStatus) {
+            is Loading -> addModel(
+                "loading-device-history",
+                LottieLoading(
+                    layout = LayoutOption(
+                        margin = Frame(
+                            right = 8.dp,
+                            left = 8.dp,
+                            top = 80.dp,
+                            bottom = 0.dp
+                        )
+                    )
+                )
+            )
+            is Success -> {
+                state.responsePostChangeStatus()?.message?.let { msg ->
+                    addModel(
+                        "post-change-success",
+                        MaterialButtonView.Model(
+                            text = msg,
+                            clickListener = keyValue { _ -> postReport() },
+                            allCaps = false,
+                            layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
+                        )
+                    )
+                }
+            }
+            is Fail -> {
+                addModel(
+                    "post-change-fail",
+                    MaterialButtonView.Model(
+                        text = R.string.refresh.resString(),
+                        clickListener = keyValue { _ -> postReport() },
+                        allCaps = false,
+                        layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
+                    )
+                )
+            }
+        }
     }
 }
