@@ -7,18 +7,19 @@ import com.linkensky.ornet.R
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckViewModel
 import com.linkensky.ornet.testSummary
+import com.linkensky.ornet.utils.resString
 
 class SelfcheckResultController(private val viewModel: SelfcheckViewModel) : MvRxEpoxyController() {
     override fun buildModels() = withState(viewModel) {
         testSummary {
             id("question-1")
-            question(App.getContext().getString(R.string.quest_1))
+            question(R.string.quest_1.resString())
             answer(if (it.hasFever) "Ya" else "Tidak")
         }
 
         testSummary {
             id("question-2")
-            question(App.getContext().getString(R.string.quest_2))
+            question(R.string.quest_2.resString())
             val ans = arrayListOf<String>()
             if (it.hasCough) ans.add("Batuk")
             if (it.hasFlu) ans.add("Pilek")
@@ -29,25 +30,25 @@ class SelfcheckResultController(private val viewModel: SelfcheckViewModel) : MvR
 
         testSummary {
             id("question-3")
-            question(App.getContext().getString(R.string.quest_3))
+            question(R.string.quest_3.resString())
             answer(if (it.hasFever) "Ya" else "Tidak")
         }
 
         testSummary {
             id("question-4")
-            question(App.getContext().getString(R.string.quest_4))
+            question(R.string.quest_4.resString())
             answer(if (it.hasFever) "Ya" else "Tidak")
         }
 
         testSummary {
             id("question-5")
-            question(App.getContext().getString(R.string.quest_5))
+            question(R.string.quest_5.resString())
             answer(if (it.hasFever) "Ya" else "Tidak")
         }
 
         testSummary {
             id("question-result")
-            question(App.getContext().getString(R.string.result))
+            question(R.string.result.resString())
             answer(it.status.toString())
         }
     }

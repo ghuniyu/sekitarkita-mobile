@@ -13,10 +13,16 @@ import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.model.ChangeStatusRequest
 import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentReportBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
+import com.linkensky.ornet.utils.required
+import com.linkensky.ornet.utils.resString
+import com.orhanobut.hawk.Hawk
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private val viewModel: ReportViewModel by activityViewModel()
@@ -44,6 +50,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         }
     }
 
+
     private fun reportDialog(status: Status) = withState(viewModel) { state ->
         viewModel.setStatus(status)
         context?.let { ctx ->
@@ -53,7 +60,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             d.setContentView(R.layout.dialog_report)
             d.setCancelable(false)
 
-            val name = d.findViewById<TextView>(R.id.name)
+            val name = d.findViewById<EditText>(R.id.name)
             val message = d.findViewById<TextView>(R.id.message)
             val phone = d.findViewById<EditText>(R.id.phone)
             val travelHistory = d.findViewById<EditText>(R.id.travel_history)
@@ -61,7 +68,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             val confirm = d.findViewById<Button>(R.id.confirm)
 
             message.text = getString(R.string.report_confirmation, status.toString())
-            name.text = state.name
+            name.setText(state.name)
             phone.setText(state.phone)
             travelHistory.setText(state.travelHistory)
 
@@ -81,10 +88,36 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 d.dismiss()
             }
             confirm.setOnClickListener {
-                viewModel.postReport()
-                d.dismiss()
+                if (Hawk.contains(Const.DEVICE_ID)) {
+                    phone.required("Nomor Telepon Harus diisi") {
+                        name.required("Nama harus diisi") {
+                            postReport()
+                        }
+                    }
+                    d.dismiss()
+                } else {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.oops))
+                        .setMessage(getString(R.string.no_device_id))
+                        .setPositiveButton(getString(R.string.understand)) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .setIcon(R.mipmap.ic_launcher)
+                        .show()
+                }
             }
             d.show()
         }
+    }
+
+    private fun postReport() = withState(viewModel) { state ->
+        viewModel.postChangeStatus(
+            ChangeStatusRequest(
+                device_id = Hawk.get(Const.DEVICE_ID),
+                health = state.status.getValue(),
+                phone = state.phone!!,
+                name = state.name!!
+            )
+        )
     }
 }

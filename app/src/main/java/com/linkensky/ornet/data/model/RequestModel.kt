@@ -1,6 +1,14 @@
 package com.linkensky.ornet.data.model
 
-data class RequestReportData(
+data class ChangeStatusRequest(
+    val device_id: String,
+    val health: String,
+    val phone: String,
+    val name: String,
+    val nik: String? = null
+)
+
+data class ReportDataRequest(
     val device_id: String,
     val has_fever: Boolean,
     val has_flu: Boolean,

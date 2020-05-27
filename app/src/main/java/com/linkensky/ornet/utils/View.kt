@@ -1,5 +1,6 @@
 package com.linkensky.ornet.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -84,3 +86,15 @@ fun EditText.validate(message: String, validator: (String) -> Boolean) {
 }
 
 fun String.validPhone() = this.matches(Regex("^(^\\+62\\s?|^0)(\\d{3,4}-?){2}\\d{3,4}\$"))
+
+
+fun EditText.required(
+    error: String,
+    fulfil: (() -> Unit)
+): String {
+    if (this.text.isNullOrBlank())
+        this.error = error
+    else
+        fulfil()
+    return this.text.toString()
+}

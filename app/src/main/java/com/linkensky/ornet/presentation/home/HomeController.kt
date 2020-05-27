@@ -74,7 +74,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
         greeting {
             id("greeting")
             greeting(greeting)
-            name(Hawk.get(Const.NAME, App.getContext().getString(R.string.anonym)))
+            name(Hawk.get(Const.NAME, R.string.anonym.resString()))
             zoneInfo(zones[k]?.info)
             zone(k)
             onSelfcheck { view ->

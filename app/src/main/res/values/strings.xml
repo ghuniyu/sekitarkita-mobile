@@ -129,4 +129,7 @@
     <string name="close">Tutup</string>
     <string name="odp">ODP</string>
     <string name="pdp">PDP</string>
+    <string name="no_device_id">Anda belum memiliki Device ID, silahkan memasukan di halaman info</string>
+    <string name="general_error">Terjadi kesalahan, coba ulangi lagi.</string>
+    <string name="try_again">Ulangi</string>
 </resources>

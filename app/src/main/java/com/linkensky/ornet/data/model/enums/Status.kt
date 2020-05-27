@@ -16,6 +16,17 @@ enum class Status(private val info: Int) {
         return App.getContext().getString(info)
     }
 
+    fun getValue(): String {
+        return when (this) {
+            ODP -> "odp"
+            PDP -> "pdp"
+            POSITIVE -> "positive"
+            OTG -> "otg"
+            TRAVELER -> "traveler"
+            else -> "healthy"
+        }
+    }
+
     @DrawableRes
     fun getDrawable(): Int {
         return when (this) {

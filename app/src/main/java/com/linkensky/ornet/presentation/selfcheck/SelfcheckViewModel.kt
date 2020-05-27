@@ -3,7 +3,7 @@ package com.linkensky.ornet.presentation.selfcheck
 import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
-import com.linkensky.ornet.data.model.RequestReportData
+import com.linkensky.ornet.data.model.ReportDataRequest
 import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
@@ -60,7 +60,7 @@ class SelfcheckViewModel(
     fun setStatus(status: Status) = setState { copy(status = status) }
     fun setName(name: String) = setState { copy(name = name) }
 
-    fun storeReportTest(resultTest: RequestReportData) = viewModelScope.rxApi {
+    fun storeReportTest(resultTest: ReportDataRequest) = viewModelScope.rxApi {
         service.storeSelfCheck(resultTest)
     }.execute {
         copy(responseStoreTest = it)

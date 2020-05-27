@@ -3,12 +3,10 @@ package com.linkensky.ornet.presentation.selfcheck.questions
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.navigation.findNavController
 import com.airbnb.mvrx.*
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
-import com.linkensky.ornet.data.model.RequestReportData
+import com.linkensky.ornet.data.model.ReportDataRequest
 import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentSelfcheck5Binding
 import com.linkensky.ornet.presentation.base.BaseFragment
@@ -80,7 +78,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
         Hawk.put(Const.PHONE, s.phone)
 
         viewModel.setStatus(status)
-        viewModel.storeReportTest(RequestReportData(
+        viewModel.storeReportTest(ReportDataRequest(
             device_id = Hawk.get(Const.DEVICE_ID),
             has_fever = s.hasFever,
             has_cough = s.hasCough,
@@ -90,7 +88,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             has_in_infected_city = s.inInfectedCity,
             has_in_infected_country = s.inInfectedCountry,
             has_sore_throat = s.hasSoreThroat,
-            result = Formatter.low(status.name),
+            result = status.getValue(),
             name = s.name!!,
             phone = s.phone!!
         ))
