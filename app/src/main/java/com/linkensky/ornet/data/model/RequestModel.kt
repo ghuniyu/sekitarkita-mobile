@@ -23,6 +23,11 @@ data class ReportDataRequest(
     val phone: String
 )
 
+data class FirebaseTokenRequest(
+    val device_id: String,
+    val firebase_token: String
+)
+
 data class InteractionHistoryRequest(
     val device_id: String
 )

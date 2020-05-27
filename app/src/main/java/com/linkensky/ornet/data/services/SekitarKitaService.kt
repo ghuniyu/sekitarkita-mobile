@@ -29,5 +29,8 @@ interface SekitarKitaService {
 
     @POST("change-status")
     suspend fun postChangeStatus(@Body request: ChangeStatusRequest): BaseResponse
+
+    @POST("store-firebase")
+    suspend fun postFirebase(@Body request: FirebaseTokenRequest): BaseResponse
 }
 
