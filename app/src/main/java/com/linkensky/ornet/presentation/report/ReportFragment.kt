@@ -33,10 +33,13 @@ import com.linkensky.ornet.utils.required
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
 
-class ReportFragment : BaseEpoxyFragment<FragmentReportBinding>() {
+class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private val viewModel: ReportViewModel by activityViewModel()
-    override var fragmentLayout = R.layout.fragment_report
+    override fun getLayoutRes() = R.layout.fragment_report
     override fun invalidate() {}
+    private val controller: ReportController by lazy {
+        ReportController(viewModel)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,7 +58,31 @@ class ReportFragment : BaseEpoxyFragment<FragmentReportBinding>() {
                 }
             }
             text = "Lapor Infeksi"
+            controller.requestModelBuild()
         }
+
+        viewModel.asyncSubscribe(
+            subscriptionLifecycleOwner,
+            ReportState::responsePostChangeStatus,
+            onSuccess = {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.success))
+                    .setMessage(it.message)
+                    .setPositiveButton(getString(R.string.close)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            },
+            onFail = {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.oops))
+                    .setMessage(getString(R.string.general_error))
+                    .setPositiveButton(getString(R.string.try_again)) { _, _ ->
+                        postReport()
+                    }
+                    .show()
+            }
+        )
     }
 
 
@@ -127,47 +154,5 @@ class ReportFragment : BaseEpoxyFragment<FragmentReportBinding>() {
                 name = state.name!!
             )
         )
-    }
-
-    override fun epoxyController() = buildController(viewModel) { state ->
-        when (state.responsePostChangeStatus) {
-            is Loading -> addModel(
-                "loading-device-history",
-                LottieLoading(
-                    layout = LayoutOption(
-                        margin = Frame(
-                            right = 8.dp,
-                            left = 8.dp,
-                            top = 80.dp,
-                            bottom = 0.dp
-                        )
-                    )
-                )
-            )
-            is Success -> {
-                state.responsePostChangeStatus()?.message?.let { msg ->
-                    addModel(
-                        "post-change-success",
-                        MaterialButtonView.Model(
-                            text = msg,
-                            clickListener = keyValue { _ -> postReport() },
-                            allCaps = false,
-                            layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
-                        )
-                    )
-                }
-            }
-            is Fail -> {
-                addModel(
-                    "post-change-fail",
-                    MaterialButtonView.Model(
-                        text = R.string.refresh.resString(),
-                        clickListener = keyValue { _ -> postReport() },
-                        allCaps = false,
-                        layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
-                    )
-                )
-            }
-        }
     }
 }
