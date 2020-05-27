@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.linkensky.ornet">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -18,7 +19,6 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme">
         <!--        <activity android:name=".ui.activity.InformationActivity" />-->
 
@@ -46,6 +46,7 @@
          <activity android:name=".ui.activity.ReportActivity" />
          <activity android:name=".ui.activity.InteractionHistoryActivity" />-->
         <service android:name=".service.ScanService" />
+        <service android:name=".service.LocationService" />
         <!--
         <service android:name=".service.LocationService" />
         <service android:name=".service.PingService" />
