@@ -1,5 +1,6 @@
 package com.linkensky.ornet.presentation.selfcheck.questions
 
+import android.util.Log
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.App
 import com.linkensky.ornet.R
@@ -9,7 +10,6 @@ import com.linkensky.ornet.testSummary
 
 class SelfcheckResultController(private val viewModel: SelfcheckViewModel) : MvRxEpoxyController() {
     override fun buildModels() = withState(viewModel) {
-
         testSummary {
             id("question-1")
             question(App.getContext().getString(R.string.quest_1))

@@ -41,12 +41,15 @@ class SelfcheckResult : BaseEpoxyFragment<FragmentSelfcheckResultBinding>() {
         }
     }
 
-    override fun invalidate() = withState(viewModel) {
-        binding.apply {
-            result = it.status.toString()
-            illustration = it.status.getDrawable()
+    override fun invalidate() {
+        recyclerView.requestModelBuild()
+        
+        withState(viewModel) {
+            binding.apply {
+                result = it.status.toString()
+                illustration = it.status.getDrawable()
+            }
         }
-        return@withState
     }
 
     override fun epoxyController() = controller

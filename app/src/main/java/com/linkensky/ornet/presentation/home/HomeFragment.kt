@@ -211,4 +211,4 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
         const val REQUEST_BLUETOOTH = 2
         const val RESPONSE_BLUETOOTH_DENY = 0
     }
-}
+} 

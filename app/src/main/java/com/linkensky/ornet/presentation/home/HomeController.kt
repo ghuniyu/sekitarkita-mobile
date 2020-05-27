@@ -1,14 +1,25 @@
 package com.linkensky.ornet.presentation.home
 
+import android.view.Gravity
 import androidx.annotation.DrawableRes
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.carousel
+import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.*
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
+import com.linkensky.ornet.presentation.base.item.Frame
+import com.linkensky.ornet.presentation.base.item.LayoutOption
+import com.linkensky.ornet.presentation.base.item.component.MaterialButtonView
+import com.linkensky.ornet.presentation.base.item.component.ViewText
+import com.linkensky.ornet.presentation.base.item.keyValue
+import com.linkensky.ornet.utils.addModel
+import com.linkensky.ornet.utils.dp
+import com.linkensky.ornet.utils.resString
+import com.linkensky.ornet.utils.sp
 import com.orhanobut.hawk.Hawk
 
 data class Partner(
@@ -22,13 +33,14 @@ data class Zone(
     val info: String,
     val radar: String
 )
+
 class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController() {
 
     override fun buildModels() = withState(viewModel) { state ->
         val zones = hashMapOf(
-            'r' to Zone("Merah","Anda Sedang di Zona Merah Covid-19", "lottie/radar-red.json"),
-            'g' to Zone("Hijau","Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
-            'y' to Zone("Kuning","Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json")
+            'r' to Zone("Merah", "Anda Sedang di Zona Merah Covid-19", "lottie/radar-red.json"),
+            'g' to Zone("Hijau", "Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
+            'y' to Zone("Kuning", "Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json")
         )
         val k = zones.keys.random()
 
@@ -79,6 +91,27 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                     positive(data.positif)
                     death(data.meninggal)
                 }
+            }
+
+            is Fail -> {
+                addModel(
+                    "stas-fail-text",
+                    ViewText.Model(
+                        text = R.string.something_went_wrong.resString(),
+                        gravity = Gravity.CENTER,
+                        layout = LayoutOption(margin = Frame(8.dp, 32.dp, 8.dp, 0.dp)),
+                        textSize = 13f.sp
+                    )
+                )
+                addModel(
+                    "stas-fail",
+                    MaterialButtonView.Model(
+                        text = R.string.refresh.resString(),
+                        clickListener = keyValue { _ -> viewModel.getIndonesiaStatistics() },
+                        allCaps = false,
+                        layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
+                    )
+                )
             }
         }
 
