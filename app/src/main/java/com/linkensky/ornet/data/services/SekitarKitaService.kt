@@ -18,6 +18,9 @@ interface SekitarKitaService {
     @GET("province-statistics")
     suspend fun getProvinces(): List<Province>
 
+    @GET("gorontalo-statistics")
+    suspend fun getGorontalo(): GtoStatisticResponse
+
     @POST("store-selfcheck")
     suspend fun storeSelfCheck(@Body request: RequestReportData): BaseResponse
 

@@ -21,6 +21,7 @@ import com.linkensky.ornet.utils.dp
 import com.linkensky.ornet.utils.resString
 import com.linkensky.ornet.utils.sp
 import com.orhanobut.hawk.Hawk
+import java.util.*
 
 data class Partner(
     val name: String,
@@ -53,9 +54,26 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             }
         }
 
+        var greeting = "Selamat Pagi"
+        val calendar = Calendar.getInstance()
+        when (calendar.get(Calendar.HOUR_OF_DAY)) {
+            in 0..11 -> {
+                greeting = "Selamat Pagi"
+            }
+            in 12..15 -> {
+                greeting = "Selamat Siang"
+            }
+            in 16..20 -> {
+                greeting = "Selamat Sore"
+            }
+            in 21..23 -> {
+                greeting = "Selamat Maklam"
+            }
+        }
+
         greeting {
             id("greeting")
-            greeting("Selamat Malam")
+            greeting(greeting)
             name(Hawk.get(Const.NAME, App.getContext().getString(R.string.anonym)))
             zoneInfo(zones[k]?.info)
             zone(k)
@@ -69,49 +87,98 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             text("Data Indonesia Terkini")
         }
 
-        subHeader {
-            id("confirm_info")
-            text("Data ini disediakan oleh kawalcorona.com")
-        }
-
-        when (val response = state.indonesiaStatistics) {
-            is Loading -> {
-                stats {
-                    id("stats")
-                    isLoading(true)
-                }
+        if (Hawk.get<String>(Const.AREA_NAME, null) == "gorontalo") {
+            subHeader {
+                id("confirm_info")
+                text("Data ini disediakan oleh gorontaloprov.go.id")
             }
 
-            is Success -> {
-                val data = response().first()
-                stats {
-                    id("stats")
-                    isLoading(false)
-                    recovered(data.sembuh)
-                    positive(data.positif)
-                    death(data.meninggal)
+            when (val response = state.gorontaloStatistics) {
+                is Loading -> {
+                    gtoStats {
+                        id("stats")
+                        isLoading(true)
+                    }
+                }
+
+                is Success -> {
+                    val data = response().data
+                    gtoStats {
+                        id("stats")
+                        isLoading(false)
+                        odp(data[0].statuses[0].orangs_count.toString())
+                        pdp(data[1].statuses[0].orangs_count.toString())
+                        positive(data[2].statuses[0].orangs_count.toString())
+
+                    }
+                }
+
+                is Fail -> {
+                    addModel(
+                        "stas-fail-text",
+                        ViewText.Model(
+                            text = R.string.something_went_wrong.resString(),
+                            gravity = Gravity.CENTER,
+                            layout = LayoutOption(margin = Frame(8.dp, 32.dp, 8.dp, 0.dp)),
+                            textSize = 13f.sp
+                        )
+                    )
+                    addModel(
+                        "stas-fail",
+                        MaterialButtonView.Model(
+                            text = R.string.refresh.resString(),
+                            clickListener = keyValue { _ -> viewModel.getIndonesiaStatistics() },
+                            allCaps = false,
+                            layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
+                        )
+                    )
                 }
             }
+        } else {
+            subHeader {
+                id("confirm_info")
+                text("Data ini disediakan oleh kawalcorona.com")
+            }
 
-            is Fail -> {
-                addModel(
-                    "stas-fail-text",
-                    ViewText.Model(
-                        text = R.string.something_went_wrong.resString(),
-                        gravity = Gravity.CENTER,
-                        layout = LayoutOption(margin = Frame(8.dp, 32.dp, 8.dp, 0.dp)),
-                        textSize = 13f.sp
+            when (val response = state.indonesiaStatistics) {
+                is Loading -> {
+                    stats {
+                        id("stats")
+                        isLoading(true)
+                    }
+                }
+
+                is Success -> {
+                    val data = response().first()
+                    stats {
+                        id("stats")
+                        isLoading(false)
+                        recovered(data.sembuh)
+                        positive(data.positif)
+                        death(data.meninggal)
+                    }
+                }
+
+                is Fail -> {
+                    addModel(
+                        "stas-fail-text",
+                        ViewText.Model(
+                            text = R.string.something_went_wrong.resString(),
+                            gravity = Gravity.CENTER,
+                            layout = LayoutOption(margin = Frame(8.dp, 32.dp, 8.dp, 0.dp)),
+                            textSize = 13f.sp
+                        )
                     )
-                )
-                addModel(
-                    "stas-fail",
-                    MaterialButtonView.Model(
-                        text = R.string.refresh.resString(),
-                        clickListener = keyValue { _ -> viewModel.getIndonesiaStatistics() },
-                        allCaps = false,
-                        layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
+                    addModel(
+                        "stas-fail",
+                        MaterialButtonView.Model(
+                            text = R.string.refresh.resString(),
+                            clickListener = keyValue { _ -> viewModel.getIndonesiaStatistics() },
+                            allCaps = false,
+                            layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 32.dp))
+                        )
                     )
-                )
+                }
             }
         }
 
