@@ -12,7 +12,6 @@ import com.linkensky.ornet.databinding.FragmentSelfcheck5Binding
 import com.linkensky.ornet.presentation.base.BaseFragment
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckState
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckViewModel
-import com.linkensky.ornet.utils.Formatter
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_selfcheck_5.*
 
@@ -73,7 +72,7 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             status = Status.POSITIVE
         }
 
-        Hawk.put(Const.STORAGE_STATUS, status)
+        Hawk.put(Const.STATUS, status)
         Hawk.put(Const.NAME, s.name)
         Hawk.put(Const.PHONE, s.phone)
 

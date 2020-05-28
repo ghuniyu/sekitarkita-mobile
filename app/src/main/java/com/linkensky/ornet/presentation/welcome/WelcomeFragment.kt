@@ -188,6 +188,7 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
                         LocationService::class.java
                     )
                 )
+                navigateTo(R.id.action_welcomeFragment_to_homeFragment)
             } else {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.self_check))
