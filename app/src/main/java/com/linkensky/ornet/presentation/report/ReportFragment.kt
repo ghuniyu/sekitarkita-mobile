@@ -8,7 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
@@ -17,8 +18,8 @@ import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentReportBinding
 import com.linkensky.ornet.presentation.base.BaseFragment
 import com.linkensky.ornet.utils.required
-import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
+import kotlin.random.Random
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private val viewModel: ReportViewModel by activityViewModel()
@@ -51,6 +52,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         viewModel.asyncSubscribe(
             subscriptionLifecycleOwner,
             ReportState::responsePostChangeStatus,
+            uniqueOnly(Random.nextInt().toString()),
             onSuccess = {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.success))
