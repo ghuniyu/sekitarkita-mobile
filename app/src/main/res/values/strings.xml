@@ -105,7 +105,7 @@
     <string name="quest_4_info">Jakarta, Depok, Bandung, Solo, Bogor, Bali, Semarang dll</string>
     <string name="quest_5">Apakah Anda pernah berkontak fisik dengan pasien Positif COVID-19 atau mengunjungi fasilitas kesehatan berhubungan dengan pasien konfirmasi COVID-19?</string>
     <string name="quest_5_info">Malaysia, Singapura, China, dll dalam Daftar Negara Terpapar</string>
-    <string name="result">Maka disimpulkan bahwa anda</string>
+    <string name="result">Maka disimpulkan bahwa</string>
     <string name="submit">Lihat Hasil</string>
     <string name="empty_data">Data tidak ditemukan</string>
     <string name="something_went_wrong">Oops! Terjadi Kesalahan</string>

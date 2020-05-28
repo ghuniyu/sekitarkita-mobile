@@ -1,46 +1,39 @@
 package com.linkensky.ornet.presentation.welcome
 
 import android.Manifest
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
-import com.airbnb.epoxy.EpoxyController
-import com.airbnb.mvrx.MvRx
-import com.airbnb.mvrx.activityViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
 import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentWelcomeBinding
 import com.linkensky.ornet.presentation.base.*
 import com.linkensky.ornet.presentation.home.BluetoothStateChanged
-import com.linkensky.ornet.presentation.home.HomeController
 import com.linkensky.ornet.presentation.home.HomeFragment
-import com.linkensky.ornet.presentation.home.HomeViewModel
 import com.linkensky.ornet.service.LocationService
 import com.linkensky.ornet.service.MessagingService
 import com.linkensky.ornet.service.ScanService
 import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.MacAddressRetriever
-import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
@@ -98,58 +91,111 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
     }
 
     private fun requestLocationPermission() {
-        Dexter.withContext(context)
-            .withPermission(
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(grantedResponse: PermissionGrantedResponse?) {
-                    enableBluetooth()
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Dexter.withContext(context)
+                .withPermissions(
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permissionRequest: PermissionRequest?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-
-                override fun onPermissionDenied(permissionDeniedResponse: PermissionDeniedResponse?) {
-                    permissionDeniedResponse?.let {
-                        if (it.isPermanentlyDenied) {
-                            MaterialAlertDialogBuilder(requireContext())
-                                .setTitle(R.string.location_permission.resString())
-                                .setMessage(R.string.request_location_permission.resString())
-                                .setPositiveButton(R.string.understand.resString()) { _, _ ->
-                                    openSettings()
-                                }
-                                .setNegativeButton(getString(R.string.exit)) { _, _ ->
-                                    activity?.finish()
-                                }
-                                .setCancelable(false)
-                                .setIcon(R.mipmap.ic_launcher)
-                                .show()
-                        } else {
-                            MaterialAlertDialogBuilder(requireContext())
-                                .setTitle(R.string.location_permission.resString())
-                                .setMessage(R.string.request_location_permission.resString())
-                                .setPositiveButton(R.string.understand.resString()) { _, _ ->
-                                    requestLocationPermission()
-                                }
-                                .setNegativeButton(getString(R.string.exit)) { _, _ ->
-                                    activity?.finish()
-                                }
-                                .setCancelable(false)
-                                .setIcon(R.mipmap.ic_launcher)
-                                .show()
+                        report?.let {
+                            when {
+                                it.areAllPermissionsGranted() -> enableBluetooth()
+                                it.isAnyPermissionPermanentlyDenied -> MaterialAlertDialogBuilder(
+                                    requireContext()
+                                )
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        openSettings()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                                else -> MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        requestLocationPermission()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                            }
                         }
                     }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        list: MutableList<PermissionRequest>?,
+                        token: PermissionToken?
+                    ) {
+                        token?.continuePermissionRequest()
+                    }
+                })
+                .withErrorListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                }.check()
+        } else
+            Dexter.withContext(context)
+                .withPermission(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .withListener(object : PermissionListener {
+                    override fun onPermissionGranted(grantedResponse: PermissionGrantedResponse?) {
+                        enableBluetooth()
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permissionRequest: PermissionRequest?,
+                        token: PermissionToken?
+                    ) {
+                        token?.continuePermissionRequest()
+                    }
+
+                    override fun onPermissionDenied(permissionDeniedResponse: PermissionDeniedResponse?) {
+                        permissionDeniedResponse?.let {
+                            if (it.isPermanentlyDenied) {
+                                MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        openSettings()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                            } else {
+                                MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        requestLocationPermission()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                            }
+                        }
+                    }
+                })
+                .withErrorListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                 }
-            })
-            .withErrorListener {
-                Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
-            }
-            .check()
+                .check()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
