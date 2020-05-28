@@ -1,6 +1,5 @@
 package com.linkensky.ornet.service
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,23 +11,23 @@ import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.google.gson.Gson
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.event.PingEvent
-import com.linkensky.ornet.data.model.RequestUserReport
+import com.linkensky.ornet.data.model.StoreLocationRequest
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.MainActivity
 import com.linkensky.ornet.presentation.home.BluetoothStateChanged
 import com.linkensky.ornet.utils.rxApi
+import com.linkensky.ornet.utils.toJson
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
+import io.reactivex.rxkotlin.subscribeBy
 import io.socket.client.Socket
 import kotlinx.coroutines.GlobalScope
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.koin.android.ext.android.inject
-import org.koin.ext.scope
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -41,7 +40,7 @@ class ScanService : BaseService() {
     private val service: SekitarKitaService by inject()
 
     private val btReceiver by lazy {
-        BluetoothReceiver(socketClient)
+        BluetoothReceiver(service)
     }
 
     companion object {
@@ -132,27 +131,35 @@ class ScanService : BaseService() {
         }
     }
 
-    @SuppressLint("CheckResult")
     @Subscribe
     fun onEvent(event: PingEvent) {
         Log.d(TAG, "Subs: PingEvent")
+        val lastKnownLatitude = Hawk.get<Double>(Const.STORAGE_LASTKNOWN_LAT)
+        val lastKnownLongitude = Hawk.get<Double>(Const.STORAGE_LASTKNOWN_LNG)
+        val deviceId = Hawk.get<String>(Const.DEVICE_ID)
+        val area = Hawk.get<String?>(Const.STORAGE_LASTKNOWN_ADDRESS)
+
+        val request = StoreLocationRequest(
+            latitude = lastKnownLatitude,
+            longitude = lastKnownLongitude,
+            device_id = deviceId,
+            area = area
+        )
         if (socketClient.connected()) {
             socketClient.emit(
-                "user-report", Gson().toJson(
-                    RequestUserReport(
-                        latitude = event.latitude,
-                        longitude = event.longitude,
-                        device_id = event.device_id,
-                        area = event.area
-                    )
-                )
-            ).on("sekitar-device-${Hawk.get<String>(Const.DEVICE_ID)}") {
+                Const.EVENT_USER_REPORT,
+                request.toJson()
+            ).on(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID))) {
                 Log.d(TAG, it.first().toString())
 
-                socketClient.off("sekitar-device-${Hawk.get<String>(Const.DEVICE_ID)}")
+                socketClient.off(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID)))
             }
         } else {
             Log.d(TAG, "Disconnect Socket")
+            GlobalScope.rxApi {
+                service.postStoreLocation(request)
+            }.subscribeBy(onSuccess = { Log.d(TAG, it.message.toString()) },
+                onError = { Log.d(TAG, it.message.toString()) })
         }
     }
 }

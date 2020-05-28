@@ -49,6 +49,7 @@
     <string name="autostart_manual">Gagal membuka autostart, silahkan izinkan manual di pengaturan keamanan</string>
     <string name="warning">Perhatian</string>
     <string name="autostart_request">Agar dapat berfungsi optimal, Aplikasi mungkin Meminta Izin untuk mulai otomatis (autostart)</string>
+    <string name="self_check_message">Kami perlu memastikan bahwa anda sedang dalam keadaan sehat</string>
     <string name="oops">Oops!</string>
     <string name="ignore">Abaikan</string>
     <string name="terminate">Hentikan SekitarKita</string>

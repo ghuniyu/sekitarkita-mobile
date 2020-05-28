@@ -63,3 +63,14 @@ data class Interaction(
 data class InteractionHistoryResponse(
     val nearbies: List<Interaction>
 )
+
+data class Device(
+    val id: String,
+    val health_condition: String,
+    val created_at: String,
+    val updated_at: String
+)
+
+data class StoreDeviceResponse(
+    val nearby_device: Device? = null
+)

@@ -8,13 +8,9 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.data.event.PingEvent
-import com.linkensky.ornet.data.services.SekitarKitaService
-import com.linkensky.ornet.utils.rxApi
+import com.linkensky.ornet.utils.toJson
 import com.orhanobut.hawk.Hawk
-import kotlinx.coroutines.*
-import kotlinx.coroutines.rx2.rxSingle
 import org.greenrobot.eventbus.EventBus
-import org.koin.android.ext.android.inject
 import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -22,19 +18,14 @@ import java.util.concurrent.TimeUnit
 
 class LocationService : BaseService() {
     var scheduleTaskExecutor: ScheduledExecutorService = Executors.newScheduledThreadPool(5)
-    private val service: SekitarKitaService by inject()
 
     override fun onStartCommand() {
-        Log.d("LocationService", "Service Started")
+        Log.d(TAG, "Service Started")
         if (!Hawk.isBuilt())
             Hawk.init(applicationContext).build()
 
         locationService()
         ping()
-
-        scheduleTaskExecutor.scheduleWithFixedDelay({
-            locationService()
-        },0, 2, TimeUnit.MINUTES)
 
         scheduleTaskExecutor.scheduleWithFixedDelay({
             ping()
@@ -65,8 +56,11 @@ class LocationService : BaseService() {
 
                             if (addresses.isNotEmpty() && Hawk.contains(Const.DEVICE_ID)) {
                                 addresses.first()?.let {
-                                    Log.d("LASTKNOWN_ADDRESS", "Putting ${it.adminArea}")
-                                    Hawk.put(Const.STORAGE_LASTKNOWN_ADDRESS, it.adminArea)
+                                    Log.d("LASTKNOWN_ADDRESS", "Address ${it.toJson()}")
+                                    Hawk.put(
+                                        Const.STORAGE_LASTKNOWN_ADDRESS,
+                                        "${it.locality}, ${it.subAdminArea}"
+                                    )
                                 }
 
                             }
@@ -91,27 +85,15 @@ class LocationService : BaseService() {
             "$deviceId != null && $lastKnownLatitude != null && $lastKnownLongitude != null && $area != null"
         )
         if (deviceId != null && lastKnownLatitude != null && lastKnownLongitude != null && area != null) {
-            Log.d(PING_SERVICE, MESSAGE)
-            ping(lastKnownLatitude, lastKnownLongitude, deviceId, area)
-        }
-    }
-
-    private fun ping(latitude: Double, longitude: Double, device_id: String, area: String?) {
-        area?.let {
+            Log.d(TAG, MESSAGE)
             EventBus.getDefault().post(
-                PingEvent(
-                    latitude = latitude,
-                    longitude = longitude,
-                    device_id = device_id,
-                    area = area
-                )
+                PingEvent()
             )
         }
     }
 
-
     companion object {
-        const val PING_SERVICE = "PING_SERVICE"
+        const val TAG = "LocationService"
         const val MESSAGE = "REQUEST_PING"
     }
 

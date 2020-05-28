@@ -32,9 +32,19 @@ data class InteractionHistoryRequest(
     val device_id: String
 )
 
-data class RequestUserReport(
+data class StoreDeviceRequest(
     val device_id: String,
-    val latitude: Double? = null,
-    val longitude: Double? = null,
-    val area: String? = null
+    val nearby_device: String,
+    val latitude: Double?,
+    val longitude: Double?,
+    val speed: Float?,
+    val device_name: String?
+)
+
+data class StoreLocationRequest(
+    val device_id: String,
+    val latitude: Double,
+    val longitude: Double,
+    val speed: Float? = 0f,
+    val area: String?
 )

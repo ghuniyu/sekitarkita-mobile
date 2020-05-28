@@ -1,6 +1,7 @@
 package com.linkensky.ornet.data.services
 
 import com.linkensky.ornet.data.model.*
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -30,7 +31,13 @@ interface SekitarKitaService {
     @POST("change-status")
     suspend fun postChangeStatus(@Body request: ChangeStatusRequest): BaseResponse
 
-    @POST("store-firebase")
+    @POST("store-firebase-token")
     suspend fun postFirebase(@Body request: FirebaseTokenRequest): BaseResponse
-}
 
+    @POST("store-device")
+    suspend fun postStoreDevice(@Body request: StoreDeviceRequest): StoreDeviceResponse
+
+    @POST("partners")
+    suspend fun postStoreLocation(@Body request: StoreLocationRequest): BaseResponse
+
+}

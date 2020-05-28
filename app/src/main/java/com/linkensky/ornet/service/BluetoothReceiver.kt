@@ -19,12 +19,18 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.model.StoreDeviceRequest
+import com.linkensky.ornet.data.model.enums.Status
+import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.home.BluetoothStateChanged
+import com.linkensky.ornet.utils.rxApi
 import com.orhanobut.hawk.Hawk
-import io.socket.client.Socket
+import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.GlobalScope
 import org.greenrobot.eventbus.EventBus
+import java.util.*
 
-class BluetoothReceiver(val clientSocket: Socket) : BroadcastReceiver() {
+class BluetoothReceiver(val service: SekitarKitaService) : BroadcastReceiver() {
     companion object {
         const val TAG = "BluetoothReceiver"
         const val MINIMUM_SPEED = 4.6
@@ -79,36 +85,27 @@ class BluetoothReceiver(val clientSocket: Socket) : BroadcastReceiver() {
                 )
                 if (!allowedType.contains(device.bluetoothClass.majorDeviceClass)) return
 
-//                Client.service.postStoreDevice(
-//                    StoreDeviceRequest(
-//                        Hawk.get(Constant.STORAGE_MAC_ADDRESS),
-//                        device.address,
-//                        Hawk.get(Constant.STORAGE_LASTKNOWN_LAT),
-//                        Hawk.get(Constant.STORAGE_LASTKNOWN_LNG),
-//                        Hawk.get(Constant.STORAGE_LASTKNOWN_SPEED),
-//                        device.name
-//                    )
-//                ).enqueue(object : Callback<StoreDeviceResponse> {
-//                    override fun onFailure(call: Call<StoreDeviceResponse>, t: Throwable) {
-//                        Log.w(TAG, t.localizedMessage)
-//                    }
-//
-//                    override fun onResponse(
-//                        call: Call<StoreDeviceResponse>,
-//                        response: Response<StoreDeviceResponse>
-//                    ) {
-//                        if (response.isSuccessful) {
-//                            response.body()?.nearby_device?.health_condition?.let {
-//                                if (it != ReportActivity.Health.HEALTHY.name) {
-//                                    context?.let { ctx ->
-//                                        showNotification(ctx, it.toUpperCase(Locale.getDefault()))
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                })
+                GlobalScope.rxApi {
+                    service.postStoreDevice(StoreDeviceRequest(
+                        Hawk.get(Const.DEVICE_ID),
+                        device.address,
+                        Hawk.get(Const.STORAGE_LASTKNOWN_LAT),
+                        Hawk.get(Const.STORAGE_LASTKNOWN_LNG),
+                        Hawk.get(Const.STORAGE_LASTKNOWN_SPEED),
+                        device.name
+                    ))
+                }.subscribeBy(
+                    onSuccess = { response ->
+                        response.nearby_device?.health_condition?.let {
+                                if (it != Status.HEALTHY.getValue()) {
+                                    context?.let { ctx ->
+                                        showNotification(ctx, it.toUpperCase(Locale.getDefault()))
+                                    }
+                                }
+                            }
+                    },
+                    onError = {}
+                )
             }
             BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
                 Log.d(TAG, "Discovery ended.")
@@ -164,8 +161,8 @@ class BluetoothReceiver(val clientSocket: Socket) : BroadcastReceiver() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val mChannel = NotificationChannel(
-                "YOUR_CHANNEL_ID",
-                "YOUR CHANNEL NAME",
+                Const.NOTIFICATION_SEKITAR_CHANNEL_ID,
+                "SekitarKita",
                 NotificationManager.IMPORTANCE_HIGH
             )
             val attributes = AudioAttributes.Builder()
