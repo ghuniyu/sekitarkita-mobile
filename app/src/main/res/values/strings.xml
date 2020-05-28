@@ -134,4 +134,5 @@
     <string name="general_error">Terjadi kesalahan, coba ulangi lagi.</string>
     <string name="try_again">Ulangi</string>
     <string name="success">Berhasil</string>
+    <string name="app_permission">Izin Aplikasi</string>
 </resources>

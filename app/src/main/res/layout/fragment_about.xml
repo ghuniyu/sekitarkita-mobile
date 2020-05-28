@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="onStart"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selfcheck_bg"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/PoppinMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/m"
+            android:paddingStart="@dimen/s"
+            android:paddingEnd="@dimen/s"
+            android:text="Selamat Datang"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/PoppinRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/s"
+            android:paddingEnd="@dimen/s"
+            android:text="Sebelum dapat menggunakan SekitarKita, mari kita cek persiapan awal aplikasi"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/xl"
+            app:layout_constraintBottom_toTopOf="@id/card_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subtitle"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lottie/circle-loading.json"
+            app:lottie_loop="true" />
+
+        <com.github.florent37.shapeofview.shapes.RoundRectView
+            android:id="@+id/card_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shape_roundRect_topLeftRadius="@dimen/s"
+            app:shape_roundRect_topRightRadius="@dimen/s">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="@dimen/s">
+
+                <TextView
+                    android:id="@+id/question"
+                    style="@style/PoppinMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Kami akan meminta beberapa Izin Aplikasi"
+                    android:textSize="@dimen/textM"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/help"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/m"
+                    android:text="Izin Lokasi dan bluetooth. di handphone tertentu, aplikasi juga akan meminta izin mulai otomatis dan manajemen daya"
+                    android:textSize="@dimen/textXs"
+                    app:layout_constraintBottom_toTopOf="@id/next"
+                    app:layout_constraintEnd_toEndOf="@id/question"
+                    app:layout_constraintStart_toStartOf="@id/question"
+                    app:layout_constraintTop_toBottomOf="@id/question" />
+
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_verified_user"
+                    android:onClick="@{onStart}"
+                    android:text="@string/start"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.github.florent37.shapeofview.shapes.RoundRectView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
