@@ -21,6 +21,14 @@ class HomeViewModel(
             getGorontaloStatistic()
         } else
             getIndonesiaStatistics()
+
+        getBanner()
+    }
+
+    private fun getBanner() = viewModelScope.rxApi {
+        service.getBanner().data
+    }.execute {
+        copy(banners = it)
     }
 
     fun getIndonesiaStatistics() = viewModelScope.rxApi {

@@ -40,4 +40,7 @@ interface SekitarKitaService {
     @POST("partners")
     suspend fun postStoreLocation(@Body request: StoreLocationRequest): StoreLocationResponse
 
+    @GET("partners")
+    suspend fun getBanner(): BaseCollectionResponse<List<Banner>>
+
 }

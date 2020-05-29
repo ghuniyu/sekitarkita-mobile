@@ -1,5 +1,10 @@
 package com.linkensky.ornet.data.model
 
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
+
 data class Province(
     val attributes: Attributes
 )
@@ -78,4 +83,32 @@ data class StoreDeviceResponse(
 
 data class StoreLocationResponse(
     val zone: String? = null
+)
+
+data class Banner(
+    val created_at: String,
+    val description: String,
+    val id: Int,
+    val logo: String,
+    val name: String,
+    val updated_at: String
+)
+
+data class GtoStatisticResponse(
+    val diUpdate: String,
+    val data: List<GtoData>,
+    val show: String
+)
+
+data class GtoStatus(
+    val id: Int,
+    val name: String,
+    val orangs_count: Int,
+    val tipe_id: Int
+)
+
+data class GtoData(
+    val id: Int,
+    val name: String,
+    val statuses: List<GtoStatus>
 )

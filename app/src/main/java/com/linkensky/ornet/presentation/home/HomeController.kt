@@ -1,7 +1,9 @@
 package com.linkensky.ornet.presentation.home
 
 import android.view.Gravity
-import androidx.annotation.DrawableRes
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.carousel
@@ -9,11 +11,12 @@ import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
+import com.bumptech.glide.Glide
 import com.linkensky.ornet.*
-import com.linkensky.ornet.data.model.Address
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.base.item.Frame
 import com.linkensky.ornet.presentation.base.item.LayoutOption
+import com.linkensky.ornet.presentation.base.item.component.LottieLoading
 import com.linkensky.ornet.presentation.base.item.component.MaterialButtonView
 import com.linkensky.ornet.presentation.base.item.component.ViewText
 import com.linkensky.ornet.presentation.base.item.keyValue
@@ -24,18 +27,19 @@ import com.linkensky.ornet.utils.sp
 import com.orhanobut.hawk.Hawk
 import java.util.*
 
-data class Partner(
-    val name: String,
-    @DrawableRes
-    val banner: Int
-)
-
 data class Zone(
     val name: String,
     val info: String,
     val radar: String
 )
 
+@BindingAdapter("android:url")
+fun setImageURL(view: ImageView, url: String?) {
+    Glide
+        .with(view)
+        .load(url)
+        .into(view)
+}
 class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController() {
 
     override fun buildModels() = withState(viewModel) { state ->
@@ -198,23 +202,33 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             text("Saat ini Kami Bekerjasama dengan")
         }
 
-        val partners = arrayOf(
-            Partner("Pemprov. Gorontalo", R.drawable.pemprov_gto_banner),
-            Partner("Ritase", R.drawable.ritase_banner),
-            Partner("Juragankost", R.drawable.juragankost_banner)
-        )
-
-        carousel {
-            padding(Carousel.Padding.dp(16, 16, 16, 16, 8))
-            id("card-info-carousel")
-            models(
-                partners.map {
-                    PartnerCardBindingModel_()
-                        .id("partner-${it.name}")
-                        .image(it.banner)
-                }
+        when (val banners = state.banners) {
+            is Loading -> addModel(
+                "banner-loading",
+                LottieLoading(
+                    layout = LayoutOption(
+                        margin = Frame(
+                            right = 8.dp,
+                            left = 8.dp,
+                            top = 80.dp,
+                            bottom = 0.dp
+                        )
+                    )
+                )
             )
-            numViewsToShowOnScreen(1.5f)
+
+            is Success -> carousel {
+                padding(Carousel.Padding.dp(16, 16, 16, 16, 8))
+                id("card-info-carousel")
+                models(
+                    banners().mapIndexed { i, banner ->
+                        PartnerCardBindingModel_()
+                            .id("partner-$i")
+                            .image("${BuildConfig.APP_IMAGE_URL}${banner.logo}")
+                    }
+                )
+                numViewsToShowOnScreen(1.5f)
+            }
         }
     }
 }
