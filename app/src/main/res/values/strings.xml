@@ -135,4 +135,5 @@
     <string name="try_again">Ulangi</string>
     <string name="success">Berhasil</string>
     <string name="app_permission">Izin Aplikasi</string>
+    <string name="location_required">Aplikasi tidak dapat berjalan tanpa Izin Lokasi</string>
 </resources>

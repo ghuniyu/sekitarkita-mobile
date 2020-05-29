@@ -271,6 +271,12 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             == PackageManager.PERMISSION_GRANTED
+            &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
         ) {
             fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocation.lastLocation.addOnCompleteListener {
@@ -349,6 +355,8 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 }
             }
         }
+        else
+            Toasty.error(requireContext(), getString(R.string.location_required)).show()
     }
 
     override fun onStart() {
