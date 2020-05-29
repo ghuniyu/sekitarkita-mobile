@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-<!--        <TextClock-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:format12Hour="HH:mm"-->
-<!--            android:format24Hour="HH:mm"-->
-<!--            android:textSize="@dimen/textXs"-->
-<!--            android:textStyle="bold" />-->
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="HH:mm"
+            android:format24Hour="HH:mm"
+            android:textSize="@dimen/textXs"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
