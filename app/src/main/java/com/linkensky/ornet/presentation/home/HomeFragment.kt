@@ -25,6 +25,8 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.event.BluetoothStateChanged
+import com.linkensky.ornet.data.event.ZoneEvent
 import com.linkensky.ornet.databinding.FragmentHomeBinding
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.service.LocationService
@@ -153,6 +155,11 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
         if (!event.isEnable) {
             enableBluetooth()
         }
+    }
+
+    @Subscribe
+    open fun onEvent(event: ZoneEvent) {
+        viewModel.updateZone()
     }
 
     private fun enableBluetooth() {

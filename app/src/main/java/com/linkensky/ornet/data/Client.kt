@@ -47,5 +47,8 @@ fun provideSekitarKitaService(retrofit: Retrofit): SekitarKitaService =
     retrofit.create(SekitarKitaService::class.java)
 
 fun socket(): Socket {
-    return IO.socket(BuildConfig.APP_SOCKET_URL)
+    val options = IO.Options()
+    options.path = BuildConfig.APP_SOCKET_PATH
+    options.query = BuildConfig.APP_SOCKET_KEY
+    return IO.socket(BuildConfig.APP_SOCKET_URL, options)
 }

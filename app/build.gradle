@@ -43,6 +43,8 @@ android {
         it.buildConfigField 'String', 'APP_BASE_URL', rootProject['app.baseUrl']
         it.buildConfigField 'String', 'APP_IMAGE_URL', rootProject['app.imageUrl']
         it.buildConfigField 'String', 'APP_SOCKET_URL', rootProject['app.socketUrl']
+        it.buildConfigField 'String', 'APP_SOCKET_PATH', rootProject['app.socketPath']
+        it.buildConfigField 'String', 'APP_SOCKET_KEY', rootProject['app.socketKey']
         it.buildConfigField 'Integer[]', 'APP_KAWALCRN_API', rootProject['app.KawalCRNAPI']
         it.buildConfigField 'Integer[]', 'APP_SELFCHECK_URL', rootProject['app.selfCheckUrl']
     }

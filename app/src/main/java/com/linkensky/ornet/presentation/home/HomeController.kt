@@ -43,7 +43,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             'g' to Zone("Hijau", "Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
             'y' to Zone("Kuning", "Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json")
         )
-        val k = zones.keys.random()
+        val k = state.zone
 
         topBar {
             id("home-top-bar")
@@ -212,7 +212,3 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
         }
     }
 }
-
-class BluetoothStateChanged(
-    val isEnable: Boolean = false
-)

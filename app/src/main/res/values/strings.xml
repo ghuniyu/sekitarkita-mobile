@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SekitarKita</string>
     <string name="action_about">Tentang</string>
     <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
@@ -134,4 +134,7 @@
     <string name="general_error">Terjadi kesalahan, coba ulangi lagi.</string>
     <string name="try_again">Ulangi</string>
     <string name="success">Berhasil</string>
+    <string name="zone_red" tools:ignore="ExtraTranslation">merah</string>
+    <string name="yellow_zone" tools:ignore="ExtraTranslation">kuning</string>
+    <string name="green_zone" tools:ignore="ExtraTranslation">hijau</string>
 </resources>

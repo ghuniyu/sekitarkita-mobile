@@ -14,6 +14,7 @@ object Const {
     const val STORAGE_LASTKNOWN_LNG = "com.linkensky.ornet.utils.storage.latest.lng"
     const val STORAGE_LASTKNOWN_SPEED = "com.linkensky.ornet.utils.storage.latest.speed"
     const val STORAGE_LASTKNOWN_ADDRESS = "com.linkensky.ornet.utils.storage.latest.address"
+    const val STORAGE_LASTKNOWN_ZONE = "com.linkensky.ornet.utils.storage.latest.zone"
     const val NOTIFICATION_SEKITAR_CHANNEL_ID = "com.linkensky.ornet.utils.notification.channel"
     const val NOTIFICATION_SEKITAR_FOREGROUND_ID = 1
     const val NOTIFICATION_SEKITAR_ALERT_ID = 2

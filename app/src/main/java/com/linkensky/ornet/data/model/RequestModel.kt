@@ -46,5 +46,6 @@ data class StoreLocationRequest(
     val latitude: Double,
     val longitude: Double,
     val speed: Float? = 0f,
-    val area: String?
+    val area: String?,
+    val address: String?
 )

@@ -8,6 +8,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.data.event.PingEvent
+import com.linkensky.ornet.data.model.Address
 import com.linkensky.ornet.utils.toJson
 import com.orhanobut.hawk.Hawk
 import org.greenrobot.eventbus.EventBus
@@ -57,10 +58,13 @@ class LocationService : BaseService() {
                             if (addresses.isNotEmpty() && Hawk.contains(Const.DEVICE_ID)) {
                                 addresses.first()?.let {
                                     Log.d("LASTKNOWN_ADDRESS", "Address ${it.toJson()}")
-                                    Hawk.put(
-                                        Const.STORAGE_LASTKNOWN_ADDRESS,
-                                        "${it.locality}, ${it.subAdminArea}"
+                                    val address = Address(
+                                        village = it.subLocality,
+                                        district = it.locality,
+                                        city = it.subAdminArea,
+                                        province = it.adminArea
                                     )
+                                    Hawk.put(Const.STORAGE_LASTKNOWN_ADDRESS, address)
                                 }
 
                             }
@@ -78,7 +82,7 @@ class LocationService : BaseService() {
         val lastKnownLatitude = Hawk.get<Double>(Const.STORAGE_LASTKNOWN_LAT)
         val lastKnownLongitude = Hawk.get<Double>(Const.STORAGE_LASTKNOWN_LNG)
         val deviceId = Hawk.get<String>(Const.DEVICE_ID)
-        val area = Hawk.get<String?>(Const.STORAGE_LASTKNOWN_ADDRESS)
+        val area = Hawk.get<Address?>(Const.STORAGE_LASTKNOWN_ADDRESS)
 
         Log.d(
             "WhatsNull",

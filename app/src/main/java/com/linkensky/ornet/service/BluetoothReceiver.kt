@@ -19,10 +19,10 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.event.BluetoothStateChanged
 import com.linkensky.ornet.data.model.StoreDeviceRequest
 import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.data.services.SekitarKitaService
-import com.linkensky.ornet.presentation.home.BluetoothStateChanged
 import com.linkensky.ornet.utils.rxApi
 import com.orhanobut.hawk.Hawk
 import io.reactivex.rxkotlin.subscribeBy
@@ -96,7 +96,7 @@ class BluetoothReceiver(val service: SekitarKitaService) : BroadcastReceiver() {
                     ))
                 }.subscribeBy(
                     onSuccess = { response ->
-                        response.nearby_device?.health_condition?.let {
+                        response.nearby_device?.user_status?.let {
                                 if (it != Status.HEALTHY.getValue()) {
                                     context?.let { ctx ->
                                         showNotification(ctx, it.toUpperCase(Locale.getDefault()))

@@ -41,6 +41,10 @@ class HomeViewModel(
         copy(historyInteraction = it)
     }
 
+    fun updateZone() = setState {
+        copy(zone = Hawk.get(Const.STORAGE_LASTKNOWN_ZONE, 'g'))
+    }
+
 
     companion object : MvRxViewModelFactory<HomeViewModel, HomeState> {
         override fun create(viewModelContext: ViewModelContext, state: HomeState): HomeViewModel {

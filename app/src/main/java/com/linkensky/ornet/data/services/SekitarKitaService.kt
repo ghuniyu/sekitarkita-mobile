@@ -38,6 +38,6 @@ interface SekitarKitaService {
     suspend fun postStoreDevice(@Body request: StoreDeviceRequest): StoreDeviceResponse
 
     @POST("partners")
-    suspend fun postStoreLocation(@Body request: StoreLocationRequest): BaseResponse
+    suspend fun postStoreLocation(@Body request: StoreLocationRequest): StoreLocationResponse
 
 }

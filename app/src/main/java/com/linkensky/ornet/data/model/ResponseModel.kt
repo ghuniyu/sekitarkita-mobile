@@ -66,11 +66,16 @@ data class InteractionHistoryResponse(
 
 data class Device(
     val id: String,
-    val health_condition: String,
+    val name: String? = null,
+    val user_status: String,
     val created_at: String,
     val updated_at: String
 )
 
 data class StoreDeviceResponse(
     val nearby_device: Device? = null
+)
+
+data class StoreLocationResponse(
+    val zone: String? = null
 )

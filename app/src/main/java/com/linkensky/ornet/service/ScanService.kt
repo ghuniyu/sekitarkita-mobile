@@ -13,11 +13,15 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
+import com.linkensky.ornet.data.event.BluetoothStateChanged
 import com.linkensky.ornet.data.event.PingEvent
+import com.linkensky.ornet.data.event.ZoneEvent
+import com.linkensky.ornet.data.model.Address
 import com.linkensky.ornet.data.model.StoreLocationRequest
+import com.linkensky.ornet.data.model.StoreLocationResponse
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.MainActivity
-import com.linkensky.ornet.presentation.home.BluetoothStateChanged
+import com.linkensky.ornet.utils.fromJson
 import com.linkensky.ornet.utils.rxApi
 import com.linkensky.ornet.utils.toJson
 import com.orhanobut.hawk.Hawk
@@ -137,20 +141,25 @@ class ScanService : BaseService() {
         val lastKnownLatitude = Hawk.get<Double>(Const.STORAGE_LASTKNOWN_LAT)
         val lastKnownLongitude = Hawk.get<Double>(Const.STORAGE_LASTKNOWN_LNG)
         val deviceId = Hawk.get<String>(Const.DEVICE_ID)
-        val area = Hawk.get<String?>(Const.STORAGE_LASTKNOWN_ADDRESS)
+        val area = Hawk.get<Address?>(Const.STORAGE_LASTKNOWN_ADDRESS)
 
         val request = StoreLocationRequest(
             latitude = lastKnownLatitude,
             longitude = lastKnownLongitude,
             device_id = deviceId,
-            area = area
+            area = "${area?.district}, ${area?.city}",
+            address = area.toString()
         )
         if (socketClient.connected()) {
+            socketClient.off(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID)))
+
             socketClient.emit(
                 Const.EVENT_USER_REPORT,
                 request.toJson()
             ).on(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID))) {
-                Log.d(TAG, it.first().toString())
+                val zone = it.first().toString().fromJson<StoreLocationResponse>()
+                Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, it.first())
+                EventBus.getDefault().post(ZoneEvent())
 
                 socketClient.off(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID)))
             }
@@ -158,7 +167,12 @@ class ScanService : BaseService() {
             Log.d(TAG, "Disconnect Socket")
             GlobalScope.rxApi {
                 service.postStoreLocation(request)
-            }.subscribeBy(onSuccess = { Log.d(TAG, it.message.toString()) },
+            }.subscribeBy(onSuccess = {response ->
+                response.zone?.let {
+                    Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, it.first())
+                    EventBus.getDefault().post(ZoneEvent())
+                }
+            },
                 onError = { Log.d(TAG, it.message.toString()) })
         }
     }
