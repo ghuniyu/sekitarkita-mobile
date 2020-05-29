@@ -2,6 +2,7 @@ package com.linkensky.ornet.presentation.base.item.component
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText

@@ -158,7 +158,7 @@ class ScanService : BaseService() {
             ).on(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID))) {
                 Log.d(TAG, it.first().toString())
                 val response = it.first().toString().fromJson<StoreLocationResponse>()
-                response.zone?.let {zone ->
+                response.zone?.let { zone ->
                     Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, getZoneChar(zone))
                     EventBus.getDefault().post(ZoneEvent())
                 }
@@ -169,7 +169,7 @@ class ScanService : BaseService() {
             Log.d(TAG, "Disconnect Socket")
             GlobalScope.rxApi {
                 service.postStoreLocation(request)
-            }.subscribeBy(onSuccess = {response ->
+            }.subscribeBy(onSuccess = { response ->
                 response.zone?.let {
                     Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, getZoneChar(it))
                     EventBus.getDefault().post(ZoneEvent())
@@ -179,11 +179,40 @@ class ScanService : BaseService() {
         }
     }
 
-    private fun getZoneChar(zone: String) : Char {
-        return when(zone) {
+    private fun getZoneChar(zone: String): Char {
+        val zoneChar = when (zone) {
             "merah" -> 'r'
             "hijau" -> 'g'
             else -> 'y'
         }
+        if (zoneChar == 'r') {
+            redZoneNotification()
+        }
+
+        return zoneChar
+    }
+
+    private fun redZoneNotification() {
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val builder =
+            NotificationCompat.Builder(applicationContext, Const.NOTIFICATION_SCORE_DEFAULT)
+        builder.setContentTitle("SekitarKita Alert!")
+        builder.setContentText("Anda Berada di Kawasan Zona Merah")
+        builder.setChannelId(Const.NOTIFICATION_ZONE_CHANNEL_ID)
+        builder.setSmallIcon(R.mipmap.ic_launcher_foreground)
+        val notification = builder.build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                Const.NOTIFICATION_ZONE_CHANNEL_ID,
+                Const.NOTIFICATION_ZONE_CHANNEL,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+
+        notificationManager.notify(Const.NOTIFICATION_ZONE_ID_VALUE, notification)
     }
 }

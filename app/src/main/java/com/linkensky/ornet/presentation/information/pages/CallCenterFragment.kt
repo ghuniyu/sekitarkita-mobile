@@ -52,7 +52,12 @@ class CallCenterFragment : BaseEpoxyFragment<FragmentCallCenterBinding>() {
                 itemLayout = LayoutOption(padding = Frame(16.dp, 8.dp)),
                 imeOption = EditorInfo.IME_ACTION_DONE,
                 drawableStart = R.drawable.ic_google,
-                onDoneAction = keyValue(null)
+                textChangeListner = keyValue { text ->
+                    viewModel.setCallCenterFilter(text)
+                },
+                onDoneAction = keyValue {
+                    hideSoftKey(requireContext(), requireView())
+                }
             )
         )
 
@@ -65,7 +70,10 @@ class CallCenterFragment : BaseEpoxyFragment<FragmentCallCenterBinding>() {
             }
             is Success -> {
                 val callCenters = response.invoke()
-                if(callCenters.isEmpty()) renderEmptyState() else renderCallCenters(callCenters)
+                if (callCenters.isEmpty()) renderEmptyState() else renderCallCenters(
+                    callCenters,
+                    state.callCenterFilter
+                )
             }
 
             is Fail -> {
@@ -86,8 +94,12 @@ class CallCenterFragment : BaseEpoxyFragment<FragmentCallCenterBinding>() {
         )
     }
 
-    private fun EpoxyController.renderCallCenters(callCenters: List<CallCenter>) {
-        callCenters.mapIndexed { i, item ->
+    private fun EpoxyController.renderCallCenters(callCenters: List<CallCenter>, filter: String) {
+        val filteredCallCenters: MutableList<CallCenter> = callCenters.toMutableList()
+
+        filteredCallCenters.filter {
+            it.area_detail.toLowerCase().contains(filter) || filter.isEmpty()
+        }.mapIndexed { i, item ->
             itemCallCenter {
                 id("cs-$i")
                 province(item.area_detail)

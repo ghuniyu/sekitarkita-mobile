@@ -10,5 +10,7 @@ import com.linkensky.ornet.data.model.Province
 data class InformationState(
     val provinceStatistics: Async<List<Province>> = Uninitialized,
     val hospitals: Async<List<Hospital>> = Uninitialized,
-    val callCenters: Async<List<CallCenter>> = Uninitialized
+    val callCenters: Async<List<CallCenter>> = Uninitialized,
+    val hospitalFilter: String = "",
+    val callCenterFilter: String = ""
 ) : MvRxState

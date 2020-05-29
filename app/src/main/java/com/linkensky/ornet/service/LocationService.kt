@@ -26,8 +26,6 @@ class LocationService : BaseService() {
             Hawk.init(applicationContext).build()
 
         locationService()
-        ping()
-
         scheduleTaskExecutor.scheduleWithFixedDelay({
             ping()
         }, 0, 15, TimeUnit.MINUTES)

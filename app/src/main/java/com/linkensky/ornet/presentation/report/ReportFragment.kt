@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
+import androidx.navigation.findNavController
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -46,6 +47,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                 }
             }
             text = "Lapor Infeksi"
+
+           setOnInfoClick {
+               view.findNavController().navigate(R.id.action_reportFragment_to_aboutFragment)
+           }
+
             controller.requestModelBuild()
         }
 

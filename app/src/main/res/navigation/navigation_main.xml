@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_homeFragment_to_selfcheckFragment"
             app:destination="@id/selfcheckFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -46,6 +49,9 @@
         <action
             android:id="@+id/action_interactionFragment_to_macAddressFragment"
             app:destination="@id/macAddressFragment" />
+        <action
+            android:id="@+id/action_interactionFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -58,6 +64,9 @@
         <action
             android:id="@+id/action_statisticFragment_to_macAddressFragment"
             app:destination="@id/macAddressFragment" />
+        <action
+            android:id="@+id/action_statisticFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -67,6 +76,9 @@
         <action
             android:id="@+id/action_reportFragment_to_macAddressFragment"
             app:destination="@id/macAddressFragment" />
+        <action
+            android:id="@+id/action_reportFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment
@@ -90,4 +102,8 @@
             android:id="@+id/action_selfcheckFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.linkensky.ornet.presentation.about.AboutFragment"
+        android:label="AboutFragment" />
 </navigation>

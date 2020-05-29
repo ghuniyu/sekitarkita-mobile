@@ -3,12 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="onStart"
-            type="android.view.View.OnClickListener" />
+            name="text"
+            type="String" />
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +30,7 @@
             android:layout_marginTop="@dimen/m"
             android:paddingStart="@dimen/s"
             android:paddingEnd="@dimen/s"
-            android:text="Selamat Datang"
+            android:text="SekitarKita"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +44,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/s"
             android:paddingEnd="@dimen/s"
-            android:text="Sebelum dapat menggunakan SekitarKita, mari kita cek persiapan awal aplikasi"
+            android:text="Aplikasi Lacak Covid-19 membantu Anda melacak apakah Anda tergolong Orang Dalam Pengawasan (ODP) berdasarkan history data interaksi anda dengan orang lain."
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +86,7 @@
                     style="@style/PoppinMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Kami akan meminta beberapa Izin Aplikasi"
+                    android:text="Versi Aplikasi Saat Ini"
                     android:textSize="@dimen/textM"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,24 +97,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/m"
-                    android:text="Izin Lokasi dan bluetooth. di handphone tertentu, aplikasi juga akan meminta izin mulai otomatis dan manajemen daya"
+                    android:text="@{text}"
                     android:textSize="@dimen/textXs"
-                    app:layout_constraintBottom_toTopOf="@id/next"
                     app:layout_constraintEnd_toEndOf="@id/question"
                     app:layout_constraintStart_toStartOf="@id/question"
                     app:layout_constraintTop_toBottomOf="@id/question" />
 
-
-                <Button
-                    android:id="@+id/next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_verified_user"
-                    android:onClick="@{onStart}"
-                    android:text="@string/start"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.github.florent37.shapeofview.shapes.RoundRectView>

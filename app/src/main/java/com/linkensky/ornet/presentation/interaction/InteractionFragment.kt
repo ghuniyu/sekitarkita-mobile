@@ -30,7 +30,7 @@ class InteractionFragment : BaseEpoxyBindingFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             setOnInfoClick { _ ->
-                navigateTo(R.id.action_interactionFragment_to_macAddressFragment)
+                navigateTo(R.id.action_interactionFragment_to_aboutFragment)
             }
         }
     }

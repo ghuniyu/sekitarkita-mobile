@@ -10,7 +10,8 @@ import org.koin.android.ext.android.inject
 
 class InformationViewModel(
     state: InformationState,
-    private val service: SekitarKitaService
+    private val service: SekitarKitaService,
+    context: ViewModelContext
 ) : MvRxViewModel<InformationState>(state) {
 
     init {
@@ -19,7 +20,7 @@ class InformationViewModel(
 
     fun getProvinces() = viewModelScope.rxApi {
         service.getProvinces()
-    }.execute { copy(provinceStatistics= it) }
+    }.execute { copy(provinceStatistics = it) }
 
     fun getHospitals() = viewModelScope.rxApi {
         service.getHospitals().data
@@ -29,10 +30,21 @@ class InformationViewModel(
         service.getCallCenters().data
     }.execute { copy(callCenters = it) }
 
+    fun setHospitalFilter(value: String) = setState {
+        copy(hospitalFilter = value)
+    }
+
+    fun setCallCenterFilter(value: String) = setState {
+        copy(callCenterFilter = value)
+    }
+
     companion object : MvRxViewModelFactory<InformationViewModel, InformationState> {
-        override fun create(viewModelContext: ViewModelContext, state: InformationState): InformationViewModel {
+        override fun create(
+            viewModelContext: ViewModelContext,
+            state: InformationState
+        ): InformationViewModel {
             val service: SekitarKitaService by viewModelContext.activity.inject()
-            return InformationViewModel(state, service)
+            return InformationViewModel(state, service, viewModelContext)
         }
     }
 }

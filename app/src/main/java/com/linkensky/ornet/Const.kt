@@ -29,6 +29,9 @@ object Const {
     const val NOTIFICATION_SCORE_CHANNEL_ID = "com.linkensky.ornet.utils.notification.score.channel.id"
     const val NOTIFICATION_SCORE_ID = "com.linkensky.ornet.utils.notification.score.id"
     const val NOTIFICATION_SCORE_ID_VALUE = 1337
+    const val NOTIFICATION_ZONE_CHANNEL = "com.linkensky.ornet.utils.notification.zone.channel"
+    const val NOTIFICATION_ZONE_CHANNEL_ID = "com.linkensky.ornet.utils.notification.zone.channel.id"
+    const val NOTIFICATION_ZONE_ID_VALUE = 1338
     const val MIN_VERSION = "minVersion"
     const val BLUETOOTH_DENY_MESSAGE = "Aplikasi tidak dapat dijalankan tanpa bluetooth"
     const val EVENT_USER_REPORT = "user-report";

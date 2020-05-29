@@ -50,6 +50,10 @@ fun View.setPadding(horizontal: Int, vertical: Int) {
     setPadding(horizontal, vertical, horizontal, vertical)
 }
 
+fun View.hideKeyboard(inputMethodManager: InputMethodManager) {
+    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+}
+
 fun View.visible(value: Boolean = true) {
     visibility = if (value) View.VISIBLE else View.GONE
 }

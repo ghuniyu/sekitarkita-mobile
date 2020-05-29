@@ -25,7 +25,7 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
             text = "Informasi"
 
             setOnInfoClick { view ->
-                view.findNavController().navigate(R.id.action_statisticFragment_to_macAddressFragment)
+                view.findNavController().navigate(R.id.action_statisticFragment_to_aboutFragment)
             }
         }
     }

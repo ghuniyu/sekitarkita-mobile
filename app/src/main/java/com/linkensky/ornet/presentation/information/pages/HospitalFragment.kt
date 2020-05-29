@@ -7,10 +7,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.*
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.Hospital
 import com.linkensky.ornet.databinding.FragmentHospitalBinding
@@ -27,6 +24,7 @@ import com.linkensky.ornet.presentation.base.item.keyValue
 import com.linkensky.ornet.presentation.information.InformationViewModel
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
+import com.linkensky.ornet.utils.hideKeyboard
 
 class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
 
@@ -52,7 +50,12 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
                 itemLayout = LayoutOption(padding = Frame(16.dp, 8.dp)),
                 imeOption = EditorInfo.IME_ACTION_DONE,
                 drawableStart = R.drawable.ic_google,
-                onDoneAction = keyValue(null)
+                textChangeListner = keyValue { text ->
+                    viewModel.setHospitalFilter(text)
+                },
+                onDoneAction = keyValue {
+                    hideSoftKey(requireContext(), requireView())
+                }
             )
         )
 
@@ -65,7 +68,10 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
             }
             is Success -> {
                 val hospitals = response.invoke()
-                if (hospitals.isEmpty()) renderEmptyState() else renderHospitals(hospitals)
+                if (hospitals.isEmpty()) renderEmptyState() else renderHospitals(
+                    hospitals,
+                    state.hospitalFilter
+                )
             }
             is Fail -> {
                 addModel(
@@ -85,8 +91,12 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
         )
     }
 
-    private fun EpoxyController.renderHospitals(hospitals: List<Hospital>) {
-        hospitals.mapIndexed { i, item ->
+    private fun EpoxyController.renderHospitals(hospitals: List<Hospital>, filter: String) {
+        val filteredHospital: MutableList<Hospital> = hospitals.toMutableList()
+        filteredHospital.filter {
+            it.name.toLowerCase().contains(filter) || it.area_detail.toLowerCase()
+                .contains(filter) || filter.isEmpty()
+        }.mapIndexed { i, item ->
             hospital {
                 id("hospital-$i")
                 name(item.name)
@@ -98,7 +108,8 @@ class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
                     startActivity(dialIntent)
                 }
                 onShowMap { _ ->
-                    val location = "geo:${item.latitude},${item.longitude}?q=${item.latitude},${item.longitude}"
+                    val location =
+                        "geo:${item.latitude},${item.longitude}?q=${item.latitude},${item.longitude}"
                     val showMapIntent = Intent(Intent.ACTION_VIEW)
                     showMapIntent.setPackage("com.google.android.apps.maps")
                     showMapIntent.data = Uri.parse(location)

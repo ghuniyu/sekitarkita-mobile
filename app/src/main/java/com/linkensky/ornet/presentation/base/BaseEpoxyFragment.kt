@@ -1,10 +1,13 @@
 package com.linkensky.ornet.presentation.base
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
@@ -74,5 +77,10 @@ abstract class BaseEpoxyFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
     protected fun navigateTo(@IdRes actionId: Int, arg: Parcelable? = null) {
         val bundle = arg?.let { Bundle().apply { putParcelable(MvRx.KEY_ARG, it) } }
         findNavController().navigate(actionId, bundle)
+    }
+
+    protected fun hideSoftKey(context: Context?, view: View){
+        (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

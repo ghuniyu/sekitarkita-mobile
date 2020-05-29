@@ -12,6 +12,10 @@
         <variable
             name="onReport"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onInfoClick"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            bind:onInfoClick="@{onInfoClick}"
             bind:text="@{text}" />
 
         <ScrollView

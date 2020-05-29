@@ -55,7 +55,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             text("SekitarKita")
             zone(k)
             onInfoClick { view ->
-                view.findNavController().navigate(R.id.action_homeFragment_to_macAddressFragment)
+                view.findNavController().navigate(R.id.action_homeFragment_to_aboutFragment)
             }
         }
 
