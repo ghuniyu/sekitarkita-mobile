@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.linkensky.ornet.Const
+import com.linkensky.ornet.data.model.Address
 import com.linkensky.ornet.data.model.InteractionHistoryRequest
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
@@ -51,6 +52,10 @@ class HomeViewModel(
 
     fun updateZone() = setState {
         copy(zone = Hawk.get(Const.STORAGE_LASTKNOWN_ZONE, 'g'))
+    }
+
+    fun updateLocation() = setState {
+        copy(location = Hawk.get(Const.STORAGE_LASTKNOWN_ADDRESS, Address()).location())
     }
 
 

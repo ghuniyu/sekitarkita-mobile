@@ -313,6 +313,14 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                                         province = address.adminArea
                                     )
 
+                                    Hawk.put(Const.STORAGE_LASTKNOWN_LAT, location.latitude)
+                                    Hawk.put(Const.STORAGE_LASTKNOWN_LNG, location.longitude)
+                                    Hawk.put(
+                                        Const.STORAGE_LASTKNOWN_ADDRESS,
+                                        currentAddress
+                                    )
+                                    viewModel.updateLocation()
+
                                     currentAddress.toString().toLowerCase(Locale.ROOT)
                                         .split(' ', ',').forEach { k ->
                                         if (partners.contains(k)) {
@@ -333,12 +341,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                                                     }
                                                     .show()
                                             }
-                                            Hawk.put(Const.STORAGE_LASTKNOWN_LAT, location.latitude)
-                                            Hawk.put(Const.STORAGE_LASTKNOWN_LNG, location.longitude)
-                                            Hawk.put(
-                                                Const.STORAGE_LASTKNOWN_ADDRESS,
-                                                currentAddress
-                                            )
+
                                             EventBus.getDefault().post(PingEvent())
                                             requireActivity().startService(
                                                 Intent(
