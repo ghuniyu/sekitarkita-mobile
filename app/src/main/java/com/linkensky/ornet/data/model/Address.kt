@@ -10,6 +10,10 @@ data class Address @JvmOverloads constructor(
         return "$village $district, $city, $province"
     }
 
+    fun partnerLocation() : String {
+        return "$city, $province"
+    }
+
     fun location(): String {
         return if (village != null && district != null) "$village, $district" else "Lokasi tidak diketahui"
     }

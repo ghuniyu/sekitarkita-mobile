@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -26,10 +27,12 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.Const
@@ -69,7 +72,6 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "APAKAH MASUK SINI")
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             recyclerView.layoutManager = GridLayoutManager(context, 1)
@@ -109,61 +111,116 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
     override fun epoxyController() = controller
 
     private fun requestLocationPermission() {
-        Log.d(TAG, "APAKAH MASUK SINI Permission")
-        Dexter.withContext(context)
-            .withPermission(
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(grantedResponse: PermissionGrantedResponse?) {
-                    Log.d(TAG, "APAKAH MASUK Granted")
-                    checkArea()
-                    enableBluetooth()
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Dexter.withContext(context)
+                .withPermissions(
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permissionRequest: PermissionRequest?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-
-                override fun onPermissionDenied(permissionDeniedResponse: PermissionDeniedResponse?) {
-                    permissionDeniedResponse?.let {
-                        if (it.isPermanentlyDenied) {
-                            MaterialAlertDialogBuilder(requireContext())
-                                .setTitle(R.string.location_permission.resString())
-                                .setMessage(R.string.request_location_permission.resString())
-                                .setPositiveButton(R.string.understand.resString()) { _, _ ->
-                                    openSettings()
+                        report?.let {
+                            when {
+                                it.areAllPermissionsGranted() -> {
+                                    checkArea()
+                                    enableBluetooth()
                                 }
-                                .setNegativeButton(getString(R.string.exit)) { _, _ ->
-                                    activity?.finish()
-                                }
-                                .setCancelable(false)
-                                .setIcon(R.mipmap.ic_launcher)
-                                .show()
-                        } else {
-                            MaterialAlertDialogBuilder(requireContext())
-                                .setTitle(R.string.location_permission.resString())
-                                .setMessage(R.string.request_location_permission.resString())
-                                .setPositiveButton(R.string.understand.resString()) { _, _ ->
-                                    requestLocationPermission()
-                                }
-                                .setNegativeButton(getString(R.string.exit)) { _, _ ->
-                                    activity?.finish()
-                                }
-                                .setCancelable(false)
-                                .setIcon(R.mipmap.ic_launcher)
-                                .show()
+                                it.isAnyPermissionPermanentlyDenied -> MaterialAlertDialogBuilder(
+                                    requireContext()
+                                )
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        openSettings()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                                else -> MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        requestLocationPermission()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                            }
                         }
                     }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        list: MutableList<PermissionRequest>?,
+                        token: PermissionToken?
+                    ) {
+                        token?.continuePermissionRequest()
+                    }
+                })
+                .withErrorListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                }.check()
+        } else {
+            Dexter.withContext(context)
+                .withPermission(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .withListener(object : PermissionListener {
+                    override fun onPermissionGranted(grantedResponse: PermissionGrantedResponse?) {
+                        checkArea()
+                        enableBluetooth()
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permissionRequest: PermissionRequest?,
+                        token: PermissionToken?
+                    ) {
+                        token?.continuePermissionRequest()
+                    }
+
+                    override fun onPermissionDenied(permissionDeniedResponse: PermissionDeniedResponse?) {
+                        permissionDeniedResponse?.let {
+                            if (it.isPermanentlyDenied) {
+                                MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        openSettings()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                            } else {
+                                MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.location_permission.resString())
+                                    .setMessage(R.string.request_location_permission.resString())
+                                    .setPositiveButton(R.string.understand.resString()) { _, _ ->
+                                        requestLocationPermission()
+                                    }
+                                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                                        activity?.finish()
+                                    }
+                                    .setCancelable(false)
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .show()
+                            }
+                        }
+                    }
+                })
+                .withErrorListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                 }
-            })
-            .withErrorListener {
-                Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
-            }
-            .check()
+                .check()
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -189,7 +246,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
         if (!btAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
-        }else {
+        } else {
             checkAutostart()
         }
     }
@@ -271,12 +328,6 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             == PackageManager.PERMISSION_GRANTED
-            &&
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
         ) {
             fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocation.lastLocation.addOnCompleteListener {
@@ -321,36 +372,36 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                                     )
                                     viewModel.updateLocation()
 
-                                    currentAddress.toString().toLowerCase(Locale.ROOT)
+                                    currentAddress.partnerLocation().toLowerCase(Locale.ROOT)
                                         .split(' ', ',').forEach { k ->
-                                        if (partners.contains(k)) {
-                                            Hawk.put(Const.IN_OBSERVE_AREA, true)
-                                            if (Hawk.get(Const.NOTIFY_OBSERVE_AREA, true)) {
-                                                Hawk.put(Const.NOTIFY_OBSERVE_AREA, false)
-                                                MaterialAlertDialogBuilder(requireContext())
-                                                    .setTitle(getString(R.string.observe_area))
-                                                    .setMessage(
-                                                        getString(
-                                                            R.string.observe_area_info,
-                                                            address.subAdminArea
+                                            if (partners.contains(k)) {
+                                                Hawk.put(Const.IN_OBSERVE_AREA, true)
+                                                if (Hawk.get(Const.NOTIFY_OBSERVE_AREA, true)) {
+                                                    Hawk.put(Const.NOTIFY_OBSERVE_AREA, false)
+                                                    MaterialAlertDialogBuilder(requireContext())
+                                                        .setTitle(getString(R.string.observe_area))
+                                                        .setMessage(
+                                                            getString(
+                                                                R.string.observe_area_info,
+                                                                address.subAdminArea
+                                                            )
                                                         )
-                                                    )
-                                                    .setCancelable(false)
-                                                    .setPositiveButton(getString(R.string.understand)) { d, _ ->
-                                                        d.dismiss()
-                                                    }
-                                                    .show()
-                                            }
+                                                        .setCancelable(false)
+                                                        .setPositiveButton(getString(R.string.understand)) { d, _ ->
+                                                            d.dismiss()
+                                                        }
+                                                        .show()
+                                                }
 
-                                            EventBus.getDefault().post(PingEvent())
-                                            requireActivity().startService(
-                                                Intent(
-                                                    requireActivity(),
-                                                    LocationService::class.java
+                                                EventBus.getDefault().post(PingEvent())
+                                                requireActivity().startService(
+                                                    Intent(
+                                                        requireActivity(),
+                                                        LocationService::class.java
+                                                    )
                                                 )
-                                            )
+                                            }
                                         }
-                                    }
                                 }
                             }
                         }
@@ -358,8 +409,6 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 }
             }
         }
-        else
-            Toasty.error(requireContext(), getString(R.string.location_required)).show()
     }
 
     override fun onStart() {
