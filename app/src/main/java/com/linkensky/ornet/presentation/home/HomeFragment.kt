@@ -2,44 +2,54 @@ package com.linkensky.ornet.presentation.home
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
-import android.content.Context.POWER_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
 import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.mvrx.activityViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.event.BluetoothStateChanged
+import com.linkensky.ornet.data.event.PingEvent
 import com.linkensky.ornet.data.event.ZoneEvent
+import com.linkensky.ornet.data.model.Address
 import com.linkensky.ornet.databinding.FragmentHomeBinding
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.service.LocationService
 import com.linkensky.ornet.service.MessagingService
-import com.linkensky.ornet.service.ScanService
 import com.linkensky.ornet.utils.CheckAutostartPermission
-import com.linkensky.ornet.utils.MacAddressRetriever
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 
 open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
@@ -47,18 +57,19 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
     override var fragmentLayout: Int = R.layout.fragment_home
 
     private val viewModel: HomeViewModel by activityViewModel()
+    private lateinit var fusedLocation: FusedLocationProviderClient
+    private lateinit var remoteConfig: FirebaseRemoteConfig
+
     private val autoStart = CheckAutostartPermission.getInstance()
 
     private val controller by lazy {
         HomeController(viewModel)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "APAKAH MASUK SINI")
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             recyclerView.layoutManager = GridLayoutManager(context, 1)
@@ -78,6 +89,8 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 }
             })
 
+        checkRemoteConfig()
+
 //        val powerManager = requireActivity().getSystemService(POWER_SERVICE) as PowerManager
 //        powerManager.apply {
 //            if (Build.VERSION.SDK_INT >= 23 && !isIgnoringBatteryOptimizations(requireContext().packageName)) {
@@ -96,12 +109,15 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
     override fun epoxyController() = controller
 
     private fun requestLocationPermission() {
+        Log.d(TAG, "APAKAH MASUK SINI Permission")
         Dexter.withContext(context)
             .withPermission(
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(grantedResponse: PermissionGrantedResponse?) {
+                    Log.d(TAG, "APAKAH MASUK Granted")
+                    checkArea()
                     enableBluetooth()
                 }
 
@@ -173,64 +189,29 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
         if (!btAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_BLUETOOTH)
-        } else {
-            bluetoothOn()
+        }else {
+            checkAutostart()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "RequestCode: $requestCode | ResponseCode $resultCode")
-        if (requestCode == REQUEST_BLUETOOTH && resultCode == RESPONSE_BLUETOOTH_DENY) {
-            Toasty.error(requireContext(), Const.BLUETOOTH_DENY_MESSAGE)
-                .show()
-            requireActivity().finish()
-        }else if (requestCode == REQUEST_BLUETOOTH && resultCode == RESPONSE_BLUETOOTH_ACTIVE) {
-            bluetoothOn()
-        }
+    private fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
+        intent.data = uri
+        startActivityForResult(intent, 101)
     }
 
-    private fun bluetoothOn() {
-        Log.d(TAG, "Bt On ${Hawk.contains(Const.DEVICE_ID)}")
-        if (Hawk.contains(Const.DEVICE_ID)) {
-            if (Hawk.contains(Const.SELF_TEST_COMPLETED)) {
-                checkAutostart()
-                Log.d(TAG, getString(R.string.bluetooth_active))
-                requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
-                requireActivity().startService(
-                    Intent(
-                        requireActivity(),
-                        LocationService::class.java
-                    )
-                )
-            } else {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(getString(R.string.self_check))
-                    .setMessage(getString(R.string.self_check_message))
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.understand)) { _, _ ->
-                        navigateTo(R.id.action_homeFragment_to_selfcheckFragment)
-                    }
-                    .setNegativeButton(getString(R.string.exit)) { _, _ ->
-                        activity?.finish()
-                    }
-                    .setIcon(R.mipmap.ic_launcher)
-                    .show()
+    private fun checkRemoteConfig() {
+        remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(0)
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+
+        remoteConfig.fetchAndActivate().addOnCompleteListener {
+            if (it.isSuccessful) {
+                checkForUpdate()
             }
-        } else {
-            retrieveMac()
-        }
-    }
-
-    private fun retrieveMac() {
-        val mac = MacAddressRetriever.getBluetoothAddress()
-        if (mac == "") {
-            navigateTo(R.id.action_homeFragment_to_macAddressFragment)
-            return
-        } else {
-            Hawk.put(Const.DEVICE_ID, mac)
-            Log.d(TAG, "retrieveMac")
-            bluetoothOn()
         }
     }
 
@@ -250,16 +231,134 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun openSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
-        intent.data = uri
-        startActivityForResult(intent, 101)
+    private fun checkForUpdate() {
+        if (!Hawk.contains(Const.DEVICE_ID)) return
+        val latestAppVersion = remoteConfig.getDouble(Const.MIN_VERSION)
+        if (latestAppVersion > BuildConfig.VERSION_CODE.toDouble()) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.title_update))
+                .setMessage(getString(R.string.title_update_message))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.understand)) { _, _ ->
+                    val appPackageName = requireContext().packageName
+                    try {
+                        startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=$appPackageName")
+                            )
+                        )
+                    } catch (err: android.content.ActivityNotFoundException) {
+                        startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                            )
+                        )
+                    }
+                }
+                .setNegativeButton(getString(R.string.ignore)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
+
+    private fun checkArea() {
+        if (!Hawk.contains(Const.DEVICE_ID)) return
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocation = LocationServices.getFusedLocationProviderClient(requireContext())
+            fusedLocation.lastLocation.addOnCompleteListener {
+                val location: Location? = it.result
+                if (location != null) {
+                    if (location.isFromMockProvider) {
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(getString(R.string.oops))
+                            .setMessage(getString(R.string.fake_gps_message))
+                            .setCancelable(false)
+                            .setPositiveButton(getString(R.string.exit)) { _, _ ->
+                                requireActivity().finish()
+                            }
+                            .show()
+                    } else {
+                        val geoCoder = Geocoder(requireContext())
+                        val addresses =
+                            geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                        val areas = remoteConfig.getString("area")
+                        if (areas.isNotEmpty()) {
+                            val parsed =
+                                JsonParser().parse(areas).asJsonObject.getAsJsonArray("partners")
+                            val partners = Gson().fromJson<List<String>>(
+                                parsed,
+                                object : TypeToken<List<String>>() {}.type
+                            )
+                            addresses?.first()?.let { address ->
+                                address.subAdminArea?.let { city ->
+                                    val currentAddress = Address(
+                                        village = address.subLocality,
+                                        district = address.locality,
+                                        city = address.subAdminArea,
+                                        province = address.adminArea
+                                    )
+
+                                    currentAddress.toString().toLowerCase(Locale.ROOT)
+                                        .split(' ', ',').forEach { k ->
+                                        if (partners.contains(k)) {
+                                            Hawk.put(Const.IN_OBSERVE_AREA, true)
+                                            if (Hawk.get(Const.NOTIFY_OBSERVE_AREA, true)) {
+                                                Hawk.put(Const.NOTIFY_OBSERVE_AREA, false)
+                                                MaterialAlertDialogBuilder(requireContext())
+                                                    .setTitle(getString(R.string.observe_area))
+                                                    .setMessage(
+                                                        getString(
+                                                            R.string.observe_area_info,
+                                                            address.subAdminArea
+                                                        )
+                                                    )
+                                                    .setCancelable(false)
+                                                    .setPositiveButton(getString(R.string.understand)) { d, _ ->
+                                                        d.dismiss()
+                                                    }
+                                                    .show()
+                                            }
+                                            Hawk.put(Const.STORAGE_LASTKNOWN_LAT, location.latitude)
+                                            Hawk.put(Const.STORAGE_LASTKNOWN_LNG, location.longitude)
+                                            Hawk.put(
+                                                Const.STORAGE_LASTKNOWN_ADDRESS,
+                                                currentAddress
+                                            )
+                                            EventBus.getDefault().post(PingEvent())
+                                            requireActivity().startService(
+                                                Intent(
+                                                    requireActivity(),
+                                                    LocationService::class.java
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkArea()
     }
 
     override fun onStop() {

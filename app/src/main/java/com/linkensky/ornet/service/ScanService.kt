@@ -55,6 +55,8 @@ class ScanService : BaseService() {
         if (!Hawk.isBuilt())
             Hawk.init(applicationContext).build()
 
+        if (!socketClient.connected()) socketClient.connect()
+
         btAdapter = BluetoothAdapter.getDefaultAdapter()
         if (btAdapter == null) {
             Toasty.error(applicationContext, "Perangkat Anda tidak memiliki Bluetooth").show()
@@ -78,7 +80,6 @@ class ScanService : BaseService() {
     override fun onCreate() {
         super.onCreate()
         EventBus.getDefault().register(this)
-        if (!socketClient.connected()) socketClient.connect()
     }
 
     override fun onDestroy() {
@@ -147,19 +148,20 @@ class ScanService : BaseService() {
             latitude = lastKnownLatitude,
             longitude = lastKnownLongitude,
             device_id = deviceId,
-            area = "${area?.district}, ${area?.city}",
+            area = "${area?.village}, ${area?.district}, ${area?.city}",
             address = area.toString()
         )
         if (socketClient.connected()) {
-            socketClient.off(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID)))
-
             socketClient.emit(
                 Const.EVENT_USER_REPORT,
                 request.toJson()
             ).on(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID))) {
-                val zone = it.first().toString().fromJson<StoreLocationResponse>()
-                Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, it.first())
-                EventBus.getDefault().post(ZoneEvent())
+                Log.d(TAG, it.first().toString())
+                val response = it.first().toString().fromJson<StoreLocationResponse>()
+                response.zone?.let {zone ->
+                    Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, getZoneChar(zone))
+                    EventBus.getDefault().post(ZoneEvent())
+                }
 
                 socketClient.off(Const.EVENT_USER_DEVICE.format(Hawk.get<String>(Const.DEVICE_ID)))
             }
@@ -169,11 +171,19 @@ class ScanService : BaseService() {
                 service.postStoreLocation(request)
             }.subscribeBy(onSuccess = {response ->
                 response.zone?.let {
-                    Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, it.first())
+                    Hawk.put(Const.STORAGE_LASTKNOWN_ZONE, getZoneChar(it))
                     EventBus.getDefault().post(ZoneEvent())
                 }
             },
                 onError = { Log.d(TAG, it.message.toString()) })
+        }
+    }
+
+    private fun getZoneChar(zone: String) : Char {
+        return when(zone) {
+            "merah" -> 'r'
+            "hijau" -> 'g'
+            else -> 'y'
         }
     }
 }

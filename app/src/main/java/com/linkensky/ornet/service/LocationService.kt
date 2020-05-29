@@ -30,7 +30,7 @@ class LocationService : BaseService() {
 
         scheduleTaskExecutor.scheduleWithFixedDelay({
             ping()
-        }, 0, 15, TimeUnit.SECONDS)
+        }, 0, 15, TimeUnit.MINUTES)
     }
 
     private fun locationService() {

@@ -28,6 +28,10 @@ class MacAddressFragment : BaseFragment<FragmentMacAddressBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if(Hawk.contains(Const.DEVICE_ID) && Hawk.contains(Const.SELF_TEST_COMPLETED)) {
+            view.findNavController().popBackStack()
+        }
+
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
 

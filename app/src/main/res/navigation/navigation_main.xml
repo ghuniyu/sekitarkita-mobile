@@ -10,10 +10,15 @@
         android:label="welcomeFragment">
         <action
             android:id="@+id/action_welcomeFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/welcomeFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_welcomeFragment_to_macAddressFragment"
             app:destination="@id/macAddressFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_selfcheckFragment"
+            app:destination="@id/selfcheckFragment" />
     </fragment>
 
     <fragment

@@ -34,7 +34,7 @@ class SelfcheckResult : BaseEpoxyFragment<FragmentSelfcheckResultBinding>() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             setOnClose {
-                view.findNavController().popBackStack(R.id.homeFragment, false)
+                view.findNavController().popBackStack()
                 viewModel.clearAllState()
             }
             setOnRetake { viewModel.clearAllState() }

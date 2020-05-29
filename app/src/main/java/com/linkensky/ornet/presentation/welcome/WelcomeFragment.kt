@@ -12,9 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.iid.FirebaseInstanceId
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -26,35 +24,18 @@ import com.karumi.dexter.listener.single.PermissionListener
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.databinding.FragmentWelcomeBinding
-import com.linkensky.ornet.presentation.base.*
-import com.linkensky.ornet.presentation.home.BluetoothStateChanged
-import com.linkensky.ornet.presentation.home.HomeFragment
-import com.linkensky.ornet.service.LocationService
-import com.linkensky.ornet.service.MessagingService
+import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
+import com.linkensky.ornet.presentation.base.buildController
 import com.linkensky.ornet.service.ScanService
-import com.linkensky.ornet.utils.CheckAutostartPermission
 import com.linkensky.ornet.utils.MacAddressRetriever
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
-
-    private val autoStart = CheckAutostartPermission.getInstance()
-
     override var fragmentLayout = R.layout.fragment_welcome
     override fun invalidate() {
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: BluetoothStateChanged) {
-        if (!event.isEnable) {
-            enableBluetooth()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,19 +46,6 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
                 requestLocationPermission()
             }
         }
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w(HomeFragment.TAG, "getInstanceId failed", task.exception)
-                    return@OnCompleteListener
-                }
-
-                task.result?.let {
-                    Hawk.put(Const.STORAGE_FIREBASE_TOKEN, it.token)
-                    MessagingService.storeFirebaseToken()
-                    Log.d(HomeFragment.TAG, "getInstanceId success ${it.token}")
-                }
-            })
 
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -200,8 +168,12 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_BLUETOOTH) {
-            enableBluetooth()
+        if (requestCode == REQUEST_BLUETOOTH && resultCode == RESPONSE_BLUETOOTH_DENY) {
+            Toasty.error(requireContext(), Const.BLUETOOTH_DENY_MESSAGE)
+                .show()
+            requireActivity().finish()
+        } else if (requestCode == REQUEST_BLUETOOTH && resultCode == RESPONSE_BLUETOOTH_ACTIVE) {
+            bluetoothOn()
         }
     }
 
@@ -225,15 +197,9 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
         Log.d(TAG, "Bt On ${Hawk.contains(Const.DEVICE_ID)}")
         if (Hawk.contains(Const.DEVICE_ID)) {
             if (Hawk.contains(Const.SELF_TEST_COMPLETED)) {
-                checkAutostart()
                 Log.d(TAG, getString(R.string.bluetooth_active))
                 requireActivity().startService(Intent(requireActivity(), ScanService::class.java))
-                requireActivity().startService(
-                    Intent(
-                        requireActivity(),
-                        LocationService::class.java
-                    )
-                )
+
                 navigateTo(R.id.action_welcomeFragment_to_homeFragment)
             } else {
                 MaterialAlertDialogBuilder(requireContext())
@@ -241,7 +207,7 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
                     .setMessage(getString(R.string.self_check_message))
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.understand)) { _, _ ->
-                        navigateTo(R.id.action_homeFragment_to_selfcheckFragment)
+                        navigateTo(R.id.action_welcomeFragment_to_selfcheckFragment)
                     }
                     .setNegativeButton(getString(R.string.exit)) { _, _ ->
                         activity?.finish()
@@ -266,22 +232,6 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
         }
     }
 
-    private fun checkAutostart() {
-        if (autoStart.isAutoStartPermissionAvailable(requireContext())) {
-            if (Hawk.get(Const.CHECK_AUTOSTART_PERMISSION, true)) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(getString(R.string.warning))
-                    .setMessage(getString(R.string.autostart_request))
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.understand)) { _, _ ->
-                        autoStart.getAutoStartPermission(requireContext())
-                    }
-                    .show()
-                Hawk.put(Const.CHECK_AUTOSTART_PERMISSION, false)
-            }
-        }
-    }
-
     private fun openSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri: Uri = Uri.fromParts("package", requireContext().packageName, null)
@@ -289,18 +239,9 @@ class WelcomeFragment : BaseEpoxyFragment<FragmentWelcomeBinding>() {
         startActivityForResult(intent, 101)
     }
 
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
 
     companion object {
-        const val TAG = "HOME_FRAGMENT"
+        const val TAG = "WelcomeFragment"
         const val REQUEST_BLUETOOTH = 2
         const val RESPONSE_BLUETOOTH_DENY = 0
         const val RESPONSE_BLUETOOTH_ACTIVE = -1

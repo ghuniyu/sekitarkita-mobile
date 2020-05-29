@@ -1,8 +1,8 @@
 package com.linkensky.ornet.data.model
 
 data class Address(
-    val village: String,
-    val district: String,
+    val village: String?,
+    val district: String?,
     val city: String,
     val province: String
 ) {
