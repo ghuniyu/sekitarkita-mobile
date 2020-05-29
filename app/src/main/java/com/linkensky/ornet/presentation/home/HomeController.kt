@@ -10,6 +10,7 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.*
+import com.linkensky.ornet.data.model.Address
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.base.item.Frame
 import com.linkensky.ornet.presentation.base.item.LayoutOption
@@ -84,7 +85,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
 
         locationInfo {
             id("location")
-            address(Hawk.get(Const.STORAGE_LASTKNOWN_ADDRESS, "Lokasi Tidak diketahui"))
+            address(state.location)
         }
 
         header {
