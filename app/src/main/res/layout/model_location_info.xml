@@ -10,17 +10,19 @@
     </data>
 
     <LinearLayout
+        android:layout_marginStart="@dimen/s"
+        android:layout_marginTop="@dimen/s"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:format12Hour="HH:mm"
-            android:format24Hour="HH:mm"
-            android:textSize="@dimen/textXs"
-            android:textStyle="bold" />
+<!--        <TextClock-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:format12Hour="HH:mm"-->
+<!--            android:format24Hour="HH:mm"-->
+<!--            android:textSize="@dimen/textXs"-->
+<!--            android:textStyle="bold" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +31,7 @@
             android:drawableStart="@drawable/ic_pin"
             android:drawablePadding="@dimen/xxs"
             android:gravity="center|start"
-            android:text="Benculuk Krajan, Cluring, Banyuwangi"
+            android:text="@{address}"
             android:textSize="@dimen/textXs" />
     </LinearLayout>
 </layout>
