@@ -82,6 +82,11 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             }
         }
 
+        locationInfo {
+            id("location")
+            address(Hawk.get(Const.STORAGE_LASTKNOWN_ADDRESS, "Lokasi Tidak diketahui"))
+        }
+
         header {
             id("confirm")
             text("Data Indonesia Terkini")
