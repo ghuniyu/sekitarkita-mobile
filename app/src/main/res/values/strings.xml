@@ -4,7 +4,7 @@
     <string name="app_author">Author : Ghuniyu Fattah Rozaq</string>
     <string name="app_describ">Aplikasi ini digunakan untuk melakukan Tracking terhadap Bluetooth device yang berada disekitar Anda</string>
     <string name="apps_desc_short">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain… (more)</string>
-    <string name="apps_desc">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain menggunakan koneksi Bluetooth.\n\nKetika terdapat Pasien Dalam yang melaporkan diri terinfeksi dan memiliki pernah berdekatan dengan Anda, maka aplikasi akan memberikan notifikasi.\n\nBegitu pula jika Anda terinfeksi, Anda dapat membagikan informasi ke seluruh potensial ODP berdasarkan riwayat perangkat sekitar yang telah tersimpan.\n\nData pribadi Anda tidak akan ditampilkan. Karena aplikasi ini tidak meminta Anda mengisi data pribadi apapun.\n\nMari jadi bagian untuk Solusi Pencegahan!</string>
+    <string name="apps_desc">Aplikasi SekitarKita membantu Anda dalam melakukan tracking titik singgung anda dengan orang lain menggunakan koneksi Bluetooth. \n\nketika suatu saat seseorang yang pernah berkontak terinfeksi, maka aplikasi akan memberikan informasi untuk anda dapat mengambil tindakan yang di perlukan</string>
     <string name="interaction">Interaksi</string>
     <string name="self_check">Lakukan Pemeriksaan Mandiri</string>
     <string name="report">Lapor Infeksi</string>
@@ -136,4 +136,9 @@
     <string name="success">Berhasil</string>
     <string name="app_permission">Izin Aplikasi</string>
     <string name="location_required">Aplikasi tidak dapat berjalan tanpa Izin Lokasi</string>
+    <string name="its_open_source">Aplikasi Ini Open Source</string>
+    <string name="how_contribute">Siapapun dapat berkontribusi mengembangkan aplikasi melalui sekitarkitamovement@gmail.com atau github.com/ghuniyu</string>
+    <string name="contributor">Kontributor</string>
+    <string name="thanks_for">Terimakasih untuk</string>
+    <string name="thanks">Terimakasih</string>
 </resources>

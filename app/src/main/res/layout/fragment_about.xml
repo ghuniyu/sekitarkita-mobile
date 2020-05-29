@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-            name="text"
+            name="version"
             type="String" />
     </data>
 
@@ -13,6 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selfcheck_bg"
@@ -22,48 +24,110 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/PoppinMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/m"
-            android:paddingStart="@dimen/s"
-            android:paddingEnd="@dimen/s"
-            android:text="SekitarKita"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/subtitle"
-            style="@style/PoppinRegular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/s"
-            android:paddingEnd="@dimen/s"
-            android:text="Aplikasi Lacak Covid-19 membantu Anda melacak apakah Anda tergolong Orang Dalam Pengawasan (ODP) berdasarkan history data interaksi anda dengan orang lain."
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <com.airbnb.lottie.LottieAnimationView
+        <ScrollView
+            android:id="@+id/credit"
+            android:scrollbars="none"
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/xl"
             app:layout_constraintBottom_toTopOf="@id/card_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subtitle"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="lottie/circle-loading.json"
-            app:lottie_loop="true" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:padding="@dimen/s"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lottie/circle-loading.json"
+                    app:lottie_loop="true" />
+
+                <TextView
+                    style="@style/PoppinMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp" />
+
+                <TextView
+                    style="@style/PoppinRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/apps_desc"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lottie/hero.json"
+                    app:lottie_loop="true" />
+
+                <TextView
+                    style="@style/PoppinMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:text="@string/its_open_source"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/how_contribute"
+                    android:textColor="@android:color/white" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lottie/developer.json"
+                    app:lottie_loop="true" />
+
+                <TextView
+                    style="@style/PoppinMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:text="@string/contributor"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/thanks_for"
+                    android:layout_marginTop="@dimen/s"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ghuniyu Fattah Rozaq\nAlif Jafar\nGilang Kurniaji\nDeden Gobel\nFeri Harjulianto\nWilly Robertus\nGinanjar Fahrul\nMuhammad Ilham\nYusuf Mantra\nIsa Setiawan\nDan masih banyak lagi..."
+                    android:layout_marginTop="@dimen/s"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    style="@style/PoppinMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m"
+                    android:text="@string/thanks"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </ScrollView>
 
         <com.github.florent37.shapeofview.shapes.RoundRectView
             android:id="@+id/card_box"
@@ -97,7 +161,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/m"
-                    android:text="@{text}"
+                    android:text="@{version}"
                     android:textSize="@dimen/textXs"
                     app:layout_constraintEnd_toEndOf="@id/question"
                     app:layout_constraintStart_toStartOf="@id/question"
