@@ -35,7 +35,7 @@ enum class Status(private val info: Int) {
             POSITIVE -> R.drawable.ic_positive
             OTG -> R.drawable.illustration_otg
             TRAVELER -> R.drawable.illustration_traveler
-            else -> R.drawable.ic_illustration_healthy
+            else -> R.drawable.illustration_healthy
         }
     }
 }

@@ -5,6 +5,7 @@ data class ChangeStatusRequest(
     val health: String,
     val phone: String,
     val name: String,
+    val travelHistory: String? = null,
     val nik: String? = null
 )
 

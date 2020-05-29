@@ -2,7 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_main"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/welcomeFragment">
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.linkensky.ornet.presentation.welcome.WelcomeFragment"
+        android:label="welcomeFragment">
+        <action
+            android:id="@+id/action_welcomeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_macAddressFragment"
+            app:destination="@id/macAddressFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/homeFragment"
@@ -60,6 +72,9 @@
             android:id="@+id/action_macAddressFragment_to_selfcheckFragment"
             app:destination="@id/selfcheckFragment"
             app:enterAnim="@anim/fragment_fade_enter" />
+        <action
+            android:id="@+id/action_macAddressFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
 
     <fragment

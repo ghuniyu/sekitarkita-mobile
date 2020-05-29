@@ -4,7 +4,7 @@ object Const {
     const val DEVICE_ID = "com.linkensky.ornet.storage.device_id"
     const val NAME = "com.linkensky.ornet.storage.name"
     const val PHONE = "com.linkensky.ornet.storage.phone"
-    const val STORAGE_STATUS = "com.linkensky.ornet.utils.storage.status"
+    const val STATUS = "com.linkensky.ornet.utils.storage.status"
     const val SELF_TEST_COMPLETED = "com.linkensky.ornet.utils.storage.self_test_completed"
     const val STORAGE_FIREBASE_TOKEN = "com.linkensky.ornet.utils.storage.firebase.token"
     const val STORAGE_BLUETOOTH_STATUS = "com.linkensky.ornet.utils.storage.bluetooth.status"

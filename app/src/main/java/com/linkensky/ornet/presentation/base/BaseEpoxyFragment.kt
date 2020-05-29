@@ -21,7 +21,7 @@ import com.linkensky.ornet.R
 abstract class BaseEpoxyFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
     protected lateinit var binding: VDB
     protected lateinit var recyclerView: EpoxyRecyclerView
-    protected val epoxyController by lazy { epoxyController() }
+    private val epoxyController by lazy { epoxyController() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ abstract class BaseEpoxyFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
 
     /**
      * Provide the EpoxyController to use when building models for this Fragment.
-     * Basic usages can simply use [simpleController]
+     * Basic usages can simply use [epoxyController]
      */
     abstract fun epoxyController(): MvRxEpoxyController
 
@@ -72,11 +72,6 @@ abstract class BaseEpoxyFragment<VDB : ViewDataBinding> : BaseMvRxFragment() {
     }
 
     protected fun navigateTo(@IdRes actionId: Int, arg: Parcelable? = null) {
-        /**
-         * If we put a parcelable arg in [MvRx.KEY_ARG] then MvRx will attempt to call a secondary
-         * constructor on any MvRxState objects and pass in this arg directly.
-         * @see [com.airbnb.mvrx.sample.features.dadjoke.DadJokeDetailState]
-         */
         val bundle = arg?.let { Bundle().apply { putParcelable(MvRx.KEY_ARG, it) } }
         findNavController().navigate(actionId, bundle)
     }

@@ -2,36 +2,24 @@ package com.linkensky.ornet.presentation.report
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.ChangeStatusRequest
 import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.databinding.FragmentReportBinding
-import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.presentation.base.BaseFragment
-import com.linkensky.ornet.presentation.base.MvRxEpoxyController
-import com.linkensky.ornet.presentation.base.buildController
-import com.linkensky.ornet.presentation.base.item.Frame
-import com.linkensky.ornet.presentation.base.item.LayoutOption
-import com.linkensky.ornet.presentation.base.item.component.LottieLoading
-import com.linkensky.ornet.presentation.base.item.component.MaterialButtonView
-import com.linkensky.ornet.presentation.base.item.keyValue
-import com.linkensky.ornet.utils.addModel
-import com.linkensky.ornet.utils.dp
 import com.linkensky.ornet.utils.required
-import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
+import kotlin.random.Random
 
 class ReportFragment : BaseFragment<FragmentReportBinding>() {
     private val viewModel: ReportViewModel by activityViewModel()
@@ -64,6 +52,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
         viewModel.asyncSubscribe(
             subscriptionLifecycleOwner,
             ReportState::responsePostChangeStatus,
+            uniqueOnly(Random.nextInt().toString()),
             onSuccess = {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.success))
@@ -103,7 +92,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
             val confirm = d.findViewById<Button>(R.id.confirm)
 
             message.text = getString(R.string.report_confirmation, status.toString())
-            name.setText(Hawk.get<String>(Const.NAME))
+            name.setText(state.name)
             phone.setText(state.phone)
             travelHistory.setText(state.travelHistory)
 
@@ -127,9 +116,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
                     phone.required("Nomor Telepon Harus diisi") {
                         name.required("Nama harus diisi") {
                             postReport()
+                            d.dismiss()
                         }
                     }
-                    d.dismiss()
                 } else {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.oops))
@@ -146,13 +135,18 @@ class ReportFragment : BaseFragment<FragmentReportBinding>() {
     }
 
     private fun postReport() = withState(viewModel) { state ->
-        viewModel.postChangeStatus(
-            ChangeStatusRequest(
-                device_id = Hawk.get(Const.DEVICE_ID),
-                health = state.status.getValue(),
-                phone = state.phone!!,
-                name = state.name!!
-            )
-        )
+        state.phone?.let { phone ->
+            state.name?.let { name ->
+                viewModel.postChangeStatus(
+                    ChangeStatusRequest(
+                        device_id = Hawk.get(Const.DEVICE_ID),
+                        health = state.status.getValue(),
+                        phone = phone,
+                        travelHistory = state.travelHistory,
+                        name = name
+                    )
+                )
+            }
+        }
     }
 }

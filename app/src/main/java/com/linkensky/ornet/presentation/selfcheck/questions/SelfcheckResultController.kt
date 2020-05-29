@@ -1,8 +1,6 @@
 package com.linkensky.ornet.presentation.selfcheck.questions
 
-import android.util.Log
 import com.airbnb.mvrx.withState
-import com.linkensky.ornet.App
 import com.linkensky.ornet.R
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.selfcheck.SelfcheckViewModel

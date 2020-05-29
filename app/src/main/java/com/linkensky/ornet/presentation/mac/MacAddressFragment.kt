@@ -20,8 +20,6 @@ import es.dmoral.toasty.Toasty
 class MacAddressFragment : BaseFragment<FragmentMacAddressBinding>() {
     override fun getLayoutRes() = R.layout.fragment_mac_address
 
-    private val viewModel: HomeViewModel by existingViewModel()
-
     private val controller by lazy {
         MacAddressController()
     }
