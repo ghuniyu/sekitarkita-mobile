@@ -150,4 +150,8 @@
     <string name="registered_device">Device ini terdaftar sebagai user SekitarKita</string>
     <string name="unknown_device">Device tidak dikenali</string>
     <string name="interaction_description">Singgungan anda tercatat pada\n%1$s WIB dengan device\n %2$s</string>
+    <string name="good_moring">Selamat Pagi</string>
+    <string name="good_afternoon">Selamat Siang</string>
+    <string name="good_evening">Selamat Sore</string>
+    <string name="good_night">Selamat Malam</string>
 </resources>

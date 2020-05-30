@@ -20,7 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@{zone == 'r' ? @color/redZone : (zone == 'g' ? @color/greenZone : @color/yellowZone)}">
+        android:background="@{zone == 'r' ? @color/redZone : (zone == 'g' ? @color/greenZone : (zone == 'y' ? @color/yellowZone : @color/greenZone))}">
 
         <com.github.florent37.shapeofview.shapes.RoundRectView
             android:layout_width="match_parent"
