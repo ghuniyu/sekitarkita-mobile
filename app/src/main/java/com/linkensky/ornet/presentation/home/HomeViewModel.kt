@@ -59,7 +59,7 @@ class HomeViewModel(
         val address = Hawk.get(Const.STORAGE_LASTKNOWN_ADDRESS, Address())
         address.province?.let { province ->
             when {
-                province.toLowerCase().contains("tengah") -> {
+                province.toLowerCase().contains(Const.AREA_GORONTALO) -> {
                     Hawk.put(Const.AREA_NAME, Const.AREA_GORONTALO)
                     if(!gorontaloStatistics.complete) getGorontaloStatistic()
                 }
