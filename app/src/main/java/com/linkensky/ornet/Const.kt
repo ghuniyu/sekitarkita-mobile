@@ -36,4 +36,5 @@ object Const {
     const val BLUETOOTH_DENY_MESSAGE = "Aplikasi tidak dapat dijalankan tanpa bluetooth"
     const val EVENT_USER_REPORT = "user-report";
     const val EVENT_USER_DEVICE = "sekitar-device-%s"
+    const val AREA_GORONTALO = "gorontalo"
 }

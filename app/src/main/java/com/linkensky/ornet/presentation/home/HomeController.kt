@@ -97,16 +97,16 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             text("Data Indonesia Terkini")
         }
 
-        if (Hawk.get<String>(Const.AREA_NAME, null) == "gorontalo") {
+        if (Hawk.get(Const.AREA_NAME, "") == Const.AREA_GORONTALO) {
             subHeader {
-                id("confirm_info")
+                id("confirm_info_gorontalo")
                 text("Data ini disediakan oleh gorontaloprov.go.id")
             }
 
             when (val response = state.gorontaloStatistics) {
                 is Loading -> {
                     gtoStats {
-                        id("stats")
+                        id("stats-loading-gorontalo")
                         isLoading(true)
                     }
                 }
@@ -114,7 +114,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                 is Success -> {
                     val data = response().data
                     gtoStats {
-                        id("stats")
+                        id("stats-gorontalo")
                         isLoading(false)
                         odp(data[0].statuses[0].orangs_count.toString())
                         pdp(data[1].statuses[0].orangs_count.toString())
@@ -125,7 +125,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
 
                 is Fail -> {
                     addModel(
-                        "stas-fail-text",
+                        "stas-fail-text-gorontalo",
                         ViewText.Model(
                             text = R.string.something_went_wrong.resString(),
                             gravity = Gravity.CENTER,
@@ -134,7 +134,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                         )
                     )
                     addModel(
-                        "stas-fail",
+                        "stas-fail-gorontalo",
                         MaterialButtonView.Model(
                             text = R.string.refresh.resString(),
                             clickListener = keyValue { _ -> viewModel.getIndonesiaStatistics() },
