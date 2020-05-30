@@ -70,7 +70,7 @@
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     app:lottie_autoPlay="true"
-                    app:lottie_fileName="lottie/hero.json"
+                    app:lottie_fileName="lottie/developer.json"
                     app:lottie_loop="true" />
 
                 <TextView
@@ -92,7 +92,7 @@
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     app:lottie_autoPlay="true"
-                    app:lottie_fileName="lottie/developer.json"
+                    app:lottie_fileName="lottie/hero.json"
                     app:lottie_loop="true" />
 
                 <TextView
@@ -114,7 +114,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ghuniyu Fattah Rozaq\nAlif Jafar\nGilang Kurniaji\nDeden Gobel\nFeri Harjulianto\nWilly Robertus\nGinanjar Fahrul\nMuhammad Ilham\nYusuf Mantra\nIsa Setiawan\nDan masih banyak lagi..."
+                    android:text="@string/contributors"
                     android:layout_marginTop="@dimen/s"
                     android:textColor="@android:color/white" />
 
