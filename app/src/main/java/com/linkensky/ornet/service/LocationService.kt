@@ -32,9 +32,7 @@ class LocationService : BaseService() {
     }
 
     private fun locationService() {
-        FusedLocationProviderClient(this).requestLocationUpdates(
-            LocationRequest(),
-            object : LocationCallback() {
+        FusedLocationProviderClient(this).requestLocationUpdates(LocationRequest(), object : LocationCallback() {
                 override fun onLocationResult(result: LocationResult) {
                     val lastLocation = result.lastLocation
 

@@ -15,13 +15,19 @@
         <variable
             name="textTime"
             type="String" />
+
+        <variable
+            name="onClickItem"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xs"
-        android:background="@android:color/white">
+        android:onClick="@{onClickItem}"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:padding="@dimen/btPadding"

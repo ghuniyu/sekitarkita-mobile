@@ -1,11 +1,13 @@
 package com.linkensky.ornet.presentation.interaction
 
+import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.withState
 import com.linkensky.ornet.Const
+import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.Interaction
 import com.linkensky.ornet.data.model.Province
 import com.linkensky.ornet.itemInteraction
@@ -81,6 +83,11 @@ class InteractionController(private val viewModel: HomeViewModel) : MvRxEpoxyCon
                     )
                 )
                 textTime(Formatter.dateFormat(it.created_at, Formatter.Template.TIME))
+                onClickItem { v ->
+                    viewModel.setInteraction(it)
+                    v.findNavController()
+                        .navigate(R.id.action_interactionFragment_to_interactionDetailFragment)
+                }
             }
         }
     }

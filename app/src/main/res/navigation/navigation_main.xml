@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_interactionFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_interactionFragment_to_interactionDetailFragment"
+            app:destination="@id/interactionDetailFragment" />
     </fragment>
 
     <fragment
@@ -106,4 +109,8 @@
         android:id="@+id/aboutFragment"
         android:name="com.linkensky.ornet.presentation.about.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/interactionDetailFragment"
+        android:name="com.linkensky.ornet.presentation.interaction.detail.InteractionDetailFragment"
+        android:label="InteractionDetailFragment" />
 </navigation>

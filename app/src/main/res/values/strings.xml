@@ -142,4 +142,12 @@
     <string name="thanks_for">Terimakasih untuk</string>
     <string name="thanks">Terimakasih</string>
     <string name="contributors">Ghuniyu Fattah Rozaq\nAlif Jafar\nGilang Kurniaji\nDeden Gobel\nFeri Harjulianto\nWilly Robertus\nGinanjar Fahrul\nMuhammad Ilham\nYusuf Mantra\nIsa Setiawan\nDan masih banyak lagi...</string>
+    <string name="description">Deskripsi</string>
+    <string name="open_map">Buka Lokasi di Maps</string>
+    <string name="device_status">Status Device</string>
+    <string name="interaction_desc">Aplikasi ini mencatat bahwa smartphone anda telah bersinggungan dengan device lain</string>
+    <string name="interaction_detail">Detail Interaksi</string>
+    <string name="registered_device">Device ini terdaftar sebagai user SekitarKita</string>
+    <string name="unknown_device">Device tidak dikenali</string>
+    <string name="interaction_description">Singgungan anda tercatat pada\n%1$s WIB dengan device\n %2$s</string>
 </resources>

@@ -6,6 +6,8 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.data.model.Address
+import com.linkensky.ornet.data.model.Device
+import com.linkensky.ornet.data.model.Interaction
 import com.linkensky.ornet.data.model.InteractionHistoryRequest
 import com.linkensky.ornet.data.services.SekitarKitaService
 import com.linkensky.ornet.presentation.base.MvRxViewModel
@@ -73,6 +75,9 @@ class HomeViewModel(
         copy(location = address.location())
     }
 
+    fun setInteraction(interaction: Interaction) = setState {
+        copy(interaction = interaction)
+    }
 
     companion object : MvRxViewModelFactory<HomeViewModel, HomeState> {
         override fun create(viewModelContext: ViewModelContext, state: HomeState): HomeViewModel {
