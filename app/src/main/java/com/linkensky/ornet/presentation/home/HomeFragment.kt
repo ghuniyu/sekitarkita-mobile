@@ -415,9 +415,6 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                     }
                 }
             }, Looper.myLooper())
-//            fusedLocation.lastLocation.addOnCompleteListener {
-//
-//            }
         }
     }
 

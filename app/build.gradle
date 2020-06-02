@@ -18,7 +18,7 @@ android {
         applicationId "com.linkensky.ornet"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
+        versionCode 12
         versionName "Gn.Ijen"
 
         multiDexEnabled true

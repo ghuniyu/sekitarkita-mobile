@@ -149,5 +149,5 @@
     <string name="interaction_detail">Detail Interaksi</string>
     <string name="registered_device">Device ini terdaftar sebagai user SekitarKita</string>
     <string name="unknown_device">Device tidak dikenali</string>
-    <string name="interaction_description">Singgungan anda tercatat pada\n%1$s WIB dengan device\n %2$s</string>
+    <string name="interaction_description">Singgungan anda tercatat pada\n%1$s WIB dengan device\n%2$s</string>
 </resources>
