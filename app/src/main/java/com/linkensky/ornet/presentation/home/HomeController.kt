@@ -28,7 +28,6 @@ import com.orhanobut.hawk.Hawk
 import java.util.*
 
 data class Zone(
-    val name: String,
     val info: String,
     val radar: String
 )
@@ -40,13 +39,23 @@ fun setImageURL(view: ImageView, url: String?) {
         .load(url)
         .into(view)
 }
+
 class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController() {
 
     override fun buildModels() = withState(viewModel) { state ->
+
+        val words = arrayOf(
+            "Selalu Jaga Kesehatan yaa...",
+            "Jangan lupa cuci tangan...",
+            "Makan makanan bergizi ya...",
+            "Jangan lupa tetap berolah raga...",
+            "#Dirumahaja lebih baik..."
+        )
         val zones = hashMapOf(
-            'r' to Zone("Merah", "Anda Sedang di Zona Merah Covid-19", "lottie/radar-red.json"),
-            'g' to Zone("Hijau", "Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
-            'y' to Zone("Kuning", "Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json")
+            'r' to Zone("Anda Sedang di Zona Merah Covid-19", "lottie/radar-red.json"),
+            'g' to Zone("Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
+            'y' to Zone("Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json"),
+            'u' to Zone(words.random(), "lottie/radar-green.json")
         )
         val k = state.zone
 
@@ -59,20 +68,20 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             }
         }
 
-        var greeting = "Selamat Pagi"
+        var greeting = R.string.good_moring.resString()
         val calendar = Calendar.getInstance()
         when (calendar.get(Calendar.HOUR_OF_DAY)) {
             in 0..11 -> {
-                greeting = "Selamat Pagi"
+                greeting = R.string.good_moring.resString()
             }
             in 12..15 -> {
-                greeting = "Selamat Siang"
+                greeting = R.string.good_afternoon.resString()
             }
             in 16..20 -> {
-                greeting = "Selamat Sore"
+                greeting = R.string.good_evening.resString()
             }
             in 21..23 -> {
-                greeting = "Selamat Maklam"
+                greeting = R.string.good_night.resString()
             }
         }
 

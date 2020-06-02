@@ -12,7 +12,7 @@ data class HomeState(
     val banners : Async<List<Banner>> = Uninitialized,
     val gorontaloStatistics : Async<GtoStatisticResponse> = Uninitialized,
     val historyInteraction: Async<InteractionHistoryResponse> = Uninitialized,
-    val zone: Char = Hawk.get(Const.STORAGE_LASTKNOWN_ZONE, 'g'),
+    val zone: Char = Hawk.get(Const.STORAGE_LASTKNOWN_ZONE, 'u'),
     val location: String = Hawk.get(Const.STORAGE_LASTKNOWN_ADDRESS, Address()).location(),
     val interaction: Interaction? = null
 ): MvRxState
