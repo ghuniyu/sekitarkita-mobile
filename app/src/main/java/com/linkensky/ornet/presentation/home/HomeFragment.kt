@@ -20,6 +20,7 @@ import com.airbnb.mvrx.activityViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -41,17 +42,20 @@ import com.linkensky.ornet.data.event.BluetoothStateChanged
 import com.linkensky.ornet.data.event.PingEvent
 import com.linkensky.ornet.data.event.ZoneEvent
 import com.linkensky.ornet.data.model.Address
+import com.linkensky.ornet.data.model.AreaConfig
 import com.linkensky.ornet.databinding.FragmentHomeBinding
 import com.linkensky.ornet.presentation.base.BaseEpoxyFragment
 import com.linkensky.ornet.service.LocationService
 import com.linkensky.ornet.service.MessagingService
 import com.linkensky.ornet.utils.CheckAutostartPermission
+import com.linkensky.ornet.utils.fromJson
 import com.linkensky.ornet.utils.resString
 import com.orhanobut.hawk.Hawk
 import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.IOException
 import java.util.*
 
 
@@ -349,73 +353,94 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                                 }
                                 .show()
                         } else {
-                            val geoCoder = Geocoder(requireContext())
-                            val addresses =
-                                geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-
-                            val areas = remoteConfig.getString("area")
-                            if (areas.isNotEmpty()) {
-                                val parsed =
-                                    JsonParser().parse(areas).asJsonObject.getAsJsonArray("partners")
-                                val partners = Gson().fromJson<List<String>>(
-                                    parsed,
-                                    object : TypeToken<List<String>>() {}.type
-                                )
-                                addresses?.first()?.let { address ->
-                                    address.subAdminArea?.let { city ->
-                                        val currentAddress = Address(
-                                            village = address.subLocality,
-                                            district = address.locality,
-                                            city = address.subAdminArea,
-                                            province = address.adminArea
-                                        )
-
-                                        Hawk.put(Const.STORAGE_LASTKNOWN_LAT, location.latitude)
-                                        Hawk.put(Const.STORAGE_LASTKNOWN_LNG, location.longitude)
-                                        Hawk.put(
-                                            Const.STORAGE_LASTKNOWN_ADDRESS,
-                                            currentAddress
-                                        )
-                                        viewModel.updateLocation()
-
-                                        currentAddress.partnerLocation().toLowerCase(Locale.ROOT)
-                                            .split(' ', ',').forEach { k ->
-                                                if (partners.contains(k)) {
-                                                    Hawk.put(Const.IN_OBSERVE_AREA, true)
-                                                    if (Hawk.get(Const.NOTIFY_OBSERVE_AREA, true)) {
-                                                        Hawk.put(Const.NOTIFY_OBSERVE_AREA, false)
-                                                        MaterialAlertDialogBuilder(requireContext())
-                                                            .setTitle(getString(R.string.observe_area))
-                                                            .setMessage(
-                                                                getString(
-                                                                    R.string.observe_area_info,
-                                                                    address.subAdminArea
-                                                                )
-                                                            )
-                                                            .setCancelable(false)
-                                                            .setPositiveButton(getString(R.string.understand)) { d, _ ->
-                                                                d.dismiss()
-                                                            }
-                                                            .show()
-                                                    }
-
-                                                    EventBus.getDefault().post(PingEvent())
-                                                    requireActivity().startService(
-                                                        Intent(
-                                                            requireActivity(),
-                                                            LocationService::class.java
-                                                        )
-                                                    )
-                                                }
-                                            }
-                                    }
-                                }
-                            }
+                            getLocationFromLatLong(location)
                         }
                     }
                 }
             }, Looper.myLooper())
         }
+    }
+
+
+    private fun getLocationFromLatLong(location: Location) {
+        try {
+            val geoCoder = Geocoder(requireContext())
+            val addresses =
+                geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+
+            val areas = remoteConfig.getString("area")
+            if (areas.isNotEmpty()) {
+                val areaConfig = areas.fromJson<AreaConfig>()
+                val partners = areaConfig.partners
+
+                addresses?.first()?.let { address ->
+                    address.subAdminArea?.let { city ->
+                        val currentAddress = Address(
+                            village = address.subLocality,
+                            district = address.locality,
+                            city = address.subAdminArea,
+                            province = address.adminArea
+                        )
+
+                        Hawk.put(Const.STORAGE_LASTKNOWN_LAT, location.latitude)
+                        Hawk.put(Const.STORAGE_LASTKNOWN_LNG, location.longitude)
+                        Hawk.put(
+                            Const.STORAGE_LASTKNOWN_ADDRESS,
+                            currentAddress
+                        )
+                        viewModel.updateLocation()
+
+                        currentAddress.partnerLocation().toLowerCase(Locale.ROOT)
+                            .split(' ', ',').forEach { k ->
+                                if (partners.contains(k)) {
+                                    Hawk.put(Const.IN_OBSERVE_AREA, true)
+                                    if (Hawk.get(Const.NOTIFY_OBSERVE_AREA, true)) {
+                                        Hawk.put(Const.NOTIFY_OBSERVE_AREA, false)
+                                        MaterialAlertDialogBuilder(requireContext())
+                                            .setTitle(getString(R.string.observe_area))
+                                            .setMessage(
+                                                getString(
+                                                    R.string.observe_area_info,
+                                                    address.subAdminArea
+                                                )
+                                            )
+                                            .setCancelable(false)
+                                            .setPositiveButton(getString(R.string.understand)) { d, _ ->
+                                                d.dismiss()
+                                            }
+                                            .show()
+                                    }
+
+                                    EventBus.getDefault().post(PingEvent())
+                                    requireActivity().startService(
+                                        Intent(
+                                            requireActivity(),
+                                            LocationService::class.java
+                                        )
+                                    )
+                                }else {
+                                    requireActivity().stopService(
+                                        Intent(
+                                            requireActivity(),
+                                            LocationService::class.java
+                                        )
+                                    )
+                                }
+                            }
+                    }
+                }
+            }
+        } catch (ioException: IOException) {
+            Toasty.error(
+                requireContext(),
+                getString(R.string.failed_get_location)
+            ).show()
+        } catch (ile: IllegalArgumentException) {
+            Toasty.error(
+                requireContext(),
+                getString(R.string.invalid_lat_long)
+            ).show()
+        }catch (e: Exception) { }
     }
 
     override fun onStart() {

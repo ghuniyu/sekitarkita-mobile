@@ -154,4 +154,6 @@
     <string name="good_afternoon">Selamat Siang</string>
     <string name="good_evening">Selamat Sore</string>
     <string name="good_night">Selamat Malam</string>
+    <string name="failed_get_location">Gagal Mendapatkan Lokasi Anda</string>
+    <string name="invalid_lat_long">Kesalahan Latitude atau Longitude</string>
 </resources>
