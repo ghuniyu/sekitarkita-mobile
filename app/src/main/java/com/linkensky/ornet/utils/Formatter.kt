@@ -79,5 +79,17 @@ class Formatter {
         fun low(what: String): String {
             return what.toLowerCase(Locale.getDefault())
         }
+
+        fun String?.statusify(): String {
+            return when (this) {
+                "positive" -> "Pengguna Positif"
+                "odp" -> "Pengguna ODP"
+                "pdp" -> "Pengguna PDP"
+                "otg" -> "Pengguna OTG"
+                "traveler" -> "Pelaku Perjalanan"
+                "healthy" -> "Pengguna Sehat"
+                else -> ""
+            }
+        }
     }
 }

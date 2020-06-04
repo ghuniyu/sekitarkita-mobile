@@ -10,6 +10,7 @@ import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.Interaction
 import com.linkensky.ornet.data.model.Province
+import com.linkensky.ornet.data.model.enums.Status
 import com.linkensky.ornet.itemInteraction
 import com.linkensky.ornet.itemStats
 import com.linkensky.ornet.presentation.base.BaseController
@@ -23,6 +24,7 @@ import com.linkensky.ornet.presentation.base.item.keyValue
 import com.linkensky.ornet.presentation.home.HomeState
 import com.linkensky.ornet.presentation.home.HomeViewModel
 import com.linkensky.ornet.utils.Formatter
+import com.linkensky.ornet.utils.Formatter.Companion.statusify
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
 import com.orhanobut.hawk.Hawk
@@ -76,6 +78,7 @@ class InteractionController(private val viewModel: HomeViewModel) : MvRxEpoxyCon
             itemInteraction {
                 id("device-history-$i")
                 text(it.another_device)
+                textStatus(it.user_status.statusify())
                 textDate(
                     Formatter.dateFormat(
                         it.created_at,

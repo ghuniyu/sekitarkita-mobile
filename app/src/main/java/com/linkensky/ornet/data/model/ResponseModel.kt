@@ -63,7 +63,8 @@ data class Interaction(
     val longitude: Double?,
     val created_at: String,
     val updated_at: String,
-    val app_user: Boolean = false
+    val app_user: Boolean = false,
+    val user_status: String? = null
 )
 
 data class InteractionHistoryResponse(
