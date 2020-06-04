@@ -11,6 +11,8 @@ import com.orhanobut.hawk.Hawk
 data class SelfcheckState(
     val phone: String? = Hawk.get<String>(Const.PHONE, null),
     val name: String? = Hawk.get<String>(Const.NAME, null),
+    val age: String? = Hawk.get<String>(Const.AGE, null),
+    val address: String? = Hawk.get<String>(Const.ADDRESS, null),
     val page: Int = 1,
     val status: Status = Status.HEALTHY,
 

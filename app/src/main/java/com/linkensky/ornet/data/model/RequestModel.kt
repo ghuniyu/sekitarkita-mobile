@@ -21,7 +21,9 @@ data class ReportDataRequest(
     val has_direct_contact: Boolean,
     val result: String,
     val name: String,
-    val phone: String
+    val phone: String,
+    val address: String,
+    val age: String
 )
 
 data class FirebaseTokenRequest(

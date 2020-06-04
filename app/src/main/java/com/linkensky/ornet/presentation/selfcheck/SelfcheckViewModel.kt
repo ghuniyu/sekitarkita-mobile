@@ -59,6 +59,8 @@ class SelfcheckViewModel(
     fun setPhone(phone: String) = setState { copy(phone = phone) }
     fun setStatus(status: Status) = setState { copy(status = status) }
     fun setName(name: String) = setState { copy(name = name) }
+    fun setAge(value: String) = setState { copy(age = value) }
+    fun setAddress(value: String) = setState { copy(address = value) }
 
     fun storeReportTest(resultTest: ReportDataRequest) = viewModelScope.rxApi {
         service.storeSelfCheck(resultTest)

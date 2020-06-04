@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,160 +19,205 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selfcheck_bg"
-            android:contentDescription="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            android:onClick="@{onBack}"
-            android:padding="@dimen/s"
-            android:src="@drawable/ic_arrow_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/PoppinMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/s"
-            android:paddingEnd="@dimen/s"
-            android:text="@string/quest_title"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/back" />
-
-        <TextView
-            android:id="@+id/subtitle"
-            style="@style/PoppinRegular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/s"
-            android:paddingEnd="@dimen/s"
-            android:text="@string/quest_subtitle"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/m"
-            android:contentDescription="@null"
-            android:src="@drawable/illustration_contact"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subtitle" />
-
-        <com.github.florent37.shapeofview.shapes.RoundRectView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:shape_roundRect_topLeftRadius="@dimen/s"
-            app:shape_roundRect_topRightRadius="@dimen/s">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:padding="@dimen/s">
+                android:background="@drawable/selfcheck_bg"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/question"
-                    style="@style/PoppinMedium"
-                    android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:onClick="@{onBack}"
+                android:padding="@dimen/s"
+                android:src="@drawable/ic_arrow_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/PoppinMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/s"
+                android:paddingEnd="@dimen/s"
+                android:text="@string/quest_title"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/back" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/PoppinRegular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/s"
+                android:paddingEnd="@dimen/s"
+                android:text="@string/quest_subtitle"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m"
+                android:contentDescription="@null"
+                android:src="@drawable/illustration_contact"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+            <com.github.florent37.shapeofview.shapes.RoundRectView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shape_roundRect_topLeftRadius="@dimen/s"
+                app:shape_roundRect_topRightRadius="@dimen/s">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/pre_test"
-                    android:textSize="@dimen/textM"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:background="@android:color/white"
+                    android:padding="@dimen/s">
 
-                <TextView
-                    android:id="@+id/help"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pre_test_help"
-                    android:textSize="@dimen/textXs"
-                    app:layout_constraintEnd_toEndOf="@id/question"
-                    app:layout_constraintStart_toStartOf="@id/question"
-                    app:layout_constraintTop_toBottomOf="@id/question" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/name_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/m"
-                    android:hint="@string/name"
-                    app:layout_constraintEnd_toEndOf="@id/help"
-                    app:layout_constraintStart_toStartOf="@id/help"
-                    app:layout_constraintTop_toBottomOf="@id/help">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/question"
+                        style="@style/PoppinMedium"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/colorText" />
+                        android:text="@string/pre_test"
+                        android:textSize="@dimen/textM"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/phone_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/m"
-                    android:hint="@string/phone"
-                    app:layout_constraintEnd_toEndOf="@id/help"
-                    app:layout_constraintStart_toStartOf="@id/help"
-                    app:layout_constraintTop_toBottomOf="@id/name_layout">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phone"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/help"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:textColor="@color/colorText" />
+                        android:text="@string/pre_test_help"
+                        android:textSize="@dimen/textXs"
+                        app:layout_constraintEnd_toEndOf="@id/question"
+                        app:layout_constraintStart_toStartOf="@id/question"
+                        app:layout_constraintTop_toBottomOf="@id/question" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/name_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/m"
+                        android:hint="@string/name"
+                        app:layout_constraintEnd_toEndOf="@id/help"
+                        app:layout_constraintStart_toStartOf="@id/help"
+                        app:layout_constraintTop_toBottomOf="@id/help">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/colorText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phone_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/phone"
+                        app:layout_constraintEnd_toEndOf="@id/help"
+                        app:layout_constraintStart_toStartOf="@id/help"
+                        app:layout_constraintTop_toBottomOf="@id/name_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textColor="@color/colorText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/age_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Umur"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@id/help"
+                        app:layout_constraintStart_toStartOf="@id/help"
+                        app:layout_constraintTop_toBottomOf="@+id/phone_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="@color/colorText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/address_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Alamat"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@id/help"
+                        app:layout_constraintStart_toStartOf="@id/help"
+                        app:layout_constraintTop_toBottomOf="@+id/age_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@color/colorText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
-                <Button
-                    android:id="@+id/btnNext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/s"
-                    android:drawableEnd="@drawable/ic_arrow_right_light"
-                    android:onClick="@{onNext}"
-                    android:text="@string/start"
-                    android:enabled="@{isEnableBtn}"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/phone_layout" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <Button
+                        android:id="@+id/btnNext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_arrow_right_light"
+                        android:onClick="@{onNext}"
+                        android:text="@string/start"
+                        android:enabled="@{isEnableBtn}"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/address_layout" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.github.florent37.shapeofview.shapes.RoundRectView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.github.florent37.shapeofview.shapes.RoundRectView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </layout>

@@ -75,6 +75,8 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
         Hawk.put(Const.STATUS, status)
         Hawk.put(Const.NAME, s.name)
         Hawk.put(Const.PHONE, s.phone)
+        Hawk.put(Const.AGE, s.age)
+        Hawk.put(Const.ADDRESS, s.address)
 
         viewModel.setStatus(status)
         viewModel.storeReportTest(ReportDataRequest(
@@ -89,7 +91,9 @@ class Selfcheck5 : BaseFragment<FragmentSelfcheck5Binding>() {
             has_sore_throat = s.hasSoreThroat,
             result = status.getValue(),
             name = s.name!!,
-            phone = s.phone!!
+            phone = s.phone!!,
+            age = s.age!!,
+            address = s.address!!
         ))
     }
 

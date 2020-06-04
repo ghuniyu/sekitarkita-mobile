@@ -22,7 +22,7 @@ interface SekitarKitaService {
     @GET("gorontalo-statistics")
     suspend fun getGorontalo(): GtoStatisticResponse
 
-    @POST("store-selfcheck")
+    @POST("v2/store-selfcheck")
     suspend fun storeSelfCheck(@Body request: ReportDataRequest): BaseResponse
 
     @POST("device-history")
