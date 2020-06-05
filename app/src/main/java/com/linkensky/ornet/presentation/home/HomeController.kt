@@ -52,9 +52,9 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             "#Dirumahaja lebih baik..."
         )
         val zones = hashMapOf(
-            'r' to Zone("Anda Sedang di Zona Merah Covid-19", "lottie/radar-red.json"),
-            'g' to Zone("Anda Sedang di Zona Hijau Covid-19", "lottie/radar-green.json"),
-            'y' to Zone("Anda Sedang di Zona Kuning Covid-19", "lottie/radar-red.json"),
+            'r' to Zone(R.string.zone_red.resString(), "lottie/radar-red.json"),
+            'g' to Zone(R.string.zone_green.resString(), "lottie/radar-green.json"),
+            'y' to Zone(R.string.zone_yellow.resString(), "lottie/radar-red.json"),
             'u' to Zone(words.random(), "lottie/radar-green.json")
         )
         val k = state.zone
@@ -101,12 +101,12 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
             address(state.location)
         }
 
-        header {
-            id("confirm")
-            text("Data Indonesia Terkini")
-        }
-
         if (Hawk.get(Const.AREA_NAME, "") == Const.AREA_GORONTALO) {
+            header {
+                id("confirm")
+                text("Data Gorontalo Terkini")
+            }
+
             subHeader {
                 id("confirm_info_gorontalo")
                 text("Data ini disediakan oleh Dinkes Gorontalo")
@@ -133,7 +133,6 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                             treatment(treatment.toString())
                             recover(recover.toString())
                             death(death.toString())
-
                         }
                     }
                 }
@@ -160,6 +159,11 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                 }
             }
         } else {
+            header {
+                id("confirm")
+                text("Data Indonesia Terkini")
+            }
+
             subHeader {
                 id("confirm_info")
                 text("Data ini disediakan oleh kawalcorona.com")

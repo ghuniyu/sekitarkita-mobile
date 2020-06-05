@@ -157,4 +157,7 @@
     <string name="failed_get_location">Gagal Mendapatkan Lokasi Anda</string>
     <string name="invalid_lat_long">Kesalahan Latitude atau Longitude</string>
     <string name="treatment">Dirawat</string>
+    <string name="zone_red">Anda Sedang di Zona Merah Covid-19</string>
+    <string name="zone_green">Anda Sedang di Zona Hijau Covid-19</string>
+    <string name="zone_yellow">Anda Sedang di Zona Kuning Covid-19</string>
 </resources>
