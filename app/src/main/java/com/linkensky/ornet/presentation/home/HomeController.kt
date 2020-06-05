@@ -109,7 +109,7 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
         if (Hawk.get(Const.AREA_NAME, "") == Const.AREA_GORONTALO) {
             subHeader {
                 id("confirm_info_gorontalo")
-                text("Data ini disediakan oleh gorontaloprov.go.id")
+                text("Data ini disediakan oleh Dinkes Gorontalo")
             }
 
             when (val response = state.gorontaloStatistics) {
@@ -122,13 +122,19 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
 
                 is Success -> {
                     val data = response().data
-                    gtoStats {
-                        id("stats-gorontalo")
-                        isLoading(false)
-                        odp(data[0].statuses[0].orangs_count.toString())
-                        pdp(data[1].statuses[0].orangs_count.toString())
-                        positive(data[2].statuses[0].orangs_count.toString())
+                    if (data.size == 3) {
+                        val treatment = data[2].statuses[0].orangs_count
+                        val recover = data[2].statuses[1].orangs_count
+                        val death = data[2].statuses[2].orangs_count
+                        gtoStats {
+                            id("stats-gorontalo")
+                            isLoading(false)
+                            positive((treatment + recover + death).toString())
+                            treatment(treatment.toString())
+                            recover(recover.toString())
+                            death(death.toString())
 
+                        }
                     }
                 }
 

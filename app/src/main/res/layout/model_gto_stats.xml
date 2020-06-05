@@ -11,15 +11,19 @@
             type="Boolean" />
 
         <variable
-            name="odp"
+            name="treatment"
             type="String" />
 
         <variable
-            name="pdp"
+            name="recover"
             type="String" />
 
         <variable
             name="positive"
+            type="String" />
+
+        <variable
+            name="death"
             type="String" />
 
         <variable
@@ -42,108 +46,16 @@
             android:layout_height="120dp">
 
             <ImageView
-                android:id="@+id/odpIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/xxs"
-                android:src="@drawable/ic_recover"
-                app:layout_constraintBottom_toTopOf="@+id/odpLabel"
-                app:layout_constraintEnd_toEndOf="@+id/odpLabel"
-                app:layout_constraintStart_toStartOf="@+id/odpLabel" />
-
-
-            <TextView
-                android:id="@+id/odpLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/odp"
-                android:textColor="#90A4AE"
-                android:textSize="@dimen/textXs"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/div1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/odp"
-                style="@style/PoppinMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xxs"
-                android:text="@{odp}"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/odpLabel"
-                app:layout_constraintStart_toStartOf="@+id/odpLabel"
-                app:layout_constraintTop_toBottomOf="@+id/odpLabel" />
-
-            <View
-                android:id="@+id/div1"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/s"
-                android:layout_marginBottom="@dimen/s"
-                android:background="#B0BEC5"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/pdpLabel"
-                app:layout_constraintStart_toEndOf="@id/odpLabel"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <ImageView
-                android:id="@+id/pdpIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/xxs"
-                android:src="@drawable/ic_positive"
-                app:layout_constraintBottom_toTopOf="@+id/pdpLabel"
-                app:layout_constraintEnd_toEndOf="@+id/pdpLabel"
-                app:layout_constraintStart_toStartOf="@+id/pdpLabel" />
-
-            <TextView
-                android:id="@+id/pdpLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pdp"
-                android:textColor="#90A4AE"
-                android:textSize="@dimen/textXs"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/div2"
-                app:layout_constraintStart_toEndOf="@+id/div1"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/pdp"
-                style="@style/PoppinMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/xxs"
-                android:text="@{pdp}"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
-                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
-                app:layout_constraintTop_toBottomOf="@+id/positiveLabel" />
-
-            <View
-                android:id="@+id/div2"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/s"
-                android:layout_marginBottom="@dimen/s"
-                android:background="#B0BEC5"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/positiveLabel"
-                app:layout_constraintStart_toEndOf="@id/pdpLabel"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
                 android:id="@+id/positiveIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/xxs"
-                android:src="@drawable/ic_death"
-                app:layout_constraintBottom_toTopOf="@+id/positiveLabel"
-                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
-                app:layout_constraintStart_toStartOf="@+id/positiveLabel" />
+                android:src="@drawable/ic_positive"
+                app:layout_constraintBottom_toTopOf="@id/positiveLabel"
+                app:layout_constraintEnd_toStartOf="@id/div1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/positiveLabel"
@@ -152,10 +64,10 @@
                 android:text="@string/positive"
                 android:textColor="#90A4AE"
                 android:textSize="@dimen/textXs"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/div2"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toTopOf="@id/positive"
+                app:layout_constraintEnd_toEndOf="@id/positiveIcon"
+                app:layout_constraintStart_toStartOf="@id/positiveIcon"
+                app:layout_constraintTop_toBottomOf="@id/positiveIcon" />
 
             <TextView
                 android:id="@+id/positive"
@@ -165,45 +77,214 @@
                 android:layout_marginTop="@dimen/xxs"
                 android:text="@{positive}"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/pdpLabel"
-                app:layout_constraintStart_toStartOf="@+id/pdpLabel"
-                app:layout_constraintTop_toBottomOf="@+id/pdpLabel" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/odpLoading"
-                android:layout_width="70dp"
-                android:layout_height="25dp"
-                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="@+id/odpLabel"
-                app:layout_constraintStart_toStartOf="@+id/odpLabel"
-                app:layout_constraintTop_toBottomOf="@+id/odpLabel"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="lottie/wave-primary-loading.json"
-                app:lottie_loop="true" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/pdpLoading"
-                android:layout_width="70dp"
-                android:layout_height="25dp"
-                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="@+id/pdpLabel"
-                app:layout_constraintStart_toStartOf="@+id/pdpLabel"
-                app:layout_constraintTop_toBottomOf="@+id/pdpLabel"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="lottie/wave-primary-loading.json"
-                app:lottie_loop="true" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
+                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
+                app:layout_constraintTop_toBottomOf="@+id/positiveLabel" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/positiveLoading"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="@+id/positiveLabel"
-                app:layout_constraintStart_toStartOf="@+id/positiveLabel"
-                app:layout_constraintTop_toBottomOf="@+id/positiveLabel"
+                app:layout_constraintBottom_toBottomOf="@id/positive"
+                app:layout_constraintEnd_toEndOf="@+id/positive"
+                app:layout_constraintStart_toStartOf="@+id/positive"
+                app:layout_constraintTop_toTopOf="@+id/positive"
                 app:lottie_autoPlay="true"
                 app:lottie_fileName="lottie/wave-primary-loading.json"
                 app:lottie_loop="true" />
+
+            <View
+                android:id="@+id/div1"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/treatmentIcon"
+                app:layout_constraintStart_toEndOf="@id/positiveIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            dirawat -->
+
+            <ImageView
+                android:id="@+id/treatmentIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_positive"
+                app:layout_constraintBottom_toTopOf="@id/treatmentLabel"
+                app:layout_constraintEnd_toStartOf="@id/div2"
+                app:layout_constraintStart_toEndOf="@id/div1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/treatmentLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/treatment"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toTopOf="@id/treatment"
+                app:layout_constraintEnd_toEndOf="@id/treatmentIcon"
+                app:layout_constraintStart_toStartOf="@id/treatmentIcon"
+                app:layout_constraintTop_toBottomOf="@id/treatmentIcon" />
+
+            <TextView
+                android:id="@+id/treatment"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{treatment}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/treatmentLabel"
+                app:layout_constraintStart_toStartOf="@+id/treatmentLabel"
+                app:layout_constraintTop_toBottomOf="@+id/treatmentLabel" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/treatmentLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/treatment"
+                app:layout_constraintEnd_toEndOf="@+id/treatment"
+                app:layout_constraintStart_toStartOf="@+id/treatment"
+                app:layout_constraintTop_toTopOf="@+id/treatment"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
+            <View
+                android:id="@+id/div2"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/recoverIcon"
+                app:layout_constraintStart_toEndOf="@id/treatmentIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            recovered -->
+            <ImageView
+                android:id="@+id/recoverIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_recover"
+                app:layout_constraintBottom_toTopOf="@id/recoverLabel"
+                app:layout_constraintEnd_toStartOf="@id/div3"
+                app:layout_constraintStart_toEndOf="@id/div2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/recoverLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recover"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toTopOf="@id/recover"
+                app:layout_constraintEnd_toEndOf="@id/recoverIcon"
+                app:layout_constraintStart_toStartOf="@id/recoverIcon"
+                app:layout_constraintTop_toBottomOf="@id/recoverIcon" />
+
+            <TextView
+                android:id="@+id/recover"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{recover}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/recoverLabel"
+                app:layout_constraintStart_toStartOf="@+id/recoverLabel"
+                app:layout_constraintTop_toBottomOf="@+id/recoverLabel" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/recoverLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/recover"
+                app:layout_constraintEnd_toEndOf="@+id/recover"
+                app:layout_constraintStart_toStartOf="@+id/recover"
+                app:layout_constraintTop_toTopOf="@+id/recover"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
+            <View
+                android:id="@+id/div3"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/s"
+                android:layout_marginBottom="@dimen/s"
+                android:background="#B0BEC5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/deathIcon"
+                app:layout_constraintStart_toEndOf="@id/recoverIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            death-->
+            <ImageView
+                android:id="@+id/deathIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xxs"
+                android:src="@drawable/ic_death"
+                app:layout_constraintBottom_toTopOf="@id/deathLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/div3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/deathLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/death"
+                android:textColor="#90A4AE"
+                android:textSize="@dimen/textXs"
+                app:layout_constraintBottom_toTopOf="@id/death"
+                app:layout_constraintEnd_toEndOf="@id/deathIcon"
+                app:layout_constraintStart_toStartOf="@id/deathIcon"
+                app:layout_constraintTop_toBottomOf="@id/deathIcon" />
+
+            <TextView
+                android:id="@+id/death"
+                style="@style/PoppinMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxs"
+                android:text="@{death}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/deathLabel"
+                app:layout_constraintStart_toStartOf="@+id/deathLabel"
+                app:layout_constraintTop_toBottomOf="@+id/deathLabel" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/deathLoading"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/death"
+                app:layout_constraintEnd_toEndOf="@+id/death"
+                app:layout_constraintStart_toStartOf="@+id/death"
+                app:layout_constraintTop_toTopOf="@+id/death"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/wave-primary-loading.json"
+                app:lottie_loop="true" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>
