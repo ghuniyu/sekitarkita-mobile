@@ -15,10 +15,12 @@ import com.linkensky.ornet.*
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.base.item.Frame
 import com.linkensky.ornet.presentation.base.item.LayoutOption
+import com.linkensky.ornet.presentation.base.item.component.CardInfoView
 import com.linkensky.ornet.presentation.base.item.component.LottieLoading
 import com.linkensky.ornet.presentation.base.item.component.MaterialButtonView
 import com.linkensky.ornet.presentation.base.item.component.ViewText
 import com.linkensky.ornet.presentation.base.item.keyValue
+import com.linkensky.ornet.presentation.information.sikm.InputBottomSheet
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
 import com.linkensky.ornet.utils.resString
@@ -157,6 +159,27 @@ class HomeController(private val viewModel: HomeViewModel) : MvRxEpoxyController
                     )
                 }
             }
+
+            addModel(
+                "info-sikm",
+                CardInfoView(
+                    titleText = R.string.info_sikm.resString(),
+                    contentText = R.string.info_sikm_content.resString()
+                )
+            )
+            addModel(
+                "create-sikm",
+                MaterialButtonView.Model(
+                    text = "Saya Ingin Membuat SIKM",
+                    clickListener = keyValue { view ->
+                        view.findNavController()
+                            .navigate(R.id.action_homeFragment_to_createSikmFragment)
+                    },
+                    allCaps = false,
+                    background = R.color.colorRed,
+                    layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 8.dp))
+                )
+            )
         } else {
             header {
                 id("confirm")

@@ -1,8 +1,12 @@
 package com.linkensky.ornet.presentation
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import com.linkensky.ornet.R
 import kotlinx.android.synthetic.main.activity_webview.*
@@ -19,6 +23,7 @@ class WebviewActivity : AppCompatActivity() {
         init()
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     fun init() {
         val settings = webView.settings
         settings.javaScriptEnabled = true
@@ -41,10 +46,17 @@ class WebviewActivity : AppCompatActivity() {
         webView.fitsSystemWindows = true
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         webView.loadUrl(intent.getStringExtra("url"))
+        webView.webChromeClient = WebChromeClient()
     }
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        onBackPressed()
-//        return true
-//    }
+    override fun onSupportNavigateUp(): Boolean {
+        setResult(Activity.RESULT_OK, Intent())
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK, Intent())
+        super.onBackPressed()
+    }
 }

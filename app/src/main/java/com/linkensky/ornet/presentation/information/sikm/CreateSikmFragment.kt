@@ -5,23 +5,20 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
+import androidx.navigation.fragment.findNavController
+import com.airbnb.mvrx.*
 import com.esafirm.imagepicker.features.ImagePicker
+import com.esafirm.imagepicker.features.ReturnMode
 import com.esafirm.imagepicker.model.Image
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.linkensky.ornet.BuildConfig
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.RequestDataSIKM
+import com.linkensky.ornet.inputText
 import com.linkensky.ornet.presentation.WebviewActivity
 import com.linkensky.ornet.presentation.base.BaseEpoxyBindingFragment
 import com.linkensky.ornet.presentation.base.buildController
@@ -38,6 +35,7 @@ import id.zelory.compressor.Compressor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.koin.android.ext.android.bind
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -53,6 +51,19 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDatePicker()
+        viewModel.asyncSubscribe(
+            subscriptionLifecycleOwner,
+            CreateSikmState::response,
+            UniqueOnly("responseSikm${Random().nextInt()}"),
+            onSuccess = {
+                val intent = Intent(requireContext(), WebviewActivity::class.java)
+                intent.putExtra("url", "${BuildConfig.APP_WEB_URL}sikm/${it.data.id}")
+                startActivityForResult(intent, RC_WEBVIEW)
+            },
+            onFail = {
+                Toasty.error(requireContext(), "Terjadi Kesalahan, Coba Lagi").show()
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,10 +71,6 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
         viewModel.clearState()
         viewModel.getGorontaloArea()
         viewModel.getOriginCities()
-    }
-
-    private fun setInvalidForm(isInValid: Boolean) {
-        passed = !isInValid
     }
 
     override fun invalidate() {
@@ -88,23 +95,21 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 }
             )
         )
+
         addModel(
             "noKtpModel", InputTextMaterial(
                 setHint = "No KTP (NIK)",
                 setInputText = EditorInfo.TYPE_CLASS_NUMBER,
                 setText = keyValue(state.nik),
                 textChangeListner = keyValue { string ->
+                    if (string.length != 16) {
+                        viewModel.setErrorNik("NIK Harus 16 Digit")
+                    } else {
+                        viewModel.setErrorNik("")
+                    }
                     viewModel.setNik(string)
                 },
-                validator = keyValue { layout, editText ->
-                    editText.addTextChangedListener(onTextChanged = { text, _, _, _ ->
-                        if (text.toString().length != 16) {
-                            layout.error = "NIK Harus 16 Digit"
-                        } else {
-                            layout.isErrorEnabled = false
-                        }
-                    })
-                }
+                setError = state.nikError
             )
         )
         addModel(
@@ -113,17 +118,15 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 setHint = "Nama",
                 setText = keyValue(state.name),
                 textChangeListner = keyValue { string ->
+                    if (string.isEmpty()) {
+                        viewModel.setErrorName("Nama Wajib Diisi")
+                    } else {
+                        viewModel.setErrorName("")
+                    }
+
                     viewModel.setName(string)
                 },
-                validator = keyValue { layout, editText ->
-                    editText.doOnTextChanged { text, _, _, _ ->
-                        if (text.isNullOrEmpty()) {
-                            layout.error = "Nama Wajib Diisi"
-                        } else {
-                            layout.isErrorEnabled = false
-                        }
-                    }
-                }
+                setError = state.nameError
             )
         )
         addModel(
@@ -133,21 +136,17 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 imeOption = EditorInfo.IME_ACTION_DONE,
                 setText = keyValue(state.phone),
                 textChangeListner = keyValue { string ->
+                    if (!string.validPhone()) {
+                        viewModel.setErrorPhone("No HP Tidak Valid")
+                    } else {
+                        viewModel.setErrorPhone("")
+                    }
                     viewModel.setPhone(string)
                 },
                 onDoneAction = keyValue {
                     hideSoftKey(requireContext(), requireView())
                 },
-                validator = keyValue { layout, editText ->
-                    editText.doOnTextChanged { text, _, _, _ ->
-                        if (!text.toString().validPhone()) {
-                            layout.error = "No HP Tidak Valid"
-                        } else {
-                            layout.isErrorEnabled = false
-                        }
-                    }
-
-                }
+                setError = state.phoneError
             )
         )
         addModel(
@@ -156,7 +155,7 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 subtitle = setSubtitleArea(state.originText),
                 onClick = keyValue { _ ->
                     viewModel.setBottomSheet(1)
-                    AreaBottomSheet().show(childFragmentManager, "OriginBottomSheet")
+                    AreaBottomSheet().show(parentFragmentManager, "OriginBottomSheet")
                 },
                 layout = layout {
                     padding = Frame(8.dp, 8.dp)
@@ -169,7 +168,7 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 subtitle = setSubtitleArea(state.destinationText),
                 onClick = keyValue { _ ->
                     viewModel.setBottomSheet(2)
-                    AreaBottomSheet().show(childFragmentManager, "DestinationBottomSheet")
+                    AreaBottomSheet().show(parentFragmentManager, "DestinationBottomSheet")
                 },
                 layout = layout {
                     padding = Frame(8.dp, 8.dp)
@@ -244,6 +243,22 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 }
             )
         )
+        if (state.ktp_file != null)
+            addModel(
+                "ktpFileExist", ViewText.Model(
+                    text = "File KTP sudah dipilih",
+                    textSize = 12f.sp,
+                    layout = layout {
+                        margin = Frame(
+                            top = 8.dp,
+                            left = 16.dp,
+                            right = 16.dp,
+                            bottom = 0.dp
+                        )
+                    }
+                )
+            )
+
         addModel(
             "ButtonAddKTP", MaterialButtonView.Model(
                 text = "Upload KTP",
@@ -275,6 +290,23 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 }
             )
         )
+
+        if (state.medical_file != null)
+            addModel(
+                "medicalFileExist", ViewText.Model(
+                    text = "File Swab / Rapid sudah dipilih",
+                    textSize = 12f.sp,
+                    layout = layout {
+                        margin = Frame(
+                            top = 8.dp,
+                            left = 16.dp,
+                            right = 16.dp,
+                            bottom = 0.dp
+                        )
+                    }
+                )
+            )
+
         addModel(
             "ButtonAddTes", MaterialButtonView.Model(
                 text = "Upload Hasil Tes",
@@ -290,9 +322,10 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 }
             )
         )
+
         addModel(
             "startDate", ViewText.Model(
-                text = "3. Tanggal Mulai Berlaku",
+                text = "3. Tanggal Mulai Berlaku (Dokumen Rapid /Swab)",
                 textSize = 14f.sp,
                 isBold = true,
                 layout = layout {
@@ -333,11 +366,6 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                     )
                 )
             }
-            is Success -> {
-                val intent = Intent(requireContext(), WebviewActivity::class.java)
-                intent.putExtra("url", "https://sekitarkita.id/sikm/${it().data.id}")
-                startActivity(intent)
-            }
             else -> {
                 addModel(
                     "buttonNext",
@@ -365,12 +393,14 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
 
     private fun imagePicker(): ImagePicker {
         return ImagePicker.create(this)
+            .theme(R.style.ImagePickerTheme)
+            .returnMode(ReturnMode.ALL)
+            .folderMode(true)
             .toolbarImageTitle("Tap to select")
             .toolbarDoneButtonText("Selesai")
             .single()
             .showCamera(true)
-            .imageDirectory("camera")
-            .imageFullDirectory(Environment.getExternalStorageDirectory().path)
+            .imageFullDirectory(context?.getExternalFilesDir(null)?.absolutePath)
     }
 
     private fun setupDatePicker() {
@@ -437,13 +467,21 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && requestCode == RC_KTP && data != null) {
-            Log.d("HELLO", "KTPP")
-            setKtpFile(ImagePicker.getFirstImageOrNull(data))
-        } else if (resultCode == Activity.RESULT_OK && requestCode == RC_TES_RESULT && data != null) {
-            Log.d("HELLO", "RESULT")
-            setMedicalFile(ImagePicker.getFirstImageOrNull(data))
+        try {
+
+            if (resultCode == Activity.RESULT_OK && requestCode == RC_KTP && data != null) {
+                setKtpFile(ImagePicker.getFirstImageOrNull(data))
+            } else if (resultCode == Activity.RESULT_OK && requestCode == RC_TES_RESULT && data != null) {
+                setMedicalFile(ImagePicker.getFirstImageOrNull(data))
+            }
+
+            if (resultCode == Activity.RESULT_OK && requestCode == RC_WEBVIEW) {
+                findNavController().popBackStack()
+            }
+        } catch (e: Exception) {
+            Toasty.error(requireContext(), "Gagal Mengambil File, File tidak ditemukan").show()
         }
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -490,5 +528,6 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
         const val emptyArea = "Belum Dipilih"
         const val RC_KTP = 101
         const val RC_TES_RESULT = 102
+        const val RC_WEBVIEW = 100
     }
 }

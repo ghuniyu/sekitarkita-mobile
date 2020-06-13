@@ -41,6 +41,7 @@ android {
 
     buildTypes.each {
         it.buildConfigField 'String', 'APP_BASE_URL', rootProject['app.baseUrl']
+        it.buildConfigField 'String', 'APP_WEB_URL', rootProject['app.webUrl']
         it.buildConfigField 'String', 'APP_IMAGE_URL', rootProject['app.imageUrl']
         it.buildConfigField 'String', 'APP_SOCKET_URL', rootProject['app.socketUrl']
         it.buildConfigField 'String', 'APP_SOCKET_PATH', rootProject['app.socketPath']

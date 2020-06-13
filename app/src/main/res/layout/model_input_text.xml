@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="value"
+            type="CharSequence" />
+
+        <variable
+            name="hint"
+            type="String" />
+
+        <variable
+            name="textWatcher"
+            type="android.text.TextWatcher" />
+    </data>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="4dp"
+        android:hint="@{hint}"
+        app:helperTextEnabled="true"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions|textVisiblePassword"
+            app:inputText="@{value}"
+            app:textWatcher="@{textWatcher}"
+            android:textColor="@color/colorText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+</layout>

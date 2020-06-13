@@ -1,8 +1,9 @@
 package com.linkensky.ornet.utils
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,3 +103,17 @@ fun EditText.required(
         fulfil()
     return this.text.toString()
 }
+
+
+inline fun makeTextWatcher(crossinline block: (CharSequence) -> Unit): TextWatcher =
+    object : TextWatcher {
+        override fun afterTextChanged(s: Editable) {
+            block(s)
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        }
+    }

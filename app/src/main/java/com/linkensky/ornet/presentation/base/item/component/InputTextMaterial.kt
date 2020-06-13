@@ -3,14 +3,14 @@ package com.linkensky.ornet.presentation.base.item.component
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.linkensky.ornet.R
+import com.linkensky.ornet.presentation.base.clearWatchers
 import com.linkensky.ornet.presentation.base.item.KeyValue
 import com.linkensky.ornet.presentation.base.item.LayoutItemModel
 import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.applyLayoutOption
+import com.linkensky.ornet.presentation.base.setTextChangedListener
+import com.linkensky.ornet.utils.makeTextWatcher
 import kotlinx.android.synthetic.main.text_input_item.view.*
 
 data class InputTextMaterial(
@@ -21,28 +21,40 @@ data class InputTextMaterial(
     var setInputText: Int? = EditorInfo.TYPE_CLASS_TEXT,
     val imeOption: Int = EditorInfo.IME_ACTION_NONE,
     val onDoneAction: KeyValue<(() -> Unit)?> = KeyValue(null),
-    val validator: KeyValue<(inputLayout: TextInputLayout, editText: TextInputEditText) -> Unit>? = null,
-    val viewLayout: LayoutOption = LayoutOption()
-): LayoutItemModel(R.layout.text_input_item) {
+    val viewLayout: LayoutOption = LayoutOption(),
+    val setError: String = ""
+) : LayoutItemModel(R.layout.text_input_item) {
     override fun binder(view: View) = with(view) {
-        validator?.getValue()?.invoke(textLayout, textInput)
+        applyLayoutOption(viewLayout)
+        textLayout.apply {
+            hint = setHint
+            error = setError
+        }
+
         textInput.apply {
             isEnabled = enabled
             setText(setText.getValue())
-            addTextChangedListener(onTextChanged = { text, _, _, _ ->
+
+            setTextChangedListener(makeTextWatcher { text ->
                 textChangeListner.getValue()?.invoke(text.toString())
+                setSelection(text.length)
             })
 
             inputType = setInputText ?: EditorInfo.TYPE_CLASS_TEXT
             imeOptions = imeOption
             setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
                     onDoneAction.getValue()?.invoke()
                     true
                 } else false
             }
         }
-        textLayout.hint = setHint
-        applyLayoutOption(viewLayout)
+
+        Unit
+    }
+
+    override fun unbind(view: View) {
+        view.textInput.clearWatchers()
+        super.unbind(view)
     }
 }

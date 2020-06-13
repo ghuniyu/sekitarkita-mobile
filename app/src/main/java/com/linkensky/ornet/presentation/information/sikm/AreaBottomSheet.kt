@@ -1,16 +1,19 @@
 package com.linkensky.ornet.presentation.information.sikm
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.DialogFragment
 import com.airbnb.epoxy.EpoxyController
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.existingViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.Area
 import com.linkensky.ornet.presentation.base.BaseEpoxySheetFragment
@@ -24,6 +27,9 @@ import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
 import com.linkensky.ornet.utils.resColor
 import kotlinx.android.synthetic.main.bottom_sheet_with_recycler.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.math.BigInteger
 
 
@@ -33,10 +39,15 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
     private lateinit var searchBar: InputText
     private var isOrigin: Boolean = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.setOriginFilter("")
+        viewModel.setDestinationFilter("")
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Theme_MaterialComponents_Light_BottomSheetDialog)
         dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
@@ -58,23 +69,41 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
         header.addView(searchBar)
         searchBar.apply {
             bind(InputText.Model(
-                hint = "Cari...",
+                hint = if(isOrigin) "Cari Kota / Kabupaten Asalmu" else "Cari Kecamatan / Kelurahan Tujuan",
                 layout = LayoutOption(margin = Frame(16.dp, 8.dp)),
                 itemLayout = LayoutOption(padding = Frame(16.dp, 8.dp)),
                 imeOption = EditorInfo.IME_ACTION_DONE,
                 drawableStart = R.drawable.ic_google,
-                textChangeListner = keyValue { text ->
-                    if (isOrigin) {
-                        viewModel.setOriginFilter(text)
-                    } else {
-                        viewModel.setDestinationFilter(text)
-                    }
-                },
                 onDoneAction = keyValue {
                     hideSoftKey(requireContext(), requireView())
                 }
             ))
+        }
+        var searchFor = ""
+        searchBar.item.doOnTextChanged { text, _, _, _ ->
+            val searchText = text.toString().trim()
+            if (searchText == searchFor)
+                return@doOnTextChanged
 
+            searchFor = searchText
+
+            if (isOrigin) {
+                GlobalScope.launch {
+                    delay(300)
+                    if (searchText != searchFor)
+                        return@launch
+
+                    viewModel.setOriginFilter(text.toString())
+                }
+            } else {
+                GlobalScope.launch {
+                    delay(300)
+                    if (searchText != searchFor)
+                        return@launch
+
+                    viewModel.setDestinationFilter(text.toString())
+                }
+            }
         }
     }
 
@@ -87,11 +116,7 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
         if (state.sheetId == 1) {
             when (val it = state.originCities) {
                 is Success -> {
-                    val filter = state.originFilter
-                    val data = it().toMutableList()
-                    data.toMutableList().filter {
-                        it.name.toLowerCase().contains(filter) || filter.isEmpty()
-                    }.mapIndexed { index, area ->
+                    state.filteredOriginCities.mapIndexed { index, area ->
                         renderData(area, index, ORIGIN)
                     }.ifEmpty {
                         renderEmpty(ORIGIN)
@@ -112,15 +137,19 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
                         )
                     )
                 }
+                is Fail -> {
+                    addModel(
+                        "error-origin",
+                        LottieErrorState(clickListener = keyValue { _ ->
+                            viewModel.getOriginCities()
+                        })
+                    )
+                }
             }
         } else {
             when (val it = state.gorontaloAreas) {
                 is Success -> {
-                    val filter = state.destinationFilter
-                    val data = it().toMutableList()
-                    data.toMutableList().filter {
-                        it.name.toLowerCase().contains(filter) || filter.isEmpty()
-                    }.mapIndexed { index, area ->
+                    state.filteredGorontaloArea.mapIndexed { index, area ->
                         renderData(area, index, DESTINATION)
                     }.ifEmpty {
                         renderEmpty(DESTINATION)
@@ -128,7 +157,7 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
                 }
                 is Loading -> {
                     addModel(
-                        "loading-provinces",
+                        "loading-gto-provinces",
                         LottieLoading(
                             layout = LayoutOption(
                                 margin = Frame(
@@ -141,6 +170,14 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
                         )
                     )
                 }
+                is Fail -> {
+                    addModel(
+                        "error-gto-province",
+                        LottieErrorState(clickListener = keyValue { _ ->
+                            viewModel.getGorontaloArea()
+                        })
+                    )
+                }
             }
         }
 
@@ -150,7 +187,10 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
         withState(viewModel) { state ->
             addModel(
                 "$name${item.name}$index", ListTileView(
-                    icon = if(name == ORIGIN) setIcon(item.id, state.originable_id) else setIcon(item.id, state.destinable_id),
+                    icon = if (name == ORIGIN) setIcon(item.id, state.originable_id) else setIcon(
+                        item.id,
+                        state.destinable_id
+                    ),
                     title = item.name,
                     onClick = keyValue { _ ->
                         if (name == ORIGIN) {

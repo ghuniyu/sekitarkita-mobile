@@ -12,6 +12,12 @@ import com.orhanobut.hawk.Hawk
 import okhttp3.MultipartBody
 import java.math.BigInteger
 
+data class ErrorSikmForm(
+    val nameError: String = "",
+    val phoneError: String = "",
+    val nikError: String = ""
+)
+
 data class CreateSikmState(
     val name: String? = null,
     val phone: String? = null,
@@ -29,5 +35,19 @@ data class CreateSikmState(
     val destinationFilter: String = "",
     val ktp_file: MultipartBody.Part? = null,
     val medical_file: MultipartBody.Part? = null,
-    val response: Async<SikmResponse> = Uninitialized
-) : MvRxState
+    val response: Async<SikmResponse> = Uninitialized,
+    val nameError: String = "",
+    val phoneError: String = "",
+    val nikError: String = ""
+) : MvRxState {
+
+    val filteredOriginCities: List<Area>
+        get() = originCities()?.toMutableList()?.filter {
+            it.name.toLowerCase().contains(originFilter) || originFilter.isEmpty()
+        } ?: emptyList()
+
+    val filteredGorontaloArea: List<Area>
+        get() = gorontaloAreas()?.toMutableList()?.filter {
+            it.name.toLowerCase().contains(destinationFilter) || destinationFilter.isEmpty()
+        } ?: emptyList()
+}

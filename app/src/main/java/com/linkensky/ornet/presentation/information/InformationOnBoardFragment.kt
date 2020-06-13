@@ -8,8 +8,10 @@ import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.component.CardInfoView
 import com.linkensky.ornet.presentation.base.item.component.MaterialButtonView
 import com.linkensky.ornet.presentation.base.item.keyValue
+import com.linkensky.ornet.presentation.information.sikm.InputBottomSheet
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
+import com.linkensky.ornet.utils.resString
 
 class InformationOnBoardFragment : BaseEpoxyBindingFragment() {
     override val toolbarTitle: String = "Informasi"
@@ -18,15 +20,20 @@ class InformationOnBoardFragment : BaseEpoxyBindingFragment() {
         addModel(
             "info-sikm",
             CardInfoView(
-                titleText = "Informasi SIKM",
-                contentText = "Layanan Pembuatan Surat Ijin Keluar Masuk (SIKM) Untuk Provinsi Gorontalo Silahkan Klik Tombol Dibawah Ini"
+                titleText = R.string.info_sikm.resString(),
+                contentText = R.string.info_sikm_content.resString()
             )
         )
         addModel(
             "show-sikm",
             MaterialButtonView.Model(
                 text = "Saya Ingin Melihat SIKM Saya",
-                clickListener = keyValue(null),
+                clickListener = keyValue { _ ->
+                    InputBottomSheet().show(
+                        parentFragmentManager,
+                        "inputBottomSheet"
+                    )
+                },
                 allCaps = false,
                 background = R.color.colorNavy,
                 layout = LayoutOption(margin = Frame(8.dp, 8.dp, 8.dp, 8.dp))

@@ -24,4 +24,5 @@ abstract class LayoutItemModel(
     }
 
     override fun getDefaultLayout() = layoutRes
+
 }

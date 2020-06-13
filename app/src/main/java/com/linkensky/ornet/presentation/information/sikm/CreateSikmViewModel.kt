@@ -24,6 +24,9 @@ class CreateSikmViewModel(
         copy(medical_issued = date)
     }
 
+    fun setErrorName(value: String) = setState { copy(nameError = value) }
+    fun setErrorPhone(value: String) = setState { copy(phoneError = value) }
+    fun setErrorNik(value: String) = setState { copy(nikError = value) }
     fun setName(value: String) = setState { copy(name = value) }
     fun setCategory(value: String) = setState { copy(category = value) }
     fun setNik(value: String) = setState { copy(nik = value) }

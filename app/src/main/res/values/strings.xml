@@ -163,4 +163,6 @@
     <string name="zone_red">Anda Sedang di Zona Merah Covid-19</string>
     <string name="zone_green">Anda Sedang di Zona Hijau Covid-19</string>
     <string name="zone_yellow">Anda Sedang di Zona Kuning Covid-19</string>
+    <string name="info_sikm">Informasi SIKM</string>
+    <string name="info_sikm_content">Layanan Pembuatan Surat Ijin Keluar Masuk (SIKM) Untuk Provinsi Gorontalo Silahkan Klik Tombol Dibawah Ini</string>
 </resources>
