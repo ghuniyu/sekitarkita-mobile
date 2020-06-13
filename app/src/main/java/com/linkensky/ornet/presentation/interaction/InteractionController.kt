@@ -17,9 +17,9 @@ import com.linkensky.ornet.presentation.base.item.component.LottieEmptyState
 import com.linkensky.ornet.presentation.base.item.component.LottieErrorState
 import com.linkensky.ornet.presentation.base.item.component.LottieLoading
 import com.linkensky.ornet.presentation.base.item.keyValue
-import com.linkensky.ornet.presentation.home.HomeState
 import com.linkensky.ornet.presentation.home.HomeViewModel
 import com.linkensky.ornet.utils.Formatter
+import com.linkensky.ornet.utils.Formatter.Companion.statusify
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
 import com.orhanobut.hawk.Hawk
@@ -73,6 +73,7 @@ class InteractionController(private val viewModel: HomeViewModel) : MvRxEpoxyCon
             itemInteraction {
                 id("device-history-$i")
                 text(it.another_device)
+                textStatus(it.user_status.statusify())
                 textDate(
                     Formatter.dateFormat(
                         it.created_at,

@@ -9,6 +9,10 @@
             type="String" />
 
         <variable
+            name="textStatus"
+            type="String" />
+
+        <variable
             name="textDate"
             type="String" />
 
@@ -30,8 +34,8 @@
         android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:padding="@dimen/btPadding"
             android:id="@+id/icon"
+            android:padding="@dimen/btPadding"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="@dimen/s"
@@ -49,11 +53,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/s"
             android:text="@{text}"
-            android:textSize="@dimen/headerText"
+            android:textSize="@dimen/textM"
             app:layout_constraintBottom_toTopOf="@id/date"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/user_status"
             app:layout_constraintStart_toEndOf="@id/icon"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_status"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/s"
+            android:text="@{textStatus}"
+            android:layout_width="0dp"
+            android:textSize="@dimen/textXs"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/mac"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mac" />
 
         <TextView
             android:id="@+id/date"
@@ -75,9 +91,8 @@
             android:layout_marginEnd="@dimen/s"
             android:text="@{textTime}"
             android:textColor="#90A4AE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mac" />
+            app:layout_constraintBaseline_toBaselineOf="@id/date"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
