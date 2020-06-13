@@ -1,10 +1,10 @@
 package com.linkensky.ornet.data.services
 
 import com.linkensky.ornet.data.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface SekitarKitaService {
     @GET("hospitals")
@@ -44,9 +44,24 @@ interface SekitarKitaService {
     suspend fun getBanner(): BaseCollectionResponse<List<Banner>>
 
     @GET("area/origin-cities")
-    suspend fun originCities() :  BaseCollectionResponse<List<Area>>
+    suspend fun originCities(): BaseCollectionResponse<List<Area>>
 
     @GET("area/gorontalo")
-    suspend fun gorontaloProvince() :  BaseCollectionResponse<List<Area>>
+    suspend fun gorontaloProvince(): BaseCollectionResponse<List<Area>>
+
+    @Multipart
+    @POST("partners/sikm")
+    suspend fun postStoreSIKM(
+        @Part ktp_file: MultipartBody.Part,
+        @Part medical_file: MultipartBody.Part,
+        @Part("device_id") device_id: RequestBody,
+        @Part("nik") nik: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("originable_id") originable_id: RequestBody,
+        @Part("destinationable_id") destinable_id: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("medical_issued") medical_issued: RequestBody
+    ) : SikmResponse
 
 }

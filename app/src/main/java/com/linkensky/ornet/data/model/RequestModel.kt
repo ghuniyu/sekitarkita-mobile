@@ -60,11 +60,9 @@ data class RequestDataSIKM(
     val nik: String,
     val name: String,
     val phone: String,
-    val originable: BigInteger? = null,
-    val destinable: BigInteger? = null,
-    val category: String = "Sekali Jalan",
-    val ktp_file: String,
-    val medical_file: String,
+    val originable_id: BigInteger? = null,
+    val destinable_id: BigInteger? = null,
+    val category: String = "one_way",
     val medical_issued: String
 )
 

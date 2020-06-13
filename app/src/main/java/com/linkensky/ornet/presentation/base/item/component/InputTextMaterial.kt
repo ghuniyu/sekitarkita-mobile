@@ -2,7 +2,9 @@ package com.linkensky.ornet.presentation.base.item.component
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.linkensky.ornet.R
 import com.linkensky.ornet.presentation.base.item.KeyValue
@@ -20,18 +22,18 @@ data class InputTextMaterial(
     val imeOption: Int = EditorInfo.IME_ACTION_NONE,
     val onDoneAction: KeyValue<(() -> Unit)?> = KeyValue(null),
     val inputLayout: ((layout: TextInputLayout) -> Unit)? = null,
+    val validator: ((inputLayout: TextInputLayout, editText: TextInputEditText) -> Unit)? = null,
     val viewLayout: LayoutOption = LayoutOption()
 ): LayoutItemModel(R.layout.text_input_item) {
     override fun binder(view: View) = with(view) {
         textInput.apply {
             isEnabled = enabled
             setText(setText.getValue())
-            doOnTextChanged { text, _, _, _ ->
+            addTextChangedListener(onTextChanged = { text, _, _, _ ->
                 textChangeListner.getValue()?.invoke(text.toString())
-            }
+            })
 
             inputType = setInputText ?: EditorInfo.TYPE_CLASS_TEXT
-
             imeOptions = imeOption
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -41,6 +43,7 @@ data class InputTextMaterial(
             }
         }
         inputLayout?.invoke(textLayout)
+        validator?.invoke(textLayout, textInput)
         textLayout.hint = setHint
         applyLayoutOption(viewLayout)
     }

@@ -119,3 +119,11 @@ data class Area(
     val id: BigInteger,
     val name: String
 )
+
+data class SIKM(
+    val id: String
+)
+
+data class SikmResponse(
+    val data: SIKM
+) : BaseResponse()

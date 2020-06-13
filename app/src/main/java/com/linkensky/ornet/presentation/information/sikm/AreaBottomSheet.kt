@@ -148,18 +148,14 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
         withState(viewModel) { state ->
             addModel(
                 "$name${item.name}$index", ListTileView(
-                    icon = setIcon(item.id, state.data.originable),
+                    icon = if(name == ORIGIN) setIcon(item.id, state.originable_id) else setIcon(item.id, state.destinable_id),
                     title = item.name,
-                    onClick = keyValue {
+                    onClick = keyValue { _ ->
                         if (name == ORIGIN) {
-                            viewModel.setRequestDataSIKM(
-                                state.data.copy(originable = item.id)
-                            )
+                            viewModel.setOriginId(item.id)
                             viewModel.setOriginText(item.name)
                         } else {
-                            viewModel.setRequestDataSIKM(
-                                state.data.copy(destinable = item.id)
-                            )
+                            viewModel.setDestinationId(item.id)
                             viewModel.setDestinationText(item.name)
                         }
                         dismiss()

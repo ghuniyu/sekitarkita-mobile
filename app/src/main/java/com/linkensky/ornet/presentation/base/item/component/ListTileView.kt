@@ -12,7 +12,7 @@ data class ListTileView(
     val title: String = "Title",
     val subtitle: String? = null,
     val layout: LayoutOption = LayoutOption(),
-    val onClick: UnitListener? = keyValue(null)
+    val onClick: KeyValue<((View) -> Unit)?> = KeyValue(null)
 ) : LayoutItemModel(R.layout.text_with_right_icon_item) {
     override fun binder(view: View) = with(view) {
         applyLayoutOption(layout, LayoutOption.buildDefault())
@@ -22,8 +22,6 @@ data class ListTileView(
         subtitle_place.text = subtitle
         subtitle_place.maxLines = 2
         subtitle_place.ellipsize = TextUtils.TruncateAt.END
-        view.setOnClickListener {
-            onClick?.getValue()?.invoke()
-        }
+        view.setOnClickListener(onClick.getValue())
     }
 }
