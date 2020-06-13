@@ -13,9 +13,9 @@ import okhttp3.MultipartBody
 import java.math.BigInteger
 
 data class CreateSikmState(
-    val name: String = "",
-    val phone: String = "",
-    val nik: String = "",
+    val name: String? = null,
+    val phone: String? = null,
+    val nik: String? = null,
     val medical_issued: String = "",
     val originable_id: BigInteger? = null,
     val destinable_id: BigInteger? = null,

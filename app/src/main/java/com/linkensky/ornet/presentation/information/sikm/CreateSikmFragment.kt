@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
@@ -54,8 +55,20 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
         setupDatePicker()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clearState()
+        viewModel.getGorontaloArea()
+        viewModel.getOriginCities()
+    }
+
     private fun setInvalidForm(isInValid: Boolean) {
         passed = !isInValid
+    }
+
+    override fun invalidate() {
+        super.invalidate()
+        recyclerView.requestModelBuild()
     }
 
     override fun epoxyController() = buildController(viewModel) { state ->
@@ -83,14 +96,14 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 textChangeListner = keyValue { string ->
                     viewModel.setNik(string)
                 },
-                validator = { layout, editText ->
-                    editText.doOnTextChanged { text, _, _, _ ->
+                validator = keyValue { layout, editText ->
+                    editText.addTextChangedListener(onTextChanged = { text, _, _, _ ->
                         if (text.toString().length != 16) {
                             layout.error = "NIK Harus 16 Digit"
                         } else {
                             layout.isErrorEnabled = false
                         }
-                    }
+                    })
                 }
             )
         )
@@ -102,7 +115,7 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 textChangeListner = keyValue { string ->
                     viewModel.setName(string)
                 },
-                validator = { layout, editText ->
+                validator = keyValue { layout, editText ->
                     editText.doOnTextChanged { text, _, _, _ ->
                         if (text.isNullOrEmpty()) {
                             layout.error = "Nama Wajib Diisi"
@@ -110,7 +123,6 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                             layout.isErrorEnabled = false
                         }
                     }
-
                 }
             )
         )
@@ -126,7 +138,7 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
                 onDoneAction = keyValue {
                     hideSoftKey(requireContext(), requireView())
                 },
-                validator = { layout, editText ->
+                validator = keyValue { layout, editText ->
                     editText.doOnTextChanged { text, _, _, _ ->
                         if (!text.toString().validPhone()) {
                             layout.error = "No HP Tidak Valid"
@@ -382,9 +394,9 @@ class CreateSikmFragment : BaseEpoxyBindingFragment() {
     private fun next() = withState(viewModel) {
         val data = RequestDataSIKM(
             device_id = Hawk.get(Const.DEVICE_ID),
-            name = it.name,
-            phone = it.phone,
-            nik = it.nik,
+            name = it.name ?: "",
+            phone = it.phone ?: "",
+            nik = it.nik ?: "",
             category = it.category,
             medical_issued = it.medical_issued,
             originable_id = it.originable_id,

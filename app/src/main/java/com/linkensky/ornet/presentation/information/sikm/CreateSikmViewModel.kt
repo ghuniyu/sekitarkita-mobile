@@ -20,11 +20,6 @@ class CreateSikmViewModel(
     val service: SekitarKitaService
 ) : MvRxViewModel<CreateSikmState>(state) {
 
-    init {
-        getGorontaloArea()
-        getOriginCities()
-    }
-
     fun setDate(date: String) = setState {
         copy(medical_issued = date)
     }
@@ -77,6 +72,8 @@ class CreateSikmViewModel(
         }.execute {
             copy(response = it)
         }
+
+    fun clearState() = setState { CreateSikmState() }
 
     companion object : MvRxViewModelFactory<CreateSikmViewModel, CreateSikmState> {
         override fun create(

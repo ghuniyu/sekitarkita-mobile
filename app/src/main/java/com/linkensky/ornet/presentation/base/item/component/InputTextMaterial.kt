@@ -21,11 +21,11 @@ data class InputTextMaterial(
     var setInputText: Int? = EditorInfo.TYPE_CLASS_TEXT,
     val imeOption: Int = EditorInfo.IME_ACTION_NONE,
     val onDoneAction: KeyValue<(() -> Unit)?> = KeyValue(null),
-    val inputLayout: ((layout: TextInputLayout) -> Unit)? = null,
-    val validator: ((inputLayout: TextInputLayout, editText: TextInputEditText) -> Unit)? = null,
+    val validator: KeyValue<(inputLayout: TextInputLayout, editText: TextInputEditText) -> Unit>? = null,
     val viewLayout: LayoutOption = LayoutOption()
 ): LayoutItemModel(R.layout.text_input_item) {
     override fun binder(view: View) = with(view) {
+        validator?.getValue()?.invoke(textLayout, textInput)
         textInput.apply {
             isEnabled = enabled
             setText(setText.getValue())
@@ -42,8 +42,6 @@ data class InputTextMaterial(
                 } else false
             }
         }
-        inputLayout?.invoke(textLayout)
-        validator?.invoke(textLayout, textInput)
         textLayout.hint = setHint
         applyLayoutOption(viewLayout)
     }

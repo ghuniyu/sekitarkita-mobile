@@ -88,7 +88,8 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
             when (val it = state.originCities) {
                 is Success -> {
                     val filter = state.originFilter
-                    it().toMutableList().filter {
+                    val data = it().toMutableList()
+                    data.toMutableList().filter {
                         it.name.toLowerCase().contains(filter) || filter.isEmpty()
                     }.mapIndexed { index, area ->
                         renderData(area, index, ORIGIN)
@@ -116,7 +117,8 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
             when (val it = state.gorontaloAreas) {
                 is Success -> {
                     val filter = state.destinationFilter
-                    it().toMutableList().filter {
+                    val data = it().toMutableList()
+                    data.toMutableList().filter {
                         it.name.toLowerCase().contains(filter) || filter.isEmpty()
                     }.mapIndexed { index, area ->
                         renderData(area, index, DESTINATION)
@@ -183,7 +185,7 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
                         left = 8.dp,
                         right = 8.dp,
                         top = 40.dp,
-                        bottom = 400.dp
+                        bottom = 80.dp
                     )
                 )
             )
