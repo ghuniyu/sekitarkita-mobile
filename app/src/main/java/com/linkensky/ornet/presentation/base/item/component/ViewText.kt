@@ -13,7 +13,7 @@ import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.applyLayoutOption
 import com.linkensky.ornet.utils.lparams
 import com.linkensky.ornet.utils.resColor
-import com.minjemin.android.core.item.ModelBind
+import com.linkensky.ornet.presentation.base.item.ModelBind
 
 class ViewText (context: Context) : RelativeLayout(context), ModelBind<ViewText.Model> {
     val item = TextView(context)

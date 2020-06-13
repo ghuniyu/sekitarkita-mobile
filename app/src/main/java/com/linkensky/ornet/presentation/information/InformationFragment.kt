@@ -15,7 +15,7 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            text = "Informasi"
+            text = "Informasi Lainnya"
 
             pager.offscreenPageLimit = 3
             pager.adapter = PagerAdapter(childFragmentManager)

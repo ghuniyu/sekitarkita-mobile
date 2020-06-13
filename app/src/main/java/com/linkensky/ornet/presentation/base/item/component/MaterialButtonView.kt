@@ -12,7 +12,7 @@ import com.linkensky.ornet.presentation.base.item.KeyValue
 import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.applyLayoutOption
 import com.linkensky.ornet.utils.*
-import com.minjemin.android.core.item.ModelBind
+import com.linkensky.ornet.presentation.base.item.ModelBind
 
 class MaterialButtonView(context: Context) : FrameLayout(context),
     ModelBind<MaterialButtonView.Model> {
@@ -37,7 +37,7 @@ class MaterialButtonView(context: Context) : FrameLayout(context),
             isAllCaps = model.allCaps
             icon = model.icon
             elevation = 0f
-            iconTint = R.color.grayLine.resColorTint()
+            iconTint = R.color.gray.resColorTint()
             iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
             backgroundTintList = model.background.resColorTint()
             setTextColor(model.textColor)

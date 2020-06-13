@@ -113,4 +113,22 @@
         android:id="@+id/interactionDetailFragment"
         android:name="com.linkensky.ornet.presentation.interaction.detail.InteractionDetailFragment"
         android:label="InteractionDetailFragment" />
+    <fragment
+        android:id="@+id/informationOnBoardFragment"
+        android:name="com.linkensky.ornet.presentation.information.InformationOnBoardFragment"
+        android:label="InformationOnBoardFragment" >
+        <action
+            android:id="@+id/action_informationOnBoardFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_informationOnBoardFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_informationOnBoardFragment_to_createSikmFragment"
+            app:destination="@id/createSikmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createSikmFragment"
+        android:name="com.linkensky.ornet.presentation.information.sikm.CreateSikmFragment"
+        android:label="CreateSikmFragment" />
 </navigation>

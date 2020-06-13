@@ -11,9 +11,9 @@
         android:title="@string/interaction" />
 
     <item
-        android:id="@+id/statisticFragment"
+        android:id="@+id/informationOnBoardFragment"
         android:icon="@drawable/ic_information"
-        android:title="@string/stats" />
+        android:title="@string/information_menu" />
 
     <item
         android:id="@+id/reportFragment"

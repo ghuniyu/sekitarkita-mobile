@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
+import java.math.BigInteger
 
 data class Province(
     val attributes: Attributes
@@ -112,4 +113,9 @@ data class GtoData(
     val id: Int,
     val name: String,
     val statuses: List<GtoStatus>
+)
+
+data class Area(
+    val id: BigInteger,
+    val name: String
 )

@@ -9,10 +9,7 @@ import com.airbnb.mvrx.withState
 import com.linkensky.ornet.Const
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.Interaction
-import com.linkensky.ornet.data.model.Province
 import com.linkensky.ornet.itemInteraction
-import com.linkensky.ornet.itemStats
-import com.linkensky.ornet.presentation.base.BaseController
 import com.linkensky.ornet.presentation.base.MvRxEpoxyController
 import com.linkensky.ornet.presentation.base.item.Frame
 import com.linkensky.ornet.presentation.base.item.LayoutOption

@@ -156,4 +156,7 @@
     <string name="good_night">Selamat Malam</string>
     <string name="failed_get_location">Gagal Mendapatkan Lokasi Anda</string>
     <string name="invalid_lat_long">Kesalahan Latitude atau Longitude</string>
+    <string name="originArea">Daerah Asal</string>
+    <string name="destArea">Daerah Tujuan</string>
+    <string name="information_menu">Informasi</string>
 </resources>

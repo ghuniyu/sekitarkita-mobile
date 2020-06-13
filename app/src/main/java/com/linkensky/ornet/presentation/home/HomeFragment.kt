@@ -374,7 +374,7 @@ open class HomeFragment : BaseEpoxyFragment<FragmentHomeBinding>() {
                 val partners = areaConfig.partners
 
                 addresses?.first()?.let { address ->
-                    address.subAdminArea?.let { city ->
+                    address.subAdminArea?.let {
                         val currentAddress = Address(
                             village = address.subLocality,
                             district = address.locality,

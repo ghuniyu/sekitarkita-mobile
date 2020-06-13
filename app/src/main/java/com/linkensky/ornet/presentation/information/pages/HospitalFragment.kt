@@ -24,7 +24,6 @@ import com.linkensky.ornet.presentation.base.item.keyValue
 import com.linkensky.ornet.presentation.information.InformationViewModel
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
-import com.linkensky.ornet.utils.hideKeyboard
 
 class HospitalFragment : BaseEpoxyFragment<FragmentHospitalBinding>() {
 

@@ -14,7 +14,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val topDestination = listOf(
         R.id.homeFragment,
         R.id.interactionFragment,
-        R.id.statisticFragment,
+        R.id.informationOnBoardFragment,
         R.id.reportFragment
     )
 

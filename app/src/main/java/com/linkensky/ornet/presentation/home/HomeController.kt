@@ -3,7 +3,6 @@ package com.linkensky.ornet.presentation.home
 import android.view.Gravity
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.carousel

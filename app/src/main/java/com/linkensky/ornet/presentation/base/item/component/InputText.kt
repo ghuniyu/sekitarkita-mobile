@@ -14,7 +14,7 @@ import com.linkensky.ornet.presentation.base.item.KeyValue
 import com.linkensky.ornet.presentation.base.item.LayoutOption
 import com.linkensky.ornet.presentation.base.item.applyLayoutOption
 import com.linkensky.ornet.utils.*
-import com.minjemin.android.core.item.ModelBind
+import com.linkensky.ornet.presentation.base.item.ModelBind
 
 
 class InputText(context: Context) : FrameLayout(context), ModelBind<InputText.Model> {
@@ -61,6 +61,7 @@ class InputText(context: Context) : FrameLayout(context), ModelBind<InputText.Mo
         item.applyLayoutOption(model.itemLayout)
         applyLayoutOption(model.layout)
     }
+    
 
     data class Model(
         var text: KeyValue<CharSequence?> = KeyValue(null),

@@ -7,11 +7,13 @@
     <color name="softPurple">#f7f7fd</color>
     <color name="halfPurple">#4F544DF3</color>
     <color name="purple">#544df3</color>
-    <color name="blue">#0074FC</color>
+    <color name="blue">#1E9DE0</color>
 
     <color name="colorWarning">#FF7435</color>
     <color name="colorDanger">#FF3D3D</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorNavy">#364B61</color>
+    <color name="colorRed">#F44545</color>
 
 
     <color name="success">#4AD295</color>
@@ -34,6 +36,8 @@
     <color name="textLight">#90A4AE</color>
     <color name="grayLine">#DCE7EC</color>
     <color name="searchBarHint">#B0BEC5</color>
+    <color name="colorWhiteGray">#f2f2f2</color>
+    <color name="colorGreyWhitest">#e2e8f0</color>
 
     <color name="columnDark">#F9FBFF</color>
 </resources>

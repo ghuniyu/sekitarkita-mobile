@@ -43,4 +43,10 @@ interface SekitarKitaService {
     @GET("partners")
     suspend fun getBanner(): BaseCollectionResponse<List<Banner>>
 
+    @GET("area/origin-cities")
+    suspend fun originCities() :  BaseCollectionResponse<List<Area>>
+
+    @GET("area/gorontalo")
+    suspend fun gorontaloProvince() :  BaseCollectionResponse<List<Area>>
+
 }

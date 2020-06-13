@@ -1,4 +1,4 @@
-package com.minjemin.android.core.item
+package com.linkensky.ornet.presentation.base.item
 
 /**
  * Used as a pair for ItemModel
