@@ -1,19 +1,15 @@
 package com.linkensky.ornet.presentation.information.sikm
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
-import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.mvrx.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.linkensky.ornet.R
 import com.linkensky.ornet.data.model.Area
 import com.linkensky.ornet.presentation.base.BaseEpoxySheetFragment
@@ -26,6 +22,7 @@ import com.linkensky.ornet.presentation.base.item.layout
 import com.linkensky.ornet.utils.addModel
 import com.linkensky.ornet.utils.dp
 import com.linkensky.ornet.utils.resColor
+import com.linkensky.ornet.utils.setPadding
 import kotlinx.android.synthetic.main.bottom_sheet_with_recycler.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -47,7 +44,10 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Theme_MaterialComponents_Light_BottomSheetDialog)
+        setStyle(
+            DialogFragment.STYLE_NO_FRAME,
+            R.style.Theme_MaterialComponents_Light_BottomSheetDialog
+        )
         dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
@@ -57,6 +57,8 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
             bottomSheetBehavior.isFitToContents = false
             bottomSheetBehavior.skipCollapsed = true
         }
+
+        recycler_bs.setPadding(0.dp, 0.dp, 0.dp, 400.dp)
 
         searchBar = InputText(requireContext())
 
@@ -69,7 +71,7 @@ class AreaBottomSheet : BaseEpoxySheetFragment() {
         header.addView(searchBar)
         searchBar.apply {
             bind(InputText.Model(
-                hint = if(isOrigin) "Cari Kota / Kabupaten Asalmu" else "Cari Kecamatan / Kelurahan Tujuan",
+                hint = if (isOrigin) "Cari Kota / Kabupaten Asalmu" else "Cari Kecamatan / Kelurahan Tujuan",
                 layout = LayoutOption(margin = Frame(16.dp, 8.dp)),
                 itemLayout = LayoutOption(padding = Frame(16.dp, 8.dp)),
                 imeOption = EditorInfo.IME_ACTION_DONE,
